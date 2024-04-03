@@ -1,0 +1,37 @@
+export class CreateAttendanceDto {
+    HORA_ID: number;
+    HORA_EMPLEADOID: string;
+    HORA_POSICION: string;
+    HORA_PLAZAID: number;
+    HORA_FECINI: string;
+    HORA_FECFIN: string;
+    HORA_HORAINI: string;
+    HORA_HORAFIN: string;
+    HORA_INCIDENCIA: string;
+    HORA_FECCIERRE: string;
+    HORA_USUARIO: string;
+    HORA_HD: number;
+    HORA_RN: number;
+    HORA_HDF: number;
+    HORA_RNF: number;
+    HORA_HDE: number;
+    HORA_HNE: number;
+    HORA_HDFE: number;
+    HORA_HNFE: number;
+    HORA_PUESTO: string;
+    HORA_FECHAINIORI: string;
+    HORA_FECHAFINORI: string;
+    HORA_HORAINIORI: string;
+    HORA_HORAFINORI: string;
+    HORA_CIERRE: string;
+    HORA_OPENPOST: string;
+    HORA_RELEVA: string;
+    HORA_RELEVADO: string;
+    HORA_IDINCIDENCIA: number;
+    HORA_FECOPEN: string;
+    HORA_OBSERVACION: string;
+    HORA_ACUM48: number;
+    HORA_HORASBASE: number;
+    HORA_BASELIQ: number;
+    HORA_ESTADO: string;
+}
