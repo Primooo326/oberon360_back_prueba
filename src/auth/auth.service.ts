@@ -19,11 +19,11 @@ export class AuthService {
         
         const findUser = await this.userRepository.findOneBy({SUSU_NAME: user});
 
-        if (!findUser) throw new HttpException('Usuario incorrecto', 403)
+        if (!findUser) throw new HttpException('Usuario incorrecto', 403);
         
         const checkPassword = this.encryptPassword(password);
 
-        if (checkPassword != findUser.SUSU_PWD) throw new HttpException('Contraseña incorrecta', 403)
+        if (checkPassword != findUser.SUSU_PWD) throw new HttpException('Contraseña incorrecta', 403);
 
         const payload = { id: (await findUser).SUSU_ID_REG}
         const token = this.jwtService.sign(payload);

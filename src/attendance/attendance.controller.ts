@@ -19,12 +19,6 @@ export class AttendanceController {
   @Get('/findAttendance')
   @HttpCode(200)
   async findAttendance(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
-    return this.attendanceService.findAttendance();
-  }
-
-  @Get()
-  @HttpCode(200)
-  async findAll(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
-    return this.attendanceService.findAll(pageOptionsDto);
+    return this.attendanceService.findAttendance(pageOptionsDto);
   }
 }
