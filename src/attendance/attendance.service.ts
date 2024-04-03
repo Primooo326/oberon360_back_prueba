@@ -11,38 +11,38 @@ import { Attendance } from './entities/attendance.entity';
 
 @Injectable()
 export class AttendanceService {
+  private readonly DB_ICPNAME: string = process.env.DB_ICPNAME;
   constructor(
     @InjectRepository(Schedules, 'COP') private repositorySchedules: Repository<Schedules>,
     @InjectRepository(Attendance, 'ICP') private repositoryAttendance: Repository<Attendance>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
-    const queryBuilder = await this.repositorySchedules.createQueryBuilder("COP101_HORARIOS_ACTUAL");
+  async findAttendance(pageOptionsDto: PageOptionsDto): Promise<any> {
+    const { term, page, take } = pageOptionsDto;
+    try {
+      const data = await this.repositoryAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA @FechaInicio = @0, @FechaFinal = @1, @term = @2', ['', '', term]);
+      const itemCount = data.length;
+      const skip = (page - 1) * take;
+      const pageData = data.slice(skip, skip + take);
 
-    queryBuilder
-        .orderBy("COP101_HORARIOS_ACTUAL.HORA_ID", pageOptionsDto.order)
-        .skip(pageOptionsDto.skip)
-        .take(pageOptionsDto.take);
+      const pageCount = Math.ceil(itemCount / take);
+      const hasPreviousPage = page > 1;
+      const hasNextPage = page < pageCount;
 
-    const itemCount = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.getRawAndEntities();
-
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-
-    return new PageDto(entities, pageMetaDto);
+      return {
+        data: pageData,
+        meta: {
+          page,
+          take,
+          itemCount,
+          pageCount,
+          hasPreviousPage,
+          hasNextPage,
+        },
+      };
+    } catch (error) {
+      throw new Error(`Error calling stored procedure: ${error.message}`);
+    }
   }
-
-  async findAttendance(): Promise<any> {
-    let data1 = await this.repositoryAttendance.createQueryBuilder("query")
-      .select(['query.ASISTENCIA_ID'])
-      .getCount();
-
-    let data2 = await this.repositorySchedules.createQueryBuilder("query2")
-      .select(['query2.HORA_ID'])
-      .getCount();
-
-    return {
-      data1, data2
-    };
-  }
+  
 }
