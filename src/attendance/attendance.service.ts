@@ -12,8 +12,8 @@ import { Attendance } from './entities/attendance.entity';
 @Injectable()
 export class AttendanceService {
   constructor(
-    @InjectRepository(Schedules, 'default') private repositorySchedules: Repository<Schedules>,
-    @InjectRepository(Attendance, 'invesConnection') private repositoryAttendance: Repository<Attendance>,
+    @InjectRepository(Schedules, 'COP') private repositorySchedules: Repository<Schedules>,
+    @InjectRepository(Attendance, 'ICP') private repositoryAttendance: Repository<Attendance>,
   ) { }
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
@@ -32,49 +32,14 @@ export class AttendanceService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  async findOne(id: number) {
-    const data = await this.repositorySchedules.createQueryBuilder("attendance")
-      .where("attendance.id= :id", { id: id })
-      .getOne();
-
-    if (!data) throw new NotFoundException('No existe un dato con el id '+id);
-    
-    return data;
-  }
-
-  async create(dto: CreateAttendanceDto): Promise<any> {
-    const data = this.repositorySchedules.create(dto);
-    await this.repositorySchedules.save(data);
-
-    return {message: 'Información registrada exitosamente'};
-  }
-
-  async update(id:number, dto: CreateAttendanceDto): Promise<any> {
-    const data = await this.findOne(id);
-
-    if (!data) throw new NotFoundException({message: 'No existe la información solicitada'});
-
-    await this.repositorySchedules.update(id, dto);
-    
-    return {message: 'Información actualizada exitosamente'};
-  }
-
-  async remove(id: number) {
-    await this.findOne(id);
-
-    await this.repositorySchedules.delete(id);
-
-    return {message: 'Información eliminada exitosamente'};
-  }
-
   async findAttendance(): Promise<any> {
-    const data1 = await this.repositoryAttendance.createQueryBuilder("query")
+    let data1 = await this.repositoryAttendance.createQueryBuilder("query")
       .select(['query.ASISTENCIA_ID'])
-      .getOne();
+      .getCount();
 
-    const data2 = await this.repositorySchedules.createQueryBuilder("query2")
+    let data2 = await this.repositorySchedules.createQueryBuilder("query2")
       .select(['query2.HORA_ID'])
-      .getOne();
+      .getCount();
 
     return {
       data1, data2

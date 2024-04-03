@@ -4,13 +4,14 @@ import { AttendanceController } from './attendance.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Schedules } from './entities/schedules.entity';
 import { Attendance } from './entities/attendance.entity';
+import { JwtStrategy } from 'src/jwt/jwt.strategy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Schedules], 'default'),
-    TypeOrmModule.forFeature([Attendance], 'invesConnection'),
+    TypeOrmModule.forFeature([Schedules], 'COP'),
+    TypeOrmModule.forFeature([Attendance], 'ICP'),
   ],
   controllers: [AttendanceController],
-  providers: [AttendanceService],
+  providers: [AttendanceService, JwtStrategy],
 })
 export class AttendanceModule {}

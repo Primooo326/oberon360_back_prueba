@@ -8,6 +8,8 @@ import { join } from 'path';
 import { AttendanceModule } from './attendance/attendance.module';
 import { Schedules } from './attendance/entities/schedules.entity';
 import { Attendance } from './attendance/entities/attendance.entity';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/entities/user.entity';
 
 @Module({
   imports: [
@@ -19,28 +21,40 @@ import { Attendance } from './attendance/entities/attendance.entity';
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({
-      name: 'default',
+      name: 'COP',
       type: 'mssql',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASECOP,
+      database: process.env.DB_COPNAME,
       entities: [Schedules],
       synchronize: false
     }),
     TypeOrmModule.forRoot({
-      name: 'invesConnection',
+      name: 'ICP',
       type: 'mssql',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASEI,
+      database: process.env.DB_ICPNAME,
       entities: [Attendance],
       synchronize: false
     }),
-    AttendanceModule
+    TypeOrmModule.forRoot({
+      name: 'OC',
+      type: 'mssql',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_OCNAME,
+      entities: [User],
+      synchronize: false
+    }),
+    AttendanceModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
