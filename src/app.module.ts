@@ -10,6 +10,7 @@ import { Schedules } from './attendance/entities/schedules.entity';
 import { Attendance } from './attendance/entities/attendance.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
+import { EasyRecognitionModule } from './easy-recognition/easy-recognition.module';
 
 @Module({
   imports: [
@@ -54,7 +55,8 @@ import { User } from './auth/entities/user.entity';
       synchronize: false
     }),
     AttendanceModule,
-    AuthModule
+    AuthModule,
+    EasyRecognitionModule
   ],
   controllers: [AppController],
   providers: [AppService],
