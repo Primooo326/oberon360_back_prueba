@@ -11,9 +11,7 @@ import { Attendance } from './entities/attendance.entity';
 
 @Injectable()
 export class AttendanceService {
-  private readonly DB_ICPNAME: string = process.env.DB_ICPNAME;
   constructor(
-    @InjectRepository(Schedules, 'COP') private repositorySchedules: Repository<Schedules>,
     @InjectRepository(Attendance, 'ICP') private repositoryAttendance: Repository<Attendance>,
   ) { }
 

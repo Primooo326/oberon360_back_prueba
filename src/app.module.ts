@@ -11,6 +11,10 @@ import { Attendance } from './attendance/entities/attendance.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './auth/entities/user.entity';
 import { EasyRecognitionModule } from './easy-recognition/easy-recognition.module';
+import { MapModule } from './modules/map/map.module';
+import { ClientUbication } from './modules/map/entities/client-ubication.entity';
+import { Client } from './modules/map/entities/client.entity';
+import { UserZone } from './modules/map/entities/user-zone.entity';
 
 @Module({
   imports: [
@@ -29,7 +33,7 @@ import { EasyRecognitionModule } from './easy-recognition/easy-recognition.modul
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_COPNAME,
-      entities: [Schedules],
+      entities: [Schedules, ClientUbication, Client],
       synchronize: false
     }),
     TypeOrmModule.forRoot({
@@ -51,12 +55,13 @@ import { EasyRecognitionModule } from './easy-recognition/easy-recognition.modul
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_OCNAME,
-      entities: [User],
+      entities: [User, UserZone],
       synchronize: false
     }),
     AttendanceModule,
     AuthModule,
-    EasyRecognitionModule
+    EasyRecognitionModule,
+    MapModule
   ],
   controllers: [AppController],
   providers: [AppService],

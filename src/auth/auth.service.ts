@@ -17,7 +17,7 @@ export class AuthService {
     async login(userObject: LoginAuthDto) {
         const { user, password } = userObject;
         
-        const findUser = await this.userRepository.findOneBy({SUSU_NAME: user});
+        const findUser = await this.userRepository.findOneBy({SUSU_ID: user});
 
         if (!findUser) throw new HttpException('Usuario incorrecto', 403);
         
