@@ -17,7 +17,7 @@ export class AttendanceService {
     @InjectRepository(Attendance, 'ICP') private repositoryAttendance: Repository<Attendance>,
   ) { }
 
-  async findAttendance(pageOptionsDto: PageOptionsDto): Promise<any> {
+  async findAttendance(pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
     const { term, page, take } = pageOptionsDto;
     try {
       const data = await this.repositoryAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA @FechaInicio = @0, @FechaFinal = @1, @term = @2', ['', '', term]);
