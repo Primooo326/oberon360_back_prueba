@@ -42,5 +42,5 @@ export class EasyRecognitionService {
           console.error(error);
           throw new Error(error.message);
         }
-      }
+    }
 }

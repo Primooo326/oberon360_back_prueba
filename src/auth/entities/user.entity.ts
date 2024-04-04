@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm"
+import { UserZone } from "src/modules/map/entities/user-zone.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 
 @Entity('SEC002_USER')
 export class User {
@@ -85,4 +86,11 @@ export class User {
 
     @Column({ type: 'bigint'})
     SUSU_CLIENTE_ID: number;
+
+    @Column()
+    SUSU_USER_ZONE_ID: number;
+
+    @ManyToOne(() => UserZone, (userZone) => userZone.user)
+    @JoinColumn({name: 'SUSU_USER_ZONE_ID'})
+    userZone: UserZone;
 }
