@@ -13,8 +13,8 @@ import { Client } from './entities/client.entity';
 @Injectable()
 export class MapService {
   constructor(
-    @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
     @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
+    @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
     @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
   ) { }
 
