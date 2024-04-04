@@ -15,6 +15,7 @@ import { MapModule } from './modules/map/map.module';
 import { ClientUbication } from './modules/map/entities/client-ubication.entity';
 import { Client } from './modules/map/entities/client.entity';
 import { UserZone } from './modules/map/entities/user-zone.entity';
+import { Employee } from './easy-recognition/entities/employee.entity';
 
 @Module({
   imports: [
@@ -44,7 +45,7 @@ import { UserZone } from './modules/map/entities/user-zone.entity';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_ICPNAME,
-      entities: [Attendance],
+      entities: [Attendance, Employee],
       synchronize: false
     }),
     TypeOrmModule.forRoot({
