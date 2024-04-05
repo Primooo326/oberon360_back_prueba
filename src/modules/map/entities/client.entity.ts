@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 import { ClientUbication } from "./client-ubication.entity";
+import { Document } from "./document.entity";
 
 @Entity('CLI001CLIENTE')
 export class Client {
@@ -122,4 +123,7 @@ export class Client {
 
     @OneToMany(() => ClientUbication, (clientUbication) => clientUbication.client)
     clientUbication: ClientUbication[];
+
+    @OneToMany(() => Document, (document) => document.client)
+    document: Document[];
 }

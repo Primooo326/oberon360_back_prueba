@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'src/jwt/jwt-auth.guard';
 import { PageOptionsDto } from 'src/dtos-globals/page-options.dto';
 import { PageDto } from 'src/dtos-globals/page.dto';
 import { Client } from './entities/client.entity';
+import { ServicesForClientDto } from './dto/services-for-client.dto';
 
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
@@ -20,9 +21,15 @@ export class MapController {
     return this.mapService.getUbications(mapDto, req.user);
   }
 
-  @Get('getClients')
   @HttpCode(200)
+  @Get('getClients')
   async getClients(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> {
     return this.mapService.getClients(pageOptionsDto);
+  }
+
+  @HttpCode(200)
+  @Post('getServicesForClient')
+  async getServicesForClient(@Body() servicesForClientDto: ServicesForClientDto): Promise<any> {
+    return this.mapService.getServicesForClient(servicesForClientDto);
   }
 }

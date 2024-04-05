@@ -9,6 +9,7 @@ import { PageDto } from 'src/dtos-globals/page.dto';
 import { PageMetaDto } from 'src/dtos-globals/page-meta.dto';
 import { Client } from './entities/client.entity';
 import { User } from '../auth/entities/user.entity';
+import { ServicesForClientDto } from './dto/services-for-client.dto';
 
 @Injectable()
 export class MapService {
@@ -57,5 +58,39 @@ export class MapService {
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
     return new PageDto(entities, pageMetaDto);
+  }
+
+  async getServicesForClient(servicesForClientDto: ServicesForClientDto): Promise<any[]> {
+    const { CLIE_ID_REG } = servicesForClientDto;
+
+    const data = await this.repositoryClient.createQueryBuilder('client')
+        .leftJoin('client.document', 'document')
+        .leftJoin('document.documentService', 'documentService')
+        .leftJoin('documentService.inventoryTree', 'inventoryTree')
+        .select(['client', 'document', 'documentService', 'inventoryTree'])
+        .where({ CLIE_ID_REG: CLIE_ID_REG })
+        .getOne();
+
+    const inventoryTrees = await this.getInventoryTreesFromData(data);
+
+    return inventoryTrees;
+  }
+  
+  async getInventoryTreesFromData(data: any): Promise<any[]> {
+    const inventoryTrees: any[] = [];
+
+    if (data && data.document) {
+        for (const document of data.document) {
+            if (document && document.documentService) {
+                for (const documentService of document.documentService) {
+                    if (documentService && documentService.inventoryTree) {
+                        inventoryTrees.push(documentService.inventoryTree);
+                    }
+                }
+            }
+        }
+    }
+
+    return inventoryTrees;
   }
 }
