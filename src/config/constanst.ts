@@ -36,7 +36,6 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(
 export const SP_DEFAULT = 'SP_DEFAULT'
 const Jwt_secret = 'JWT_SECRET'
 
-
 /**
  * auxiliar constant
  */

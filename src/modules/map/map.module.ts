@@ -4,8 +4,8 @@ import { MapController } from './map.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientUbication } from './entities/client-ubication.entity';
 import { JwtStrategy } from 'src/jwt/jwt.strategy';
-import { User } from 'src/auth/entities/user.entity';
 import { Client } from './entities/client.entity';
+import { User } from '../auth/entities/user.entity';
 
 @Module({
   imports: [

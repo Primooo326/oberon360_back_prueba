@@ -5,17 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
-import { AttendanceModule } from './attendance/attendance.module';
-import { Schedules } from './attendance/entities/schedules.entity';
-import { Attendance } from './attendance/entities/attendance.entity';
-import { AuthModule } from './auth/auth.module';
-import { User } from './auth/entities/user.entity';
-import { EasyRecognitionModule } from './easy-recognition/easy-recognition.module';
 import { MapModule } from './modules/map/map.module';
-import { ClientUbication } from './modules/map/entities/client-ubication.entity';
-import { Client } from './modules/map/entities/client.entity';
-import { UserZone } from './modules/map/entities/user-zone.entity';
-import { Employee } from './easy-recognition/entities/employee.entity';
+import { AuthModule } from './modules/auth/auth.module';
+import { AttendanceModule } from './modules/attendance/attendance.module';
+import { EasyRecognitionModule } from './modules/easy-recognition/easy-recognition.module';
+import { OcMssqlConfig } from './config/oc-mssql.config';
+import { IcpMssqlConfig } from './config/icp-mssql.config';
+import { CopMssqlConfig } from './config/cop-mssql.config';
 
 @Module({
   imports: [
@@ -26,39 +22,9 @@ import { Employee } from './easy-recognition/entities/employee.entity';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      name: 'COP',
-      type: 'mssql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_COPNAME,
-      entities: [Schedules, ClientUbication, Client],
-      synchronize: false
-    }),
-    TypeOrmModule.forRoot({
-      name: 'ICP',
-      type: 'mssql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_ICPNAME,
-      entities: [Attendance, Employee],
-      synchronize: false
-    }),
-    TypeOrmModule.forRoot({
-      name: 'OC',
-      type: 'mssql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_OCNAME,
-      entities: [User, UserZone],
-      synchronize: false
-    }),
+    TypeOrmModule.forRoot( CopMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_COPNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
+    TypeOrmModule.forRoot( IcpMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_ICPNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
+    TypeOrmModule.forRoot( OcMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_OCNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     AttendanceModule,
     AuthModule,
     EasyRecognitionModule,
