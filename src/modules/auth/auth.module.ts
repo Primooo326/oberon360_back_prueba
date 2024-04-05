@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
-import { jwtConstanst } from 'src/config/constanst';
 
 @Module({
   imports: [
@@ -16,7 +15,7 @@ import { jwtConstanst } from 'src/config/constanst';
     TypeOrmModule.forFeature([User], 'OC'),
     JwtModule.register({
       global: true,
-      secret: jwtConstanst.secret,
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '2h' },
     }),
   ],
