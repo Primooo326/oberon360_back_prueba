@@ -4,11 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientUbication } from './entities/client-ubication.entity';
 import { UserLoginDto } from 'src/dtos-globals/user-login.dto';
-import { User } from 'src/auth/entities/user.entity';
 import { PageOptionsDto } from 'src/dtos-globals/page-options.dto';
 import { PageDto } from 'src/dtos-globals/page.dto';
 import { PageMetaDto } from 'src/dtos-globals/page-meta.dto';
 import { Client } from './entities/client.entity';
+import { User } from '../auth/entities/user.entity';
 
 @Injectable()
 export class MapService {

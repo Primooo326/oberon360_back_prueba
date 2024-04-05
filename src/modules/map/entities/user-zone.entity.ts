@@ -1,4 +1,4 @@
-import { User } from "src/auth/entities/user.entity";
+import { User } from "src/modules/auth/entities/user.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 
 @Entity('SEC024USER_ZONES')

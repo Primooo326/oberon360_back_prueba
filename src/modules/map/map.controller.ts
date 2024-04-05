@@ -5,7 +5,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/jwt/jwt-auth.guard';
 import { PageOptionsDto } from 'src/dtos-globals/page-options.dto';
 import { PageDto } from 'src/dtos-globals/page.dto';
-import { User } from 'src/auth/entities/user.entity';
 import { Client } from './entities/client.entity';
 
 @ApiBearerAuth()
