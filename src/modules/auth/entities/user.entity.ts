@@ -93,4 +93,7 @@ export class User {
     @ManyToOne(() => UserZone, (userZone) => userZone.user)
     @JoinColumn({name: 'SUSU_USER_ZONE_ID'})
     userZone: UserZone;
+
+    @Column({ type: 'datetime'})
+    SUSU_UPDATE_PASS: string;
 }
