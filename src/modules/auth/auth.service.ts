@@ -27,14 +27,33 @@ export class AuthService {
 
         const payload = { id: (await findUser).SUSU_ID_REG}
         const token = this.jwtService.sign(payload);
+
+        const resetPass:boolean = await this.validateUpdatePass(findUser.SUSU_UPDATE_PASS);
+        
         const data = {
+            resetPass,
             token
         };
         
         return data;
     }
 
-    encryptPassword(password: string): string {
+    private validateUpdatePass(susuUpdatePass: string): boolean{
+        const currentDate = new Date();
+        const updatedPassDate = new Date(susuUpdatePass);
+        const differenceInMs = currentDate.getTime() - updatedPassDate.getTime();
+        const daysPassed = Math.floor(differenceInMs / (1000 * 60 * 60 * 24));
+        const resetPassThreshold = 30;
+        let resetPass: boolean  = false;
+
+        if (!susuUpdatePass || daysPassed > resetPassThreshold) {
+            resetPass = true;
+        }
+
+        return resetPass;
+    }
+
+    private encryptPassword(password: string): string {
         let initKey = this.GetInitKey('1', true);
         initKey = this.Internal_EncryptInfo(initKey, "ZO7upap5KPu4jeO9GE+UMnkQHT6kUHtr2FT/yQYmins06srbyMggYjcEY/ns2slWTURobdSariTY=+-6aUVQ2SzRb=");
         const cipher = crypto.createCipheriv('aes-128-cbc', Buffer.from(initKey, 'utf-8').slice(0, 16), Buffer.from(initKey, 'utf-8').slice(0, 16));
