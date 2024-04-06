@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { DocumentService } from "./document-service.entiy";
+import { LineService } from "./line-service.entity";
 
 @Entity('CAT037ARBOL_INVENTARIO')
 export class InventoryTree{
@@ -77,6 +78,13 @@ export class InventoryTree{
 
     @Column({ type: 'nvarchar'})
     ARBOL_INVE_SECCION: string;
+
+    @Column()
+    ARBOL_INVE_ID_LINEA_SER: number;
+
+    @ManyToOne(() => LineService, (lineService) => lineService.inventoryTree)
+    @JoinColumn({name: 'ARBOL_INVE_ID_LINEA_SER'})
+    lineService: LineService;
 
     @OneToMany(() => DocumentService, (documentService) => documentService.inventoryTree)
     documentService: DocumentService[];
