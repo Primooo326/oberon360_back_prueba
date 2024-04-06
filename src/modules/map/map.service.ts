@@ -10,16 +10,18 @@ import { PageMetaDto } from 'src/dtos-globals/page-meta.dto';
 import { Client } from './entities/client.entity';
 import { User } from '../auth/entities/user.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
+import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
+import { LineService } from './entities/line-service.entity';
 
 @Injectable()
 export class MapService {
   constructor(
     @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
     @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
-    @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
+    @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>
   ) { }
 
-  async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
+  public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
     const infoUser = await this.repositoryUser.createQueryBuilder('users')
       .leftJoinAndSelect('users.userZone', 'userZone')
       .where({SUSU_ID_REG: user.userId})
@@ -44,7 +46,7 @@ export class MapService {
     return data;
   }
 
-  async getClients(pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> {
+  public async getClients(pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> {
     const queryBuilder = await this.repositoryClient.createQueryBuilder("clients")
       .select(['clients.CLIE_ID_REG', 'clients.CLIE_COMERCIAL'])
       .orWhere('clients.CLIE_COMERCIAL LIKE :CLIE_COMERCIAL', { CLIE_COMERCIAL: `%${pageOptionsDto.term}%` })
@@ -60,23 +62,91 @@ export class MapService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  async getServicesForClient(servicesForClientDto: ServicesForClientDto): Promise<any[]> {
-    const { CLIE_ID_REG } = servicesForClientDto;
+  public async getLinesServicesForClient(lineServicesForClientDto: LineServicesForClientDto): Promise<any[]> {
+    const { CLIE_ID_REG } = lineServicesForClientDto;
 
     const data = await this.repositoryClient.createQueryBuilder('client')
-        .leftJoin('client.document', 'document')
-        .leftJoin('document.documentService', 'documentService')
-        .leftJoin('documentService.inventoryTree', 'inventoryTree')
-        .select(['client', 'document', 'documentService', 'inventoryTree'])
+        .leftJoinAndSelect('client.document', 'document')
+        .leftJoinAndSelect('document.documentService', 'documentService')
+        .leftJoinAndSelect('documentService.inventoryTree', 'inventoryTree')
+        .leftJoinAndSelect('inventoryTree.lineService', 'lineService')
         .where({ CLIE_ID_REG: CLIE_ID_REG })
         .getOne();
 
-    const inventoryTrees = await this.getInventoryTreesFromData(data);
+    const lineServices: any[] = await this.getLineServicesFromData(data);
 
-    return inventoryTrees;
+    const lineServicesGroup: any[] = await this.getLineServicesGroup(lineServices);
+
+    return lineServicesGroup;
   }
   
-  async getInventoryTreesFromData(data: any): Promise<any[]> {
+  private async getLineServicesFromData(data: any): Promise<any[]> {
+    const lineServices: any[] = [];
+
+    if (data && data.document) {
+        for (const document of data.document) {
+            if (document && document.documentService) {
+                for (const documentService of document.documentService) {
+                    if (documentService && documentService.inventoryTree) {
+                        if (Array.isArray(documentService.inventoryTree)) {
+                            for (const tree of documentService.inventoryTree) {
+                                if (tree && tree.lineService) {
+                                    lineServices.push(tree.lineService);
+                                }
+                            }
+                        } else {
+                            if (documentService.inventoryTree.lineService) {
+                                lineServices.push(documentService.inventoryTree.lineService);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return lineServices;
+  }
+
+  private async getLineServicesGroup(lineServices: any){
+    const uniqueLineServices = lineServices.reduce((accumulator, currentValue) => {
+      if (!accumulator[currentValue.LINSER_ID_REG]) {
+          accumulator[currentValue.LINSER_ID_REG] = {
+              "LINSER_ID_REG": currentValue.LINSER_ID_REG,
+              "LINSER_NAME": currentValue.LINSER_NAME,
+              "count": 1
+          };
+      } else {
+          accumulator[currentValue.LINSER_ID_REG].count++;
+      }
+      return accumulator;
+    }, {});
+    
+    const result = Object.values(uniqueLineServices);
+
+    return result;
+  }
+
+  public async getServicesForClient(servicesForClientDto: ServicesForClientDto): Promise<any> {
+    const { CLIE_ID_REG, LINSER_ID_REG } = servicesForClientDto;
+
+    const data = await this.repositoryClient.createQueryBuilder('client')
+        .leftJoinAndSelect('client.document', 'document')
+        .leftJoinAndSelect('document.documentService', 'documentService')
+        .leftJoinAndSelect('documentService.inventoryTree', 'inventoryTree')
+        .leftJoinAndSelect('inventoryTree.lineService', 'lineService')
+        .where('client.CLIE_ID_REG = :CLIE_ID_REG', { CLIE_ID_REG })
+        .andWhere('lineService.LINSER_ID_REG = :LINSER_ID_REG', { LINSER_ID_REG })
+        .getOne();
+
+    const inventoryTrees: any[] = await this.getInventoryTreesFromData(data);
+
+    const inventoryTreesGroup: any = await this.getInventoryTreesGroup(inventoryTrees);
+
+    return inventoryTreesGroup;
+  }
+
+  private async getInventoryTreesFromData(data: any): Promise<any[]> {
     const inventoryTrees: any[] = [];
 
     if (data && data.document) {
@@ -92,5 +162,14 @@ export class MapService {
     }
 
     return inventoryTrees;
+  }
+
+  private async getInventoryTreesGroup(inventoryTrees: any): Promise<any> {
+    return Object.values(inventoryTrees.reduce((acc, curr) => {
+      if (!acc[curr.ARBOL_INVE_ID_REG]) {
+          acc[curr.ARBOL_INVE_ID_REG] = curr;
+      }
+      return acc;
+    }, {}));
   }
 }
