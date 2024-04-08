@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { User } from "src/modules/auth/entities/user.entity";
+import { User } from "src/modules/user/entities/user.entity";
 import { UserZone } from "src/modules/map/entities/user-zone.entity";
 
 export const OcMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 

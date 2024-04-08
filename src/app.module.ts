@@ -12,6 +12,7 @@ import { EasyRecognitionModule } from './modules/easy-recognition/easy-recogniti
 import { OcMssqlConfig } from './config/oc-mssql.config';
 import { IcpMssqlConfig } from './config/icp-mssql.config';
 import { CopMssqlConfig } from './config/cop-mssql.config';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { CopMssqlConfig } from './config/cop-mssql.config';
     AttendanceModule,
     AuthModule,
     EasyRecognitionModule,
-    MapModule
+    MapModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

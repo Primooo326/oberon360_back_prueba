@@ -1,7 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
@@ -53,7 +53,7 @@ export class AuthService {
         return resetPass;
     }
 
-    private encryptPassword(password: string): string {
+    public encryptPassword(password: string): string {
         let initKey = this.GetInitKey('1', true);
         initKey = this.Internal_EncryptInfo(initKey, "ZO7upap5KPu4jeO9GE+UMnkQHT6kUHtr2FT/yQYmins06srbyMggYjcEY/ns2slWTURobdSariTY=+-6aUVQ2SzRb=");
         const cipher = crypto.createCipheriv('aes-128-cbc', Buffer.from(initKey, 'utf-8').slice(0, 16), Buffer.from(initKey, 'utf-8').slice(0, 16));
