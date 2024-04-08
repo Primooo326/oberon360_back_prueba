@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientUbication } from './entities/client-ubication.entity';
 import { JwtStrategy } from 'src/jwt/jwt.strategy';
 import { Client } from './entities/client.entity';
-import { User } from '../auth/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { LineService } from './entities/line-service.entity';
 
 @Module({

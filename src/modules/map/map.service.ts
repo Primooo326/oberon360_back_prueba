@@ -8,7 +8,7 @@ import { PageOptionsDto } from 'src/dtos-globals/page-options.dto';
 import { PageDto } from 'src/dtos-globals/page.dto';
 import { PageMetaDto } from 'src/dtos-globals/page-meta.dto';
 import { Client } from './entities/client.entity';
-import { User } from '../auth/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { LineService } from './entities/line-service.entity';
