@@ -6,12 +6,14 @@ import { ClientUbication } from './entities/client-ubication.entity';
 import { JwtStrategy } from 'src/jwt/jwt.strategy';
 import { Client } from './entities/client.entity';
 import { User } from '../user/entities/user.entity';
-import { LineService } from './entities/line-service.entity';
+import { Vehicle } from './entities/vehicle.entity';
+import { EventPlate } from './entities/event-plate.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClientUbication, Client], 'COP'),
     TypeOrmModule.forFeature([User], 'OC'),
+    TypeOrmModule.forFeature([Vehicle, EventPlate], 'MAP'),
   ],
   controllers: [MapController],
   providers: [MapService, JwtStrategy],
