@@ -13,6 +13,7 @@ import { OcMssqlConfig } from './config/oc-mssql.config';
 import { IcpMssqlConfig } from './config/icp-mssql.config';
 import { CopMssqlConfig } from './config/cop-mssql.config';
 import { UserModule } from './modules/user/user.module';
+import { MapMssqlConfig } from './config/map-mssql.config';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserModule } from './modules/user/user.module';
     TypeOrmModule.forRoot( CopMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_COPNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     TypeOrmModule.forRoot( IcpMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_ICPNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     TypeOrmModule.forRoot( OcMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_OCNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
+    TypeOrmModule.forRoot( MapMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_MAPNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     AttendanceModule,
     AuthModule,
     EasyRecognitionModule,

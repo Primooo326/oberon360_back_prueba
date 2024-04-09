@@ -42,5 +42,4 @@ export class AttendanceService {
       throw new Error(`Error calling stored procedure: ${error.message}`);
     }
   }
-  
 }
