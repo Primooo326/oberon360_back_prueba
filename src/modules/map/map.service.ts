@@ -11,14 +11,17 @@ import { Client } from './entities/client.entity';
 import { User } from '../user/entities/user.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
-import { LineService } from './entities/line-service.entity';
+import { Vehicle } from './entities/vehicle.entity';
+import { EventPlate } from './entities/event-plate.entity';
 
 @Injectable()
 export class MapService {
   constructor(
     @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
     @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
-    @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>
+    @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
+    @InjectRepository(Vehicle, 'MAP') private repositoryVehicle: Repository<Vehicle>,
+    @InjectRepository(EventPlate, 'MAP') private repositoryEventPlate: Repository<EventPlate>
   ) { }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
@@ -171,5 +174,37 @@ export class MapService {
       }
       return acc;
     }, {}));
+  }
+
+  public async getEventsPlates(pageOptionsDto: PageOptionsDto): Promise<any> {
+    try {
+      let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+
+      if (pageOptionsDto.term) {
+        data = data.filter(element => element.WTLT_PLACA.includes(pageOptionsDto.term));
+      };
+
+      return this.paginateDate(pageOptionsDto, data);
+    } catch (error) {
+      throw new Error(`Error calling stored procedure: ${error.message}`);
+    }
+  }
+
+  private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){
+    const startIndex = pageOptionsDto.skip;
+    const endIndex = pageOptionsDto.skip + pageOptionsDto.take;
+    
+    const subset = data.slice(startIndex, endIndex);
+
+    const totalItems = data.length;
+
+    const pageMetaDto = new PageMetaDto({
+        itemCount: totalItems,
+        pageOptionsDto,
+    });
+
+    const pageDto = new PageDto(subset, pageMetaDto);
+
+    return pageDto;
   }
 }

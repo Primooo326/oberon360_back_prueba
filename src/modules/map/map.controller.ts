@@ -8,6 +8,7 @@ import { PageDto } from 'src/dtos-globals/page.dto';
 import { Client } from './entities/client.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
+import { EventPlate } from './entities/event-plate.entity';
 
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
@@ -38,5 +39,11 @@ export class MapController {
   @Post('getServicesForClient')
   async getServicesForClient(@Body() servicesForClientDto: ServicesForClientDto): Promise<any> {
     return this.mapService.getServicesForClient(servicesForClientDto);
+  }
+
+  @HttpCode(200)
+  @Get('getEventsPlates')
+  async getEventsPlates(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<EventPlate>> {
+    return this.mapService.getEventsPlates(pageOptionsDto);
   }
 }
