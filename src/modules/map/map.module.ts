@@ -8,12 +8,14 @@ import { Client } from './entities/client.entity';
 import { User } from '../user/entities/user.entity';
 import { Vehicle } from './entities/vehicle.entity';
 import { EventPlate } from './entities/event-plate.entity';
+import { OpeGps } from './entities/ope-gps.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClientUbication, Client], 'COP'),
     TypeOrmModule.forFeature([User], 'OC'),
     TypeOrmModule.forFeature([Vehicle, EventPlate], 'MAP'),
+    TypeOrmModule.forFeature([OpeGps], 'MDA'),
   ],
   controllers: [MapController],
   providers: [MapService, JwtStrategy],
