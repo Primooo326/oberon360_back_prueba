@@ -12,7 +12,8 @@ import { User } from '../user/entities/user.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
-import { EventPlate } from './entities/event-plate.entity';
+import { OpeGps } from './entities/ope-gps.entity';
+import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 
 @Injectable()
 export class MapService {
@@ -21,7 +22,7 @@ export class MapService {
     @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
     @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
     @InjectRepository(Vehicle, 'MAP') private repositoryVehicle: Repository<Vehicle>,
-    @InjectRepository(EventPlate, 'MAP') private repositoryEventPlate: Repository<EventPlate>
+    @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>
   ) { }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
@@ -207,4 +208,18 @@ export class MapService {
 
     return pageDto;
   }
+
+  public async getEventsMotorcycle(eventsMotorcycleDto: EventsMotorcycleDto) {
+    const { EMPLEADOID, FECHA, COMPLETO_EMPLEADO } = eventsMotorcycleDto;
+  
+    try {
+      let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS @EMPLEADOID = @0, @FECHA = @1, @COMPLETO_EMPLEADO = @2', [EMPLEADOID, FECHA, COMPLETO_EMPLEADO]);
+  
+      data.sort((a, b) => new Date(b.GPS_FECHASAT).getTime() - new Date(a.GPS_FECHASAT).getTime());
+  
+      return data;
+    } catch (error) {
+      throw new Error(`Error calling stored procedure: ${error.message}`);
+    }
+  }  
 }

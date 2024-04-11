@@ -9,6 +9,7 @@ import { Client } from './entities/client.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { EventPlate } from './entities/event-plate.entity';
+import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
@@ -45,5 +46,11 @@ export class MapController {
   @Get('getEventsPlates')
   async getEventsPlates(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<EventPlate>> {
     return this.mapService.getEventsPlates(pageOptionsDto);
+  }
+
+  @HttpCode(200)
+  @Get('getEventsMotorcycle')
+  async getEventsMotorcycle(@Query() eventsMotorcycleDto: EventsMotorcycleDto): Promise<any> {
+    return this.mapService.getEventsMotorcycle(eventsMotorcycleDto);
   }
 }
