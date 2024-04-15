@@ -14,6 +14,9 @@ import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
 import { OpeGps } from './entities/ope-gps.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
+import { ItineraryAssignment } from './entities/itinerary-assignment.entity';
+import { Itinerary } from './entities/itinerary.entity';
+import { ItineraryPoint } from './entities/itinerary-point.entity';
 
 @Injectable()
 export class MapService {
@@ -22,7 +25,10 @@ export class MapService {
     @InjectRepository(ClientUbication, 'COP') private repositoryClientUbic: Repository<ClientUbication>,
     @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
     @InjectRepository(Vehicle, 'MAP') private repositoryVehicle: Repository<Vehicle>,
-    @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>
+    @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>,
+    @InjectRepository(ItineraryAssignment, 'MAP') private repositoryItineraryAssignment: Repository<ItineraryAssignment>,
+    @InjectRepository(Itinerary, 'MAP') private repositoryItinerary: Repository<Itinerary>,
+    @InjectRepository(ItineraryPoint, 'MAP') private repositoryItineraryPoint: Repository<ItineraryPoint>,
   ) { }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
@@ -177,15 +183,42 @@ export class MapService {
     }, {}));
   }
 
-  public async getEventsPlates(pageOptionsDto: PageOptionsDto): Promise<any> {
+  public async getEventsPlates(): Promise<any> {
+    let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V2 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+
+    const groupedData = await data.reduce((acc, currentItem) => {
+        const existingItem = acc.find((item) => item.WTLT_PLACA === currentItem.WTLT_PLACA);
+        if (!existingItem) {
+            acc.push({
+                ...currentItem,
+                Itinerary: [{
+                    PUN_NOMBRE: currentItem.PUN_NOMBRE,
+                    PUN_LATITUD: currentItem.PUN_LATITUD,
+                    PUN_LONGITUD: currentItem.PUN_LONGITUD,
+                }],
+            });
+        } else {
+            existingItem.Itinerary.push({
+                PUN_NOMBRE: currentItem.PUN_NOMBRE,
+                PUN_LATITUD: currentItem.PUN_LATITUD,
+                PUN_LONGITUD: currentItem.PUN_LONGITUD,
+            });
+        }
+        return acc;
+    }, []);
+
+    return groupedData;
+  }
+
+  public async getEventsMotorcycle(eventsMotorcycleDto: EventsMotorcycleDto) {
+    const { EMPLEADOID, FECHA, COMPLETO_EMPLEADO } = eventsMotorcycleDto;
+  
     try {
-      let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
-
-      if (pageOptionsDto.term) {
-        data = data.filter(element => element.WTLT_PLACA.includes(pageOptionsDto.term));
-      };
-
-      return this.paginateDate(pageOptionsDto, data);
+      let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS @EMPLEADOID = @0, @FECHA = @1, @COMPLETO_EMPLEADO = @2', [EMPLEADOID, FECHA, COMPLETO_EMPLEADO]);
+  
+      data.sort((a, b) => new Date(b.GPS_FECHASAT).getTime() - new Date(a.GPS_FECHASAT).getTime());
+  
+      return data;
     } catch (error) {
       throw new Error(`Error calling stored procedure: ${error.message}`);
     }
@@ -208,18 +241,4 @@ export class MapService {
 
     return pageDto;
   }
-
-  public async getEventsMotorcycle(eventsMotorcycleDto: EventsMotorcycleDto) {
-    const { EMPLEADOID, FECHA, COMPLETO_EMPLEADO } = eventsMotorcycleDto;
-  
-    try {
-      let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS @EMPLEADOID = @0, @FECHA = @1, @COMPLETO_EMPLEADO = @2', [EMPLEADOID, FECHA, COMPLETO_EMPLEADO]);
-  
-      data.sort((a, b) => new Date(b.GPS_FECHASAT).getTime() - new Date(a.GPS_FECHASAT).getTime());
-  
-      return data;
-    } catch (error) {
-      throw new Error(`Error calling stored procedure: ${error.message}`);
-    }
-  }  
 }
