@@ -44,8 +44,8 @@ export class MapController {
 
   @HttpCode(200)
   @Get('getEventsPlates')
-  async getEventsPlates(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<EventPlate>> {
-    return this.mapService.getEventsPlates(pageOptionsDto);
+  async getEventsPlates(): Promise<PageDto<EventPlate>> {
+    return this.mapService.getEventsPlates();
   }
 
   @HttpCode(200)
