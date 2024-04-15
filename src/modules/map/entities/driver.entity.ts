@@ -26,8 +26,8 @@ export class Driver {
     @Column({ type: 'nvarchar'})
     CONDUCTOR_SEGUNDOAPELLIDO: string;
 
-    @Column({ type: 'nvarchar'})
-    CONDUCTOR_ID_RH: string;
+    @Column({ type: 'smallint'})
+    CONDUCTOR_ID_RH: number;
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_TELPERSONAL: string;
@@ -38,9 +38,9 @@ export class Driver {
     @Column({ type: 'nvarchar'})
     CONDUCTOR_CORREO: string;
 
-    @Column({ type: 'nvarchar'})
+    @Column({ type: 'varbinary'})
     CONDUCTOR_FOTO: string;
 
-    @Column({ type: 'nvarchar'})
+    @Column({ type: 'char'})
     CONDUCTOR_ESTADO: string;
 }
