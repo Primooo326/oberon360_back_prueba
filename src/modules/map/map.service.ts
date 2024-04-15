@@ -186,25 +186,27 @@ export class MapService {
   public async getEventsPlates(): Promise<any> {
     let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V2 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
 
-    const groupedData = await data.reduce((acc, currentItem) => {
-        const existingItem = acc.find((item) => item.WTLT_PLACA === currentItem.WTLT_PLACA);
-        if (!existingItem) {
-            acc.push({
-                ...currentItem,
-                Itinerary: [{
-                    PUN_NOMBRE: currentItem.PUN_NOMBRE,
-                    PUN_LATITUD: currentItem.PUN_LATITUD,
-                    PUN_LONGITUD: currentItem.PUN_LONGITUD,
-                }],
-            });
-        } else {
-            existingItem.Itinerary.push({
-                PUN_NOMBRE: currentItem.PUN_NOMBRE,
-                PUN_LATITUD: currentItem.PUN_LATITUD,
-                PUN_LONGITUD: currentItem.PUN_LONGITUD,
-            });
-        }
-        return acc;
+    const filteredData = data.filter(item => !(item.PUN_NOMBRE === null && item.PUN_LATITUD === null && item.PUN_LONGITUD === null));
+
+    const groupedData = filteredData.reduce((acc, currentItem) => {
+      const existingItem = acc.find((item) => item.WTLT_PLACA === currentItem.WTLT_PLACA);
+      if (!existingItem) {
+          acc.push({
+              ...currentItem,
+              Itinerary: [{
+                  PUN_NOMBRE: currentItem.PUN_NOMBRE,
+                  PUN_LATITUD: currentItem.PUN_LATITUD,
+                  PUN_LONGITUD: currentItem.PUN_LONGITUD,
+              }],
+          });
+      } else {
+          existingItem.Itinerary.push({
+              PUN_NOMBRE: currentItem.PUN_NOMBRE,
+              PUN_LATITUD: currentItem.PUN_LATITUD,
+              PUN_LONGITUD: currentItem.PUN_LONGITUD,
+          });
+      }
+      return acc;
     }, []);
 
     return groupedData;
