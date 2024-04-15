@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { MapDto } from './dto/map.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -17,6 +17,7 @@ import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 import { ItineraryAssignment } from './entities/itinerary-assignment.entity';
 import { Itinerary } from './entities/itinerary.entity';
 import { ItineraryPoint } from './entities/itinerary-point.entity';
+import { Driver } from './entities/driver.entity';
 
 @Injectable()
 export class MapService {
@@ -26,9 +27,7 @@ export class MapService {
     @InjectRepository(Client, 'COP') private repositoryClient: Repository<Client>,
     @InjectRepository(Vehicle, 'MAP') private repositoryVehicle: Repository<Vehicle>,
     @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>,
-    @InjectRepository(ItineraryAssignment, 'MAP') private repositoryItineraryAssignment: Repository<ItineraryAssignment>,
-    @InjectRepository(Itinerary, 'MAP') private repositoryItinerary: Repository<Itinerary>,
-    @InjectRepository(ItineraryPoint, 'MAP') private repositoryItineraryPoint: Repository<ItineraryPoint>,
+    @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
   ) { }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
@@ -227,7 +226,11 @@ export class MapService {
   }
 
   public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>{
-    
+    const driver = await this.repositoryDriver.findOneBy({CONDUCTOR_ID});
+
+    if (!driver) throw new HttpException('No existe el conductor solicitado', 404);
+
+    return driver;
   }
 
   private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){

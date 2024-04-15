@@ -12,12 +12,13 @@ import { OpeGps } from './entities/ope-gps.entity';
 import { ItineraryAssignment } from './entities/itinerary-assignment.entity';
 import { Itinerary } from './entities/itinerary.entity';
 import { ItineraryPoint } from './entities/itinerary-point.entity';
+import { Driver } from './entities/driver.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClientUbication, Client], 'COP'),
     TypeOrmModule.forFeature([User], 'OC'),
-    TypeOrmModule.forFeature([Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint], 'MAP'),
+    TypeOrmModule.forFeature([Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Driver], 'MAP'),
     TypeOrmModule.forFeature([OpeGps], 'MDA'),
   ],
   controllers: [MapController],

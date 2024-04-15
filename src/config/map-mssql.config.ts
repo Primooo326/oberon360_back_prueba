@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { Driver } from "src/modules/map/entities/driver.entity";
 import { EventPlate } from "src/modules/map/entities/event-plate.entity";
 import { ItineraryAssignment } from "src/modules/map/entities/itinerary-assignment.entity";
 import { ItineraryPoint } from "src/modules/map/entities/itinerary-point.entity";
@@ -16,7 +17,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point],    
+        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver],    
         synchronize: false,
         logging: false
     }
