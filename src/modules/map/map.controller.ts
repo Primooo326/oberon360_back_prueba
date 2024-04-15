@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, UseGuards,Request, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards,Request, Get, Query, Param } from '@nestjs/common';
 import { MapService } from './map.service';
 import { MapDto } from './dto/map.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -52,5 +52,11 @@ export class MapController {
   @Get('getEventsMotorcycle')
   async getEventsMotorcycle(@Query() eventsMotorcycleDto: EventsMotorcycleDto): Promise<any> {
     return this.mapService.getEventsMotorcycle(eventsMotorcycleDto);
+  }
+
+  @HttpCode(200)
+  @Get('getInfoDriver/:CONDUCTOR_ID')
+  async getInfoDriver(@Param('CONDUCTOR_ID') id: string): Promise<any> {
+    return this.mapService.getInfoDriver(id);
   }
 }

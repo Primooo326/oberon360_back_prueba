@@ -226,6 +226,10 @@ export class MapService {
     }
   }
 
+  public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>{
+    
+  }
+
   private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){
     const startIndex = pageOptionsDto.skip;
     const endIndex = pageOptionsDto.skip + pageOptionsDto.take;
