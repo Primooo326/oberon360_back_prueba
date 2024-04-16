@@ -14,10 +14,9 @@ import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
 import { OpeGps } from './entities/ope-gps.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
-import { ItineraryAssignment } from './entities/itinerary-assignment.entity';
-import { Itinerary } from './entities/itinerary.entity';
-import { ItineraryPoint } from './entities/itinerary-point.entity';
 import { Driver } from './entities/driver.entity';
+import { EventPlate } from './entities/event-plate.entity';
+import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 
 @Injectable()
 export class MapService {
@@ -28,6 +27,7 @@ export class MapService {
     @InjectRepository(Vehicle, 'MAP') private repositoryVehicle: Repository<Vehicle>,
     @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>,
     @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
+    @InjectRepository(ItineraryPointExecuted, 'MAP') private repositoryItineraryPointExecuted: Repository<ItineraryPointExecuted>,
   ) { }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
@@ -182,33 +182,19 @@ export class MapService {
     }, {}));
   }
 
-  public async getEventsPlates(): Promise<any> {
+  public async getEventsPlates(): Promise<EventPlate[]> {
     let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V2 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
 
-    const filteredData = data.filter(item => !(item.PUN_NOMBRE === null && item.PUN_LATITUD === null && item.PUN_LONGITUD === null));
+    return data.filter(item => !(item.ITINE_ID === null));
+  }
 
-    const groupedData = filteredData.reduce((acc, currentItem) => {
-      const existingItem = acc.find((item) => item.WTLT_PLACA === currentItem.WTLT_PLACA);
-      if (!existingItem) {
-          acc.push({
-              ...currentItem,
-              Itinerary: [{
-                  PUN_NOMBRE: currentItem.PUN_NOMBRE,
-                  PUN_LATITUD: currentItem.PUN_LATITUD,
-                  PUN_LONGITUD: currentItem.PUN_LONGITUD,
-              }],
-          });
-      } else {
-          existingItem.Itinerary.push({
-              PUN_NOMBRE: currentItem.PUN_NOMBRE,
-              PUN_LATITUD: currentItem.PUN_LATITUD,
-              PUN_LONGITUD: currentItem.PUN_LONGITUD,
-          });
-      }
-      return acc;
-    }, []);
-
-    return groupedData;
+  public async getItinerary(ITNE_ID: string){
+    const itineraryPointExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
+      .leftJoinAndSelect('itineraryPointExecuted.point', 'point')
+      .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: ITNE_ID })
+      .getMany();
+      
+    return itineraryPointExecuted;
   }
 
   public async getEventsMotorcycle(eventsMotorcycleDto: EventsMotorcycleDto) {

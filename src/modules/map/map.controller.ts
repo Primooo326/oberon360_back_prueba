@@ -44,8 +44,14 @@ export class MapController {
 
   @HttpCode(200)
   @Get('getEventsPlates')
-  async getEventsPlates(): Promise<PageDto<EventPlate>> {
+  async getEventsPlates(): Promise<EventPlate[]> {
     return this.mapService.getEventsPlates();
+  }
+
+  @HttpCode(200)
+  @Get('getItinerary/:ITNE_ID')
+  async getItinerary(@Param('ITNE_ID') id: string): Promise<any> {
+    return this.mapService.getItinerary(id);
   }
 
   @HttpCode(200)
