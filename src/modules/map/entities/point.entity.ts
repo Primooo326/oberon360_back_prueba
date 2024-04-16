@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 import { ItineraryPoint } from "./itinerary-point.entity";
+import { ItineraryPointExecuted } from "./itinerary-point-executed.entity";
 
 @Entity('COP089_PUNTOS')
 export class Point {
@@ -17,4 +18,7 @@ export class Point {
 
     @OneToMany(() => ItineraryPoint, (itineraryPoint) => itineraryPoint.point)
     itineraryPoint: ItineraryPoint[];
+
+    @OneToMany(() => ItineraryPointExecuted, (itineraryPointExecuted) => itineraryPointExecuted.point)
+    itineraryPointExecuted: ItineraryPointExecuted[];
 }
