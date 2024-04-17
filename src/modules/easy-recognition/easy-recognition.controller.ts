@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards, Request } from '@nestjs/common';
 import { EasyRecognitionService } from './easy-recognition.service';
 import { ValidateEasyRecognitionDto } from './dto/validate-easy-recognition.dto';
 import { JwtAuthGuard } from 'src/jwt/jwt-auth.guard';
@@ -14,8 +14,8 @@ export class EasyRecognitionController {
 
   @HttpCode(200)
   @Post('validateAuthentication')
-  validateAuthentication(@Body() validateEasyRecognitionDto: ValidateEasyRecognitionDto) {
-    return this.easyRecognitionService.validateAuthentication(validateEasyRecognitionDto);
+  validateAuthentication(@Body() validateEasyRecognitionDto: ValidateEasyRecognitionDto, @Request() req) {
+    return this.easyRecognitionService.validateAuthentication(validateEasyRecognitionDto, req.user);
   }
 
   @HttpCode(200)
