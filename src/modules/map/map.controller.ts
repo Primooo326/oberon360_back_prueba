@@ -57,7 +57,7 @@ export class MapController {
   @HttpCode(200)
   @Get('getEventsMotorcycle')
   async getEventsMotorcycle(@Query() eventsMotorcycleDto: EventsMotorcycleDto): Promise<any> {
-    return this.mapService.getEventsMotorcycle(eventsMotorcycleDto);
+    return this.mapService.getEventsMotorcycle();
   }
 
   @HttpCode(200)
