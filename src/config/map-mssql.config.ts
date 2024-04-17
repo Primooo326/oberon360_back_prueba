@@ -6,6 +6,7 @@ import { ItineraryPointExecuted } from "src/modules/map/entities/itinerary-point
 import { ItineraryPoint } from "src/modules/map/entities/itinerary-point.entity";
 import { Itinerary } from "src/modules/map/entities/itinerary.entity";
 import { Point } from "src/modules/map/entities/point.entity";
+import { StateIpe } from "src/modules/map/entities/state-ipe.entity";
 import { Vehicle } from "src/modules/map/entities/vehicle.entity";
 
 export const MapMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
@@ -18,7 +19,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted],    
+        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe],    
         synchronize: false,
         logging: false
     }

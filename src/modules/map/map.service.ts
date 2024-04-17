@@ -191,6 +191,7 @@ export class MapService {
   public async getItinerary(ITNE_ID: string){
     const itineraryPointExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
       .leftJoinAndSelect('itineraryPointExecuted.point', 'point')
+      .leftJoinAndSelect('itineraryPointExecuted.state', 'state')
       .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: ITNE_ID })
       .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
       .getMany();

@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 import { Point } from "./point.entity";
+import { StateIpe } from "./state-ipe.entity";
 
 @Entity('COP091_ITINERARIO_PUNTOS_EJECUTADO')
 export class ItineraryPointExecuted {
@@ -28,9 +29,10 @@ export class ItineraryPointExecuted {
     @Column({ type: 'datetime'})
     IPE_FECHA_PRESUPUESTADO: string;
 
-    @Column({ type: 'smallint'})
+    @Column()
     IPE_ESTADO: number;
 
-    @Column({ type: 'char'})
-    IPE_STATUS: string;
+    @ManyToOne(() => StateIpe, (stateIpe) => stateIpe.itineraryPointExecuted)
+    @JoinColumn({name: 'IPE_ESTADO'})
+    state: StateIpe;
 }
