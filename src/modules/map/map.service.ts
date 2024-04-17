@@ -185,13 +185,15 @@ export class MapService {
   public async getEventsPlates(): Promise<EventPlate[]> {
     let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
 
-    return data.filter(item => !(item.ITINE_ID === null));
+    return data;
   }
 
   public async getItinerary(ITNE_ID: string){
     const itineraryPointExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
       .leftJoinAndSelect('itineraryPointExecuted.point', 'point')
+      .leftJoinAndSelect('itineraryPointExecuted.state', 'state')
       .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: ITNE_ID })
+      .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
       .getMany();
       
     return itineraryPointExecuted;
