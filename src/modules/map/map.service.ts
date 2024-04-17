@@ -197,18 +197,10 @@ export class MapService {
     return itineraryPointExecuted;
   }
 
-  public async getEventsMotorcycle(eventsMotorcycleDto: EventsMotorcycleDto) {
-    const { EMPLEADOID, FECHA, COMPLETO_EMPLEADO } = eventsMotorcycleDto;
-  
-    try {
-      let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS @EMPLEADOID = @0, @FECHA = @1, @COMPLETO_EMPLEADO = @2', [EMPLEADOID, FECHA, COMPLETO_EMPLEADO]);
-  
-      data.sort((a, b) => new Date(b.GPS_FECHASAT).getTime() - new Date(a.GPS_FECHASAT).getTime());
-  
-      return data;
-    } catch (error) {
-      throw new Error(`Error calling stored procedure: ${error.message}`);
-    }
+  public async getEventsMotorcycle() {
+    let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS_V2');
+
+    return data;
   }
 
   public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>{
