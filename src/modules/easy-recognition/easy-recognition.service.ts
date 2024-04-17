@@ -6,24 +6,32 @@ import { Repository } from 'typeorm';
 import { Employee } from './entities/employee.entity';
 import { ResultEasyRecognitionDto } from './dto/result-easy-recognition.dto';
 import { EmotionsEasyRecognitionDto } from './dto/emotions-easy-recognition.dto';
+import { UserLoginDto } from 'src/dtos-globals/user-login.dto';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class EasyRecognitionService {
   constructor(
     @InjectRepository(Employee, 'ICP') private repositoryEmployee: Repository<Employee>,
+    @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
   ) { }
 
-  async validateAuthentication(validateEasyRecognitionDto: ValidateEasyRecognitionDto): Promise<ResultEasyRecognitionDto> {
+  async validateAuthentication(validateEasyRecognitionDto: ValidateEasyRecognitionDto, user: UserLoginDto): Promise<any> {
     const config = {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       region: 'us-east-1'
     };
 
-    const { image64base, EMPL_IDEMPLEADO } = validateEasyRecognitionDto;
+    const EMPL_IDEMPLEADO = await this.repositoryUser.findOneBy({SUSU_ID_REG: user.userId});
+
+    if (!EMPL_IDEMPLEADO) throw new HttpException('El usuario no se encontró en la base de datos', 403);
+
+    const { SUSU_IDENTIFICACION } = EMPL_IDEMPLEADO;
+    const { image64base } = validateEasyRecognitionDto;
 
     const employee = await this.repositoryEmployee.createQueryBuilder('employee')
-      .where({EMPL_IDEMPLEADO: EMPL_IDEMPLEADO})
+      .where({EMPL_IDEMPLEADO: SUSU_IDENTIFICACION})
       .getOne();
 
     if (!employee) throw new HttpException('El empleado no se encontró en la base de datos', 403);

@@ -7,7 +7,7 @@ export class User {
     SUSU_ID_REG: number;
 
     @Column({ type: 'nvarchar'})
-    SUSU_ID: string;
+    SUSU_ID: string | number;
 
     @Column({ type: 'nvarchar'})
     SUSU_NAME: string;
@@ -96,4 +96,7 @@ export class User {
 
     @Column({ type: 'datetime'})
     SUSU_UPDATE_PASS: Date;
+
+    @Column({ type: 'nvarchar'})
+    SUSU_IDENTIFICACION: string;
 }

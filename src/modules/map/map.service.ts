@@ -213,6 +213,14 @@ export class MapService {
     return driver;
   }
 
+  public async reportsIndicators(): Promise<any>{
+    let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+
+    const totalVehicles = data.length;
+
+    return data;
+  }
+
   private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){
     const startIndex = pageOptionsDto.skip;
     const endIndex = pageOptionsDto.skip + pageOptionsDto.take;

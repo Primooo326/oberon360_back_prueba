@@ -65,4 +65,10 @@ export class MapController {
   async getInfoDriver(@Param('CONDUCTOR_ID') id: string): Promise<any> {
     return this.mapService.getInfoDriver(id);
   }
+
+  @HttpCode(200)
+  @Get('reportsIndicators')
+  async reportsIndicators(): Promise<any> {
+    return this.mapService.reportsIndicators();
+  }
 }
