@@ -5,9 +5,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SP_DEFAULT } from './config/constanst';
 import * as bodyParser from 'body-parser';
+import * as moment from 'moment-timezone';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  moment.tz.setDefault('America/Bogota');
 
   app.enableCors();
   const configService = app.get(ConfigService);
