@@ -13,10 +13,10 @@ import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
 import { OpeGps } from './entities/ope-gps.entity';
-import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 import { Driver } from './entities/driver.entity';
 import { EventPlate } from './entities/event-plate.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class MapService {
@@ -213,12 +213,87 @@ export class MapService {
     return driver;
   }
 
-  public async reportsIndicators(): Promise<any>{
-    let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+  public async reportsIndicators(): Promise<any> {
+    try {
+      let vehiclesData = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+  
+      const vehiclesWithItinerary = vehiclesData.filter(vehicle => vehicle.ITINE_ID !== null);
+      const vehiclesWithoutItinerary = vehiclesData.filter(vehicle => vehicle.ITINE_ID === null);
+  
+      const totalVehicles = vehiclesData.length;
+      const vehiclesInOperation = vehiclesWithItinerary.length;
+      const vehiclesAvailable = vehiclesWithoutItinerary.length;
+  
+      const promises = vehiclesWithItinerary.map(async (vehicle) => {
+        const itineraryPointsExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
+          .leftJoin('itineraryPointExecuted.point', 'point')
+          .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: vehicle.ITNE_ID })
+          .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
+          .getMany();
+        
+        return {
+          vehicleState: vehicle.ESTADOVH,
+          itinerary: itineraryPointsExecuted
+        };
+      });
+  
+      const itineraryPointExecutedArr: any[] = await Promise.all(promises);
+  
+      let delayCount: number = 0;
+      let advanceCount: number = 0;
+      let notReportedCount: number = 0;
+  
+      await Promise.all(itineraryPointExecutedArr.map(async (itinerary) => {
+        if (itinerary.vehicleState == 'INCOMUNICADO') {
+          notReportedCount++;
+          return;
+        }
+        
+        const itineraryWithArrivalDate = itinerary.itinerary.filter(item => item.IPE_FECHA_LLEGADA !== null);
+        const itineraryWithoutArrivalDate = itinerary.itinerary.filter(item => item.IPE_FECHA_LLEGADA === null);
+        
+        if (itineraryWithoutArrivalDate.length > 0) {
+          delayCount++;
+        } else {
+          const lastRecordWithArrivalDate = itineraryWithArrivalDate[itineraryWithArrivalDate.length - 1];
+          if (lastRecordWithArrivalDate && lastRecordWithArrivalDate.IPE_FECHA_PRESUPUESTADO && lastRecordWithArrivalDate.IPE_FECHA_LLEGADA && (lastRecordWithArrivalDate.IPE_FECHA_PRESUPUESTADO > lastRecordWithArrivalDate.IPE_FECHA_LLEGADA)) {
+            advanceCount++;
+          } else {
+            delayCount++;
+          }
+        }
+      }));  
 
-    const totalVehicles = data.length;
-
-    return data;
+      return {
+        delay: {
+          total: delayCount,
+          percentage: Math.round(delayCount/vehiclesInOperation*100)+"%"
+        },
+        advance: {
+          total: advanceCount,
+          percentage: Math.round(advanceCount/vehiclesInOperation*100)+"%"
+        },
+        notReported: {
+          total: notReportedCount,
+          percentage: Math.round(notReportedCount/vehiclesInOperation*100)+"%"
+        },
+        inOperation: {
+          total: vehiclesInOperation,
+          percentage: Math.round(vehiclesInOperation/totalVehicles*100)+"%"
+        },
+        available: {
+          total: vehiclesAvailable,
+          percentage: Math.round(vehiclesAvailable/totalVehicles*100)+"%"
+        },
+        total: {
+          total: totalVehicles,
+          percentage: "100%"
+        },
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 
   private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){
