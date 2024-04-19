@@ -13,7 +13,6 @@ import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
 import { OpeGps } from './entities/ope-gps.entity';
 import { Driver } from './entities/driver.entity';
-import { EventPlate } from './entities/event-plate.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 
@@ -189,11 +188,46 @@ export class MapService {
     }, {}));
   }
 
-  public async getEventsPlates(): Promise<EventPlate[]> 
+  public async getEventsPlates(): Promise<any>
   {
-    let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
-
-    return data;
+    const data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+    
+    const dataWithItinerary = data.filter(item => item.ITINE_ID !== null);
+    
+    const vehiclesWithStatus = await Promise.all(dataWithItinerary.map(async (vehicle) => {
+      const itineraryPointsExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
+        .leftJoin('itineraryPointExecuted.point', 'point')
+        .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: vehicle.ITNE_ID })
+        .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
+        .getMany();
+  
+      const status = this.getVehicleStatus(vehicle, itineraryPointsExecuted);
+      vehicle.statusItinerary = status;
+      return vehicle;
+    }));
+  
+    return vehiclesWithStatus;
+  }
+  
+  private getVehicleStatus(vehicle, itineraryPointsExecuted): string
+  {
+    if (vehicle.ESTADOVH === 'INCOMUNICADO') {
+      return 'notReported';
+    }
+  
+    const itineraryWithArrivalDate = itineraryPointsExecuted.filter(item => item.IPE_FECHA_LLEGADA !== null);
+    const itineraryWithoutArrivalDate = itineraryPointsExecuted.filter(item => item.IPE_FECHA_LLEGADA === null);
+    
+    if (itineraryWithoutArrivalDate.length > 0) {
+      return 'delay';
+    }
+  
+    const lastRecordWithArrivalDate = itineraryWithArrivalDate[itineraryWithArrivalDate.length - 1];
+    if (lastRecordWithArrivalDate && lastRecordWithArrivalDate.IPE_FECHA_PRESUPUESTADO && lastRecordWithArrivalDate.IPE_FECHA_LLEGADA && (lastRecordWithArrivalDate.IPE_FECHA_PRESUPUESTADO > lastRecordWithArrivalDate.IPE_FECHA_LLEGADA)) {
+      return 'advance';
+    }
+  
+    return 'delay';
   }
 
   public async getItinerary(ITNE_ID: string)
@@ -236,27 +270,14 @@ export class MapService {
       const vehiclesInOperation = vehiclesWithItinerary.length;
       const vehiclesAvailable = vehiclesWithoutItinerary.length;
   
-      const promises = vehiclesWithItinerary.map(async (vehicle) => {
-        const itineraryPointsExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
-          .leftJoin('itineraryPointExecuted.point', 'point')
-          .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: vehicle.ITNE_ID })
-          .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
-          .getMany();
-        
-        return {
-          vehicleState: vehicle.ESTADOVH,
-          itinerary: itineraryPointsExecuted
-        };
-      });
-  
-      const itineraryPointExecutedArr: any[] = await Promise.all(promises);
+      const itineraryPointExecutedArr: any[] = await this.getIneraryPointExecuted(vehiclesWithItinerary);
   
       let delayCount: number = 0;
       let advanceCount: number = 0;
       let notReportedCount: number = 0;
   
       await Promise.all(itineraryPointExecutedArr.map(async (itinerary) => {
-        if (itinerary.vehicleState == 'INCOMUNICADO') {
+        if (itinerary.element.ESTADOVH == 'INCOMUNICADO') {
           notReportedCount++;
           return;
         }
@@ -274,7 +295,7 @@ export class MapService {
             delayCount++;
           }
         }
-      }));  
+      }));
 
       return {
         delay: {
@@ -306,5 +327,23 @@ export class MapService {
       console.error(error);
       throw error;
     }
+  }
+
+  private async getIneraryPointExecuted(vehiclesWithItinerary)
+  {
+    const promises = vehiclesWithItinerary.map(async (vehicle) => {
+      const itineraryPointsExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
+        .leftJoin('itineraryPointExecuted.point', 'point')
+        .where('itineraryPointExecuted.IPE_IDASIGNACION = :IPE_IDASIGNACION', { IPE_IDASIGNACION: vehicle.ITNE_ID })
+        .andWhere('point.PUN_STATUS = :PUN_STATUS', { PUN_STATUS: 1 })
+        .getMany();
+      
+      return {
+        element: vehicle,
+        itinerary: itineraryPointsExecuted
+      };
+    });
+
+    return await Promise.all(promises);
   }
 }
