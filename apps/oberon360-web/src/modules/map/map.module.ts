@@ -3,9 +3,8 @@ import { MapService } from './map.service';
 import { MapController } from './map.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientUbication } from './entities/client-ubication.entity';
-import { JwtStrategy } from '../../jwt/jwt.strategy';
+import { JwtStrategy } from 'apps/oberon360-api/src/jwt/jwt.strategy';
 import { Client } from './entities/client.entity';
-import { User } from '../user/entities/user.entity';
 import { Vehicle } from './entities/vehicle.entity';
 import { EventPlate } from './entities/event-plate.entity';
 import { OpeGps } from './entities/ope-gps.entity';
@@ -15,6 +14,7 @@ import { ItineraryPoint } from './entities/itinerary-point.entity';
 import { Driver } from './entities/driver.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { Point } from './entities/point.entity';
+import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 
 @Module({
   imports: [

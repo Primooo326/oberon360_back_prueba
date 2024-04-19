@@ -2,9 +2,9 @@ import { Controller, Post, Body, HttpCode, UseGuards,Request, Get, Query, Param 
 import { MapService } from './map.service';
 import { MapDto } from './dto/map.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../jwt/jwt-auth.guard';
-import { PageOptionsDto } from '../../dtos-globals/page-options.dto';
-import { PageDto } from '../../dtos-globals/page.dto';
+import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
+import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { Client } from './entities/client.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
@@ -14,7 +14,7 @@ import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
 @UseGuards(JwtAuthGuard)
-@Controller('api/map')
+@Controller('oberon360web/api/map')
 export class MapController {
   constructor(private readonly mapService: MapService) {}
 

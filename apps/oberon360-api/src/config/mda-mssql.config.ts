@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { OpeGps } from "../modules/map/entities/ope-gps.entity";
+import { OpeGps } from "apps/oberon360-web/src/modules/map/entities/ope-gps.entity";
 
 export const MdaMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {

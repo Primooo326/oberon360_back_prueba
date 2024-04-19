@@ -1,5 +1,5 @@
+import { User } from "apps/oberon360-api/src/modules/user/entities/user.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { User } from "../../user/entities/user.entity";
 
 @Entity('SEC024USER_ZONES')
 export class UserZone {

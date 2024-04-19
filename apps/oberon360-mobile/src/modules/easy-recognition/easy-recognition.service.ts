@@ -4,10 +4,9 @@ import { CompareFacesCommand, DetectFacesCommand, QualityFilter, RekognitionClie
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from './entities/employee.entity';
-import { ResultEasyRecognitionDto } from './dto/result-easy-recognition.dto';
 import { EmotionsEasyRecognitionDto } from './dto/emotions-easy-recognition.dto';
-import { UserLoginDto } from '../../dtos-globals/user-login.dto';
-import { User } from '../user/entities/user.entity';
+import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
+import { UserLoginDto } from 'apps/oberon360-api/src/dtos-globals/user-login.dto';
 
 @Injectable()
 export class EasyRecognitionService {
