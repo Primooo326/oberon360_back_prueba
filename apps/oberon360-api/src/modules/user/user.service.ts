@@ -14,7 +14,8 @@ export class UserService {
   ) { }
 
   
-  public async changePassword(changePassDto: ChangePassDto, user: UserLoginDto): Promise<any> {
+  public async changePassword(changePassDto: ChangePassDto, user: UserLoginDto): Promise<any> 
+  {
     const { newPassword, confirmPassword } = changePassDto;
     if(newPassword !== confirmPassword) throw new HttpException('Las constraseñas no coinciden', 403);
     

@@ -14,7 +14,8 @@ export class AuthService {
         private jwtService:JwtService
     ) { }
 
-    async login(userObject: LoginAuthDto) {
+    async login(userObject: LoginAuthDto) 
+    {
         const { user, password } = userObject;
         
         const findUser = await this.userRepository.findOneBy({SUSU_ID: user});
@@ -38,7 +39,8 @@ export class AuthService {
         return data;
     }
 
-    private validateUpdatePass(susuUpdatePass: Date): boolean{
+    private validateUpdatePass(susuUpdatePass: Date): boolean
+    {
         const currentDate = new Date();
         const updatedPassDate = new Date(susuUpdatePass);
         const differenceInMs = currentDate.getTime() - updatedPassDate.getTime();
@@ -53,7 +55,8 @@ export class AuthService {
         return resetPass;
     }
 
-    public encryptPassword(password: string): string {
+    public encryptPassword(password: string): string 
+    {
         let initKey = this.GetInitKey('1', true);
         initKey = this.Internal_EncryptInfo(initKey, "ZO7upap5KPu4jeO9GE+UMnkQHT6kUHtr2FT/yQYmins06srbyMggYjcEY/ns2slWTURobdSariTY=+-6aUVQ2SzRb=");
         const cipher = crypto.createCipheriv('aes-128-cbc', Buffer.from(initKey, 'utf-8').slice(0, 16), Buffer.from(initKey, 'utf-8').slice(0, 16));
@@ -62,7 +65,8 @@ export class AuthService {
         return encryptedPassword;
     }
     
-    private GetInitKey(complement: string, blMonths = false) {
+    private GetInitKey(complement: string, blMonths = false)
+    {
         let result = "";
         let value = "1997/05/11";
         let array = ["Sundaynedelja(neh - DEH - lyah)", "Mondayponedeljek (poh-neh-DEH-lyehk)", "Tuesdaytorek (TOH-rehk)", "Wednesdaysreda (SREH-dah)", "Thursdayčetrtek (CHEH-tuhr-tehk)", "(PEH-tehk)", "Fridaypetek (PEH-tehk)", "Saturdaysobota (soh-BOH-tah)"];
@@ -113,7 +117,8 @@ export class AuthService {
         return result;
     }
     
-    private Internal_EncryptInfo(stTextToEncryp, stKey2See) {
+    private Internal_EncryptInfo(stTextToEncryp, stKey2See) 
+    {
         let result = "";
         try {
             if (stKey2See.trim() == "ZO7upap5KPu4jeO9GE+UMnkQHT6kUHtr2FT/yQYmins06srbyMggYjcEY/ns2slWTURobdSariTY=+-6aUVQ2SzRb=") {

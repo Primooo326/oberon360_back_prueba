@@ -15,7 +15,8 @@ export class EasyRecognitionService {
     @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
   ) { }
 
-  async validateAuthentication(validateEasyRecognitionDto: ValidateEasyRecognitionDto, user: UserLoginDto): Promise<any> {
+  async validateAuthentication(validateEasyRecognitionDto: ValidateEasyRecognitionDto, user: UserLoginDto): Promise<any> 
+  {
     const config = {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -58,7 +59,8 @@ export class EasyRecognitionService {
     };
   }
   
-  async  emotionsEasyRecognition(emotionsEasyRecognitionDto: EmotionsEasyRecognitionDto): Promise<any> {
+  async  emotionsEasyRecognition(emotionsEasyRecognitionDto: EmotionsEasyRecognitionDto): Promise<any> 
+  {
     const config = {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
