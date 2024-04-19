@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { User } from "../modules/user/entities/user.entity";
-import { UserZone } from "../modules/map/entities/user-zone.entity";
+import { UserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
 
 export const OcMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {

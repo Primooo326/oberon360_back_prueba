@@ -3,8 +3,8 @@ import { EasyRecognitionService } from './easy-recognition.service';
 import { EasyRecognitionController } from './easy-recognition.controller';
 import { Employee } from './entities/employee.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtStrategy } from '../../jwt/jwt.strategy';
-import { User } from '../user/entities/user.entity';
+import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
+import { JwtStrategy } from 'apps/oberon360-api/src/jwt/jwt.strategy';
 
 @Module({
   imports: [

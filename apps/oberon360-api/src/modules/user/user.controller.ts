@@ -7,7 +7,7 @@ import { ChangePassDto } from './dto/change-pass.dto';
 @ApiBearerAuth()
 @ApiTags('users')
 @UseGuards(JwtAuthGuard)
-@Controller('api/users')
+@Controller('oberon360api/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

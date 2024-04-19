@@ -4,7 +4,7 @@ import { AttendanceController } from './attendance.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Schedules } from './entities/schedules.entity';
 import { Attendance } from './entities/attendance.entity';
-import { JwtStrategy } from '../../jwt/jwt.strategy';
+import { JwtStrategy } from 'apps/oberon360-api/src/jwt/jwt.strategy';
 
 @Module({
   imports: [

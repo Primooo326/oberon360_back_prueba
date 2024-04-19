@@ -4,7 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoginAuthDto } from './dto/login-auth.dto';
 
 @ApiTags('auth')
-@Controller('api/auth')
+@Controller('oberon360api/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

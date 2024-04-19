@@ -3,12 +3,11 @@ import { MapDto } from './dto/map.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientUbication } from './entities/client-ubication.entity';
-import { UserLoginDto } from '../../dtos-globals/user-login.dto';
-import { PageOptionsDto } from '../../dtos-globals/page-options.dto';
-import { PageDto } from '../../dtos-globals/page.dto';
-import { PageMetaDto } from '../../dtos-globals/page-meta.dto';
+import { UserLoginDto } from 'apps/oberon360-api/src/dtos-globals/user-login.dto';
+import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
+import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { Client } from './entities/client.entity';
-import { User } from '../user/entities/user.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
@@ -16,7 +15,7 @@ import { OpeGps } from './entities/ope-gps.entity';
 import { Driver } from './entities/driver.entity';
 import { EventPlate } from './entities/event-plate.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
-import * as moment from 'moment-timezone';
+import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 
 @Injectable()
 export class MapService {

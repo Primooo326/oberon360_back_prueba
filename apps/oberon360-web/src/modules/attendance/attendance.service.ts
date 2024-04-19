@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PageDto } from '../../dtos-globals/page.dto';
-import { PageOptionsDto } from '../../dtos-globals/page-options.dto';
 import { Attendance } from './entities/attendance.entity';
+import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 
 @Injectable()
 export class AttendanceService {

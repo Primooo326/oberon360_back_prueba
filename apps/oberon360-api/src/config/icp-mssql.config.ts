@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Attendance } from "../modules/attendance/entities/attendance.entity";
-import { Employee } from "../modules/easy-recognition/entities/employee.entity";
+import { Employee } from "apps/oberon360-mobile/src/modules/easy-recognition/entities/employee.entity";
+import { Attendance } from "apps/oberon360-web/src/modules/attendance/entities/attendance.entity";
 
 export const IcpMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {

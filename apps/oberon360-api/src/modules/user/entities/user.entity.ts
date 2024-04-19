@@ -1,5 +1,5 @@
+import { UserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import { UserZone } from "../../map/entities/user-zone.entity";
 
 @Entity('SEC002_USER')
 export class User {

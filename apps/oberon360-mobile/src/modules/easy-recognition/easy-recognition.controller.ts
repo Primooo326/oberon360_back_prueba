@@ -1,14 +1,14 @@
 import { Body, Controller, HttpCode, Post, UseGuards, Request } from '@nestjs/common';
 import { EasyRecognitionService } from './easy-recognition.service';
 import { ValidateEasyRecognitionDto } from './dto/validate-easy-recognition.dto';
-import { JwtAuthGuard } from '../../jwt/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { EmotionsEasyRecognitionDto } from './dto/emotions-easy-recognition.dto';
+import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
 @UseGuards(JwtAuthGuard)
-@Controller('api/easy-recognition')
+@Controller('oberon360mobile/api/easy-recognition')
 export class EasyRecognitionController {
   constructor(private readonly easyRecognitionService: EasyRecognitionService) {}
 
