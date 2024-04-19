@@ -1,8 +1,41 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/oberon360-api/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/oberon360-api/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/oberon360-api",
+  "projects": {
+    "oberon360-api": {
+      "type": "application",
+      "root": "apps/oberon360-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/oberon360-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/oberon360-api/tsconfig.app.json"
+      }
+    },
+    "oberon360-web": {
+      "type": "application",
+      "root": "apps/oberon360-web",
+      "entryFile": "main",
+      "sourceRoot": "apps/oberon360-web/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/oberon360-web/tsconfig.app.json"
+      }
+    },
+    "oberon360-mobile": {
+      "type": "application",
+      "root": "apps/oberon360-mobile",
+      "entryFile": "main",
+      "sourceRoot": "apps/oberon360-mobile/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/oberon360-mobile/tsconfig.app.json"
+      }
+    }
   }
 }
