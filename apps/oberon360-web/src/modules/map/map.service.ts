@@ -29,7 +29,8 @@ export class MapService {
     @InjectRepository(ItineraryPointExecuted, 'MAP') private repositoryItineraryPointExecuted: Repository<ItineraryPointExecuted>,
   ) { }
 
-  public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> {
+  public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> 
+  {
     const infoUser = await this.repositoryUser.createQueryBuilder('users')
       .leftJoinAndSelect('users.userZone', 'userZone')
       .where({SUSU_ID_REG: user.userId})
@@ -54,7 +55,8 @@ export class MapService {
     return data;
   }
 
-  public async getClients(pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> {
+  public async getClients(pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> 
+  {
     const queryBuilder = await this.repositoryClient.createQueryBuilder("clients")
       .select(['clients.CLIE_ID_REG', 'clients.CLIE_COMERCIAL'])
       .orWhere('clients.CLIE_COMERCIAL LIKE :CLIE_COMERCIAL', { CLIE_COMERCIAL: `%${pageOptionsDto.term}%` })
@@ -70,7 +72,8 @@ export class MapService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  public async getLinesServicesForClient(lineServicesForClientDto: LineServicesForClientDto): Promise<any[]> {
+  public async getLinesServicesForClient(lineServicesForClientDto: LineServicesForClientDto): Promise<any[]> 
+  {
     const { CLIE_ID_REG } = lineServicesForClientDto;
 
     const data = await this.repositoryClient.createQueryBuilder('client')
@@ -88,7 +91,8 @@ export class MapService {
     return lineServicesGroup;
   }
   
-  private async getLineServicesFromData(data: any): Promise<any[]> {
+  private async getLineServicesFromData(data: any): Promise<any[]> 
+  {
     const lineServices: any[] = [];
 
     if (data && data.document) {
@@ -116,7 +120,8 @@ export class MapService {
     return lineServices;
   }
 
-  private async getLineServicesGroup(lineServices: any){
+  private async getLineServicesGroup(lineServices: any)
+  {
     const uniqueLineServices = lineServices.reduce((accumulator, currentValue) => {
       if (!accumulator[currentValue.LINSER_ID_REG]) {
           accumulator[currentValue.LINSER_ID_REG] = {
@@ -135,7 +140,8 @@ export class MapService {
     return result;
   }
 
-  public async getServicesForClient(servicesForClientDto: ServicesForClientDto): Promise<any> {
+  public async getServicesForClient(servicesForClientDto: ServicesForClientDto): Promise<any> 
+  {
     const { CLIE_ID_REG, LINSER_ID_REG } = servicesForClientDto;
 
     const data = await this.repositoryClient.createQueryBuilder('client')
@@ -154,7 +160,8 @@ export class MapService {
     return inventoryTreesGroup;
   }
 
-  private async getInventoryTreesFromData(data: any): Promise<any[]> {
+  private async getInventoryTreesFromData(data: any): Promise<any[]> 
+  {
     const inventoryTrees: any[] = [];
 
     if (data && data.document) {
@@ -172,7 +179,8 @@ export class MapService {
     return inventoryTrees;
   }
 
-  private async getInventoryTreesGroup(inventoryTrees: any): Promise<any> {
+  private async getInventoryTreesGroup(inventoryTrees: any): Promise<any> 
+  {
     return Object.values(inventoryTrees.reduce((acc, curr) => {
       if (!acc[curr.ARBOL_INVE_ID_REG]) {
           acc[curr.ARBOL_INVE_ID_REG] = curr;
@@ -181,13 +189,15 @@ export class MapService {
     }, {}));
   }
 
-  public async getEventsPlates(): Promise<EventPlate[]> {
+  public async getEventsPlates(): Promise<EventPlate[]> 
+  {
     let data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
 
     return data;
   }
 
-  public async getItinerary(ITNE_ID: string){
+  public async getItinerary(ITNE_ID: string)
+  {
     const itineraryPointExecuted = await this.repositoryItineraryPointExecuted.createQueryBuilder('itineraryPointExecuted')
       .leftJoinAndSelect('itineraryPointExecuted.point', 'point')
       .leftJoinAndSelect('itineraryPointExecuted.state', 'state')
@@ -198,13 +208,15 @@ export class MapService {
     return itineraryPointExecuted;
   }
 
-  public async getEventsMotorcycle() {
+  public async getEventsMotorcycle() 
+  {
     let data = await this.repositoryOpeGps.query('EXEC SP015_SEL_CO118_ULTIMO_GPS_V2');
 
     return data;
   }
 
-  public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>{
+  public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>
+  {
     const driver = await this.repositoryDriver.findOneBy({CONDUCTOR_ID});
 
     if (!driver) throw new HttpException('No existe el conductor solicitado', 404);
@@ -212,7 +224,8 @@ export class MapService {
     return driver;
   }
 
-  public async reportsIndicators(): Promise<any> {
+  public async reportsIndicators(): Promise<any> 
+  {
     try {
       let vehiclesData = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
   
@@ -293,23 +306,5 @@ export class MapService {
       console.error(error);
       throw error;
     }
-  }
-
-  private async paginateDate(pageOptionsDto: PageOptionsDto, data: any[]){
-    const startIndex = pageOptionsDto.skip;
-    const endIndex = pageOptionsDto.skip + pageOptionsDto.take;
-    
-    const subset = data.slice(startIndex, endIndex);
-
-    const totalItems = data.length;
-
-    const pageMetaDto = new PageMetaDto({
-        itemCount: totalItems,
-        pageOptionsDto,
-    });
-
-    const pageDto = new PageDto(subset, pageMetaDto);
-
-    return pageDto;
   }
 }
