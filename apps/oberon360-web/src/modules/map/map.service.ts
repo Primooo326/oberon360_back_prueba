@@ -208,6 +208,15 @@ export class MapService {
   
     return vehiclesWithStatus;
   }
+
+  public async getEventsPlatesDispon(): Promise<any>
+  {
+    const data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
+    
+    const dataWithoutItinerary = data.filter(item => item.ITINE_ID === null);
+  
+    return dataWithoutItinerary;
+  }
   
   private getVehicleStatus(vehicle, itineraryPointsExecuted): string
   {
