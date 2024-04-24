@@ -11,7 +11,7 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 @ApiTags('attendance')
 @UseGuards(JwtAuthGuard)
 @ApiPaginatedResponse(CreateAttendanceDto)
-@Controller('oberon360web/api/attendance')
+@Controller('attendance')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 

@@ -14,7 +14,7 @@ import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
 @UseGuards(JwtAuthGuard)
-@Controller('oberon360web/api/map')
+@Controller('map')
 export class MapController {
   constructor(private readonly mapService: MapService) {}
 
