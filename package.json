@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./apps/oberon360-api/test/jest-e2e.json"
   },
   "prisma": {
-    "schema": "prisma/schema.prisma"
+    "schema": "apps/oberon360-ic/prisma/schema.prisma"
   },
   "dependencies": {
     "@aws-sdk/client-rekognition": "^3.540.0",
@@ -30,6 +30,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/microservices": "^10.3.8",
+    "@nestjs/mongoose": "^9.2.2",
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/serve-static": "^4.0.2",

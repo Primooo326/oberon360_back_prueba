@@ -20,6 +20,8 @@ async function bootstrap() {
 
   setupSwagger(app);
 
+  app.setGlobalPrefix('oberon360api/api');
+
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const port = configService.get<number>(SP_OBERON360DEFAULT);
