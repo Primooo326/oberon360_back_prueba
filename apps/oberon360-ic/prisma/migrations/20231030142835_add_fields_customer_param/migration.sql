@@ -1,0 +1,19 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[CustomerParameters] ADD [isDefault] BIT NOT NULL CONSTRAINT [CustomerParameters_isDefault_df] DEFAULT 0;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

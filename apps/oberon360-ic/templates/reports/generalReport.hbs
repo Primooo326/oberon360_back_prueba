@@ -1,0 +1,1534 @@
+<html
+  xmlns:v='urn:schemas-microsoft-com:vml'
+  xmlns:o='urn:schemas-microsoft-com:office:office'
+  lang='en'
+>
+
+  <head>
+    <title></title>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,700&display=swap'
+      rel='stylesheet'
+    />
+
+    <style>
+      @page { size: A4 portrait; } body { width: 100%; margin: 0; font-family:
+      'Open Sans', sans-serif; } h1, h2, h3 { font-weight: bold; } p {
+      line-height: 1.4; } table { border-collapse: collapse; width: 100%; } img
+      { max-width: 100%; height: auto; } table, td { border: 2px solid #25577f;
+      text-align: center; padding: 5px; color: #0c4550; } .title-section {
+      background-color: #004251; color: #fff } .page-container { border: 2px
+      solid #25577f; } .info-section tr td { border: 7px solid #fff }
+      .info-section td { font-family: 'Open Sans', sans-serif; font-weight: 900;
+      } .info-section .field { height: 35px; background-color: #e4ecee; color:
+      #000; font-weight: 400; } .field-header { background-color: #f7f7f7;
+      font-size: 14px; } .field-header span { font-size: 14px;} .align-left {
+      text-align: left; } .divider-dotted { width: 100%; height: 2px; /* Grosor
+      de la línea */ background-image: linear-gradient(to right, #61868d 50%,
+      transparent 50%); /* Patrón de línea punteada */ background-size: 26px
+      2px; } .image-evidences { display: flex; justify-content: center;
+      flex-wrap: wrap; } .photo-container { width: 45%; height: 230px;
+      background-color: #f7fbfc; } .border-b { border-bottom: 2px solid #004251;
+      } .border-r { border-right: 2px solid #004251; } .border-t { border-top:
+      2px solid #004251; ; } .border-l { border-left: 2px solid #004251; }
+      .footer-fields { background-color: #f7f7f7; padding: 8px; display: flex;
+      justify-content: center; align-items: center; height: 20px; }
+      .footer-field-bordered { border-bottom: 1px solid #004251; } .sign-field {
+      margin-bottom: 30px; height: 70px; } .footer-fields span { font-family:
+      'Open Sans', sans-serif; } @media print { table, ul, ol, img, div, span, p
+      { break-inside: avoid; } }
+    </style>
+  </head>
+
+  <body>
+    <div class='page-container'>
+      <table>
+        <tr>
+          <th class='title-section'>
+            <span>1. DATOS PERSONALES DEL EVALUADO(A)</span>
+          </th>
+
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>PRIMER APELLIDO</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>SEGUNDO APELLIDO</span>
+                </td>
+                <td colspan='3' class='field-header'>
+                  <span>NOMBRES</span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.firstLastName}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.middleLastName}}</td>
+                <td class='field' colspan='3'>{{personalData.names}}</td>
+              </tr>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>FECHA DE NACIMIENTO</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>DEPARTAMENTO</span>
+                </td>
+                <td colspan='1' class='field-header'>
+                  <span>MUNICIPIO</span>
+                </td>
+                <td colspan='1' class='field-header'>
+                  <span>FACTOR RH</span>
+                </td>
+                <td colspan='1' class='field-header'>
+                  <span>ESTATURA</span>
+                </td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'>{{personalData.birthDate}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.birthDepartment}}</td>
+                <td class='field' colspan='1'>{{personalData.birthTown}}</td>
+                <td class='field' colspan='1'>{{personalData.RH}}</td>
+                <td class='field' colspan='1'>{{personalData.height}} cm</td>
+              </tr>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>CÉDULA DE CIUDADANÍA</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>FECHA DE EXPEDICIÓN</span>
+                </td>
+                <td colspan='3' class='field-header'>
+                  <span>CIUDAD</span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.identificationNumber}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.documentIssueDate}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{personalData.documentIssuePlace}}</td>
+              </tr>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>LIBRETA MILITAR</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>CLASE</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>D.M.</span>
+                </td>
+                <td colspan='1' class='field-header'>
+                  <span>No.</span>
+                </td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.typeOfPassbook}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.militaryDistrict}}</td>
+                <td
+                  class='field'
+                  colspan='1'
+                >{{personalData.militaryPassbookNumber}}</td>
+              </tr>
+              <tr>
+                <td colspan='7' class='field-header'>
+                  <span>SEÑALES PARTICULARES</span>
+                </td>
+              </tr>
+              <tr>
+                <td class='field' colspan='7'></td>
+              </tr>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>DIRECCIÓN</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>CIUDAD</span>
+                </td>
+                <td colspan='3' class='field-header'>
+                  <span>BARRIO</span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.residenceAddress}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{personalData.cityResidence}}</td>
+                <td class='field' colspan='3'>{{personalData.district}}</td>
+              </tr>
+              <tr>
+                <td colspan='2' class='field-header'>
+                  <span>TELEFONO FIJO</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>CELULAR No.</span>
+                </td>
+                <td colspan='1' class='field-header'>
+                  <span>ESTADO CIVIL</span>
+                </td>
+                <td colspan='2' class='field-header'>
+                  <span>NIVEL EDUCATIVO</span>
+                </td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'>{{personalData.phone}}</td>
+                <td class='field' colspan='2'>{{personalData.cellPhone}}</td>
+                <td
+                  class='field'
+                  colspan='1'
+                >{{personalData.maritalStatus}}</td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td colspan='3' class='field-header'>
+                  <span>NUMERO DE HIJOS</span>
+                </td>
+                <td colspan='4' class='field-header'>
+                  <span>NUMERO DE PERSONALES PRESENTES EN LA VISITA</span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{personalData.childrenNumber}}</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>2. VERIFICACIÓN DE ANTECEDENTES DEL EVALUADO(A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='4'>ENTIDADES</td>
+                <td class='field-header' colspan='1'>SI</td>
+                <td class='field-header' colspan='1'>NO</td>
+                <td class='field-header' colspan='3'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Registraduria
+                  Nacional del Estado Civil</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalRegistryofCivilStatus
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalRegistryofCivilStatus
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.nationalRegistryofCivilStatusRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Procuraduría
+                  General de la Nación</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalAttorneyGeneralsOffice
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalAttorneyGeneralsOffice
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.nationalAttorneyGeneralsOfficeRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Contraloría
+                  General de la Nación</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.generalComptrolleroftheNation
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.generalComptrolleroftheNation
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.generalComptrolleroftheNationRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Policia Nacional
+                  - Consulta de inhabilidades
+                </td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalPolicerecordsDIJIN
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.nationalPolicerecordsDIJIN
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.nationalPolicerecordsDIJINRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Sistema Registro
+                  Nacional de Medidas Correctivas - RNMC</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.NationalRegistrySystemofCorrectiveMeasuresRNMC
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.NationalRegistrySystemofCorrectiveMeasuresRNMC
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.NationalRegistrySystemofCorrectiveMeasuresRNMCRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Rama Judicial</td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Listas
+                  Restrictivas</td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Listas LAFT</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.ConsultationOfLAFTLists
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.ConsultationOfLAFTLists
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.ConsultationOfLAFTListsRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>LISTAS PEPS</td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Información de
+                  Transito - SIMIT</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.SIMITTrafficInformation
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.SIMITTrafficInformation
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.SIMITTrafficInformationRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Información de
+                  Transito - RUNT</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.RUNTTrafficInformation
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.RUNTTrafficInformation
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.RUNTTrafficInformationRemarks}}</td>
+              </tr>
+              <tr>
+                <th class='title-section' colspan='9'>
+                  <span>Otras Bases de Datos:</span>
+                </th>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Información de
+                  Transito - SIMIT</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.SIMITTrafficInformation
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.SIMITTrafficInformation
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.SIMITTrafficInformationRemarks}}</td>
+              </tr>
+              <tr>
+                <td class='field-header align-left' colspan='4'>Información de
+                  Transito - RUNT</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.RUNTTrafficInformation
+                  }}X{{/if}}</td>
+                <td class='field' colspan='1'>{{#if
+                    backgroundCheck.RUNTTrafficInformation
+                  }}{{else}}X{{/if}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{backgroundCheck.RUNTTrafficInformationRemarks}}</td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>3. INFORMACIÓN FAMILIAR DEL EVALUADO(A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='3'>NOMBRE DE LA MADRE</td>
+                <td class='field-header' colspan='3'>EDAD</td>
+                <td class='field-header' colspan='3'>DIRECCIÓN Y/O BARRIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.mothersName}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.mothersAge}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.addressMother}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>VIVO / FALLECIDO</td>
+                <td class='field-header' colspan='2'>CONVIVE CON EL EVALUADO</td>
+                <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                <td class='field-header' colspan='3'>CELULAR</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.mothersLivingStatus}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.motherLivesWith}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.mothersLandline}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.mothersMobilePhone}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>PROFESIÓN U OFICIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='9'
+                >{{familyInformation.professionMother}}</td>
+              </tr>
+
+              <tr>
+                <td class='field-header' colspan='3'>NOMBRE DEL PADRE</td>
+                <td class='field-header' colspan='3'>EDAD</td>
+                <td class='field-header' colspan='3'>DIRECCIÓN Y/O BARRIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.fathersName}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.fathersAge}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.addressFather}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>VIVO / FALLECIDO</td>
+                <td class='field-header' colspan='2'>CONVIVE CON EL EVALUADO</td>
+                <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                <td class='field-header' colspan='3'>CELULAR</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.livingStatusFather}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.fatherLivesWith}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{familyInformation.fathersLandline}}</td>
+                <td
+                  class='field'
+                  colspan='3'
+                >{{familyInformation.fathersMobilePhone}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>PROFESIÓN U OFICIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='9'
+                >{{familyInformation.professionFather}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>HERMANOS DEL EVALUADO</td>
+              </tr>
+              {{#each familyInformation.familyInformationSiblings}}
+                <tr>
+                  <td class='field-header' colspan='3'>NOMBRES COMPLETOS</td>
+                  <td class='field-header' colspan='3'>EDAD</td>
+                  <td class='field-header' colspan='3'>DIRECCIÓN Y/O BARRIO</td>
+                </tr>
+                <tr>
+                  <td class='field' colspan='3'>{{this.fullNames}}</td>
+                  <td class='field' colspan='3'></td>
+                  <td class='field' colspan='3'>{{this.address}}</td>
+                </tr>
+                <tr>
+                  <td class='field-header' colspan='2'>VIVO / FALLECIDO</td>
+                  <td class='field-header' colspan='2'>CONVIVE CON EL EVALUADO</td>
+                  <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                  <td class='field-header' colspan='3'>CELULAR</td>
+                </tr>
+                <tr>
+                  <td class='field' colspan='2'></td>
+                  <td class='field' colspan='2'></td>
+                  <td class='field' colspan='2'></td>
+                  <td class='field' colspan='3'>{{this.mobile}}</td>
+                </tr>
+                <tr>
+                  <td class='field-header' colspan='9'>PROFESIÓN U OFICIO</td>
+                </tr>
+                <tr>
+                  <td class='field' colspan='9'>{{this.profession}}</td>
+                </tr>
+              {{/each}}
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>4. INFORMACIÓN FAMILIAR SECUNDARIA DEL EVALUADO(A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='8'>NOMBRE ESPOSO (A) -
+                  COMPAÑERO (A)</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='8'
+                >{{secondaryFamilyInformation.fullName}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>CÉDULA DE CIUDADANÍA</td>
+                <td class='field-header' colspan='2'>FECHA DE NACIMIENTO</td>
+                <td class='field-header' colspan='2'>DEPARTAMENTO</td>
+                <td class='field-header' colspan='2'>MUNICIPIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.identificationNumber}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.birthDate}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.birthDepartment}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.birthTown}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>TIEMPO CONOCIDOS</td>
+                <td class='field-header' colspan='2'>EDAD</td>
+                <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                <td class='field-header' colspan='2'>CELULAR</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.yearsOfAcquaintances}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.age}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.phoneNumber}}</td>
+                <td
+                  class='field'
+                  colspan='2'
+                >{{secondaryFamilyInformation.cellPhoneNumber}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>PROFESIÓN U OFICIO</td>
+              </tr>
+              <tr>
+                <td
+                  class='field'
+                  colspan='8'
+                >{{secondaryFamilyInformation.profession}}</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>NOMBRE HIJO (A)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>TARJETA DE IDENTIDAD</td>
+                <td class='field-header' colspan='2'>FECHA DE NACIMIENTO</td>
+                <td class='field-header' colspan='2'>DEPARTAMENTO</td>
+                <td class='field-header' colspan='2'>MUNICIPIO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>CONVIVE CON EL EVALUADO (A)</td>
+                <td class='field-header' colspan='2'>EDAD</td>
+                <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                <td class='field-header' colspan='2'>CELULAR</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>PROFESIÓN U OFICIO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>5. FAMILIARES O PERSONAS QUE CONVIVEN CON EL EVALUADO (A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='3'>NOMBRES Y APELLIDOS</td>
+                <td class='field-header' colspan='1'>EDAD</td>
+                <td class='field-header' colspan='2'>TELEFONO FIJO</td>
+                <td class='field-header' colspan='2'>OCUPACIÓN</td>
+                <td class='field-header' colspan='2'>PARENTESCO</td>
+              </tr>
+              {{#each secondaryFamilyInformation.cohabitantsInformation}}
+                <tr>
+                  <td class='field' colspan='3'>{{this.fullName}}</td>
+                  <td class='field' colspan='1'>{{this.age}}</td>
+                  <td class='field' colspan='2'>{{this.phone}}</td>
+                  <td class='field' colspan='2'>{{this.profession}}</td>
+                  <td class='field' colspan='2'>{{this.relationship}}</td>
+                </tr>
+              {{/each}}
+              <tr>
+                <td class='field-header' colspan='10'>OBSERVACIONES DEL GRUPO
+                  FAMILIAR</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='10'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>6. TIPO DE VIVIENDA Y CLASIFICACIÓN DEL EVALUADO (A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='4'>TIPO DE VIVIENDA DONDE
+                  HABITA EL EVALUADO (A)</td>
+                <td class='field-header' colspan='2'>ZONA DE UBICACIÓN</td>
+                <td class='field-header' colspan='2'>EL LUGAR DONDE VIVE ES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='1'>DESDE</td>
+                <td class='field-header' colspan='5'>NOMBRE DEL PROPIETARIO</td>
+                <td class='field-header' colspan='2'>TELEFONO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='5'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>TIPO DE VIVIENDA DONDE
+                  HABITA EL EVALUADO (A)</td>
+                <td class='field-header' colspan='2'>EL LUGAR DONDE VIVÍA ERA</td>
+                <td class='field-header' colspan='2'>DESDE</td>
+                <td class='field-header' colspan='2'>HASTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DEL PROPIETARIO</td>
+                <td class='field-header' colspan='4'>TELEFONO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>TIPO DE VIVIENDA DONDE
+                  HABITA EL EVALUADO (A)</td>
+                <td class='field-header' colspan='2'>EL LUGAR DONDE VIVÍA ERA</td>
+                <td class='field-header' colspan='2'>DESDE</td>
+                <td class='field-header' colspan='2'>HASTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DEL PROPIETARIO</td>
+                <td class='field-header' colspan='4'>TELEFONO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>ESTADO DE LA VIVIENDA</td>
+                <td class='field-header' colspan='2'>OCUPACIÓN</td>
+                <td class='field-header' colspan='2'>PRESENTACIÓN INTERNA</td>
+                <td class='field-header' colspan='2'>PRESENTACIÓN EXTERNA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NUMERO DE FAMLIAS QUE
+                  HABITAN EN LA VIVIENDA</td>
+                <td class='field-header' colspan='4'>NUMERO TOTAL DE PERSONAS
+                  QUE HABITAN EN LA VIVIENDA
+                </td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>DESCRIPCIÓN DE LA VIVIENDA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>ESTRATO</td>
+                <td class='field-header' colspan='2'>ENTORNO DEL SECTOR</td>
+                <td class='field-header' colspan='4'>VÍAS DE ACCESO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>VULNERABILIDAD DEL SECTOR</td>
+                <td class='field-header' colspan='4'>¿POR QUÉ?</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>SERVICIOS PÚBLICOS Y
+                  DOMICILIARIOS</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>DESCRIPCIÓN</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>INFORMACIÓN Y/0 REFERENCIA
+                  DE VECINOS DEL EVALUADO (A)
+                </td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>NOMBRES Y APELLIDOS</td>
+                <td class='field-header' colspan='2'>DIRECCIÓN Y/O BARRIO</td>
+                <td class='field-header' colspan='2'>TELEFONO</td>
+                <td class='field-header' colspan='2'>RELACIÓN</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>7. EXPERIENCIA LABORAL DEL EVALUADO (A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='8'>7.1 VERIFICACIÓN
+                  REFERENCIAS LABORALES</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DE LA EMPRESA</td>
+                <td class='field-header' colspan='4'>TELÉFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>INFORMACIÓN SUMINISTRADA
+                  POR</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>FUENTE DE CONSULTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>FECHA DE INGRESO</td>
+                <td class='field-header' colspan='2'>FECHA DE RETIRO</td>
+                <td class='field-header' colspan='2'>MOTIVO DE RETIRO</td>
+                <td class='field-header' colspan='2'>CARGO DEL EVALUADO (A)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>7.2 INFORMACIÓN JEFE
+                  INMEDIATO</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE JEFE INMEDIATO</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>TELÉFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>EVALUACIÓN DE DESEMPEÑO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>7.1 VERIFICACIÓN
+                  REFERENCIAS LABORALES</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DE LA EMPRESA</td>
+                <td class='field-header' colspan='4'>TELÉFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>INFORMACIÓN SUMINISTRADA
+                  POR</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>FUENTE DE CONSULTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>FECHA DE INGRESO</td>
+                <td class='field-header' colspan='2'>FECHA DE RETIRO</td>
+                <td class='field-header' colspan='2'>MOTIVO DE RETIRO</td>
+                <td class='field-header' colspan='2'>CARGO DEL EVALUADO (A)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>7.2 INFORMACIÓN JEFE
+                  INMEDIATO</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE JEFE INMEDIATO</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>TELÉFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>EVALUACIÓN DE DESEMPEÑO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>7.3 PERIODO DE INACTIVIDAD
+                  LABORAL</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>DESDE</td>
+                <td class='field-header' colspan='2'>HASTA</td>
+                <td class='field-header' colspan='4'>OCUPACIÓN</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>8. VERIFICACIÓN DE INFORMACIÓN ACADÉMICA</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DEL ESTABLECIMIENTO
+                  EDUCATIVO</td>
+                <td class='field-header' colspan='2'>TELEFONO (S)</td>
+                <td class='field-header' colspan='2'>CIUDAD</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>NIVEL DE ESCOLARIDAD</td>
+                <td class='field-header' colspan='2'>TÍTULO OBTENIDO</td>
+                <td class='field-header' colspan='2'>FOLIO Y/O REGISTRO</td>
+                <td class='field-header' colspan='2'>AÑO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>INFORMACIÓN SUMINISTRADA
+                  POR</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>FUENTE DE CONSULTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+              <tr>
+                <td colspan='8'>
+                  <div class='divider-dotted'></div>
+                </td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRE DEL ESTABLECIMIENTO
+                  EDUCATIVO</td>
+                <td class='field-header' colspan='2'>TELEFONO (S)</td>
+                <td class='field-header' colspan='2'>CIUDAD</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>NIVEL DE ESCOLARIDAD</td>
+                <td class='field-header' colspan='2'>TÍTULO OBTENIDO</td>
+                <td class='field-header' colspan='2'>FOLIO Y/O REGISTRO</td>
+                <td class='field-header' colspan='2'>AÑO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>INFORMACIÓN SUMINISTRADA
+                  POR</td>
+                <td class='field-header' colspan='2'>CARGO</td>
+                <td class='field-header' colspan='2'>FUENTE DE CONSULTA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>9. INFORMACIÓN ÁNALISIS FINANCIERO Y ECONÓMICO DEL EVALUADO
+              (A)</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='12'>9.1 INGRESOS Y GASTOS
+                  INCLUIDOS LOS DEL CONJUNTO FAMILIAR</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>INGRESOS MENSUALES</td>
+                <td class='field-header' colspan='10'>CONCEPTO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='10'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>GASTOS MENSUALES</td>
+                <td class='field-header' colspan='10'>CONCEPTO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='10'></td>
+              </tr>
+            </table>
+
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='8'>9.2 PORTAFOLIO FINANCIERO</td>
+              </tr>
+              <tr>
+                <td colspan='1'>CUENTA CORRIENTE</td>
+                <td class='field' colspan='3' style='width: 100px;'></td>
+                <td colspan='1'>ENTIDADES</td>
+                <td class='field' colspan='3' style='width: 300px;'></td>
+              </tr>
+              <tr>
+                <td colspan='1'>CUENTA DE AHORRO</td>
+                <td class='field' colspan='3' style='width: 100px;'></td>
+                <td colspan='1'>ENTIDADES</td>
+                <td class='field' colspan='3' style='width: 300px;'></td>
+              </tr>
+              <tr>
+                <td colspan='1'>TARJETA DE CRÉDITO</td>
+                <td class='field' colspan='3' style='width: 100px;'></td>
+                <td colspan='1'>ENTIDADES</td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+              </tr>
+              <tr>
+                <td colspan='5' style='text-align: end;'>CUPO</td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+              </tr>
+              <tr>
+                <td colspan='1'>ACCIONES</td>
+                <td class='field' colspan='3' style='width: 100px;'></td>
+                <td colspan='1'>ENTIDADES</td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+              </tr>
+              <tr>
+                <td colspan='5' style='text-align: end;'>CUPO</td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+                <td class='field' colspan='1' style='width: 100px;'></td>
+              </tr>
+            </table>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='12'>9.3 OBLIGACIONES
+                  FINANCIERAS</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>¿POSEE USTED DEUDAS O
+                  CRÉDITOS VIGENTES?</td>
+                <td class='field' colspan='4' style='width: 100px;'></td>
+                <td class='field-header' colspan='2'>CUANTO SUMAN SUS
+                  OBLIGACIONES FINANCIERAS</td>
+                <td class='field' colspan='4' style='width: 100px;'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='6'>ENTIDADES FINANCIERAS</td>
+                <td class='field' colspan='6'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='2'>¿POSEE EMBARGOS O DEMANDAS
+                  FINANCIERAS?</td>
+                <td class='field' colspan='4' style='width: 100px;'></td>
+                <td class='field-header' colspan='2'>CRÉDITO HIPOTECARIO</td>
+                <td class='field' colspan='4' style='width: 100px;'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='6'>ENTIDAD FINANCIERA</td>
+                <td class='field' colspan='6'></td>
+              </tr>
+            </table>
+
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='9'>
+                  9.4 BIENES E INMUEBLES CON LOS QUE CUENTA
+                </td>
+              </tr>
+              <tr>
+                <td colspan='3'>POSEE USTED BIENES O INMUEBLES</td>
+                <td class='field' colspan='1'></td>
+                <td colspan='3'>TIENE USTED PARTICIPACIÓN EN ALGUNA EMPRESA O
+                  NEGOCIO</td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='3'>BIEN O INMUEBLE</td>
+                <td class='field-header' colspan='3'>CANTIDAD</td>
+                <td class='field-header' colspan='3'>DESCRIPCIÓN</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='3'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>9.5 INFORMACIÓN EN
+                  CENTRALES DE RIESGO</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>ANÁLISIS SOCIOECONÓMICO</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='3'>ENTIDAD / PRODUCTO</td>
+                <td class='field-header' colspan='1'>ESTADO</td>
+                <td class='field-header' colspan='1'>SECTOR</td>
+                <td class='field-header' colspan='1'>SALDO TOTAL</td>
+                <td class='field-header' colspan='1'>SALDO ACTUAL</td>
+                <td class='field-header' colspan='1'>VALOR CUOTA</td>
+                <td class='field-header' colspan='1'>SALDO EN MORA</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='3'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='5'>TOTAL</td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+                <td class='field' colspan='1'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='9'>OBSERVACIONES</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='9'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>10. VERIFICACIÓN DE REFERENCIAS PERSONALES</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRES Y APELLIDOS</td>
+                <td class='field-header' colspan='4'>TELEFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>PREGUNTAS</td>
+                <td class='field-header' colspan='4'>RESPUESTA</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿HACE CUÁNTO TIEMPO SE
+                  CONOCEN?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿EN QUE ÁMBITO SE
+                  CONOCIERON?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿A QUE SE DEDICA EL
+                  EVALUADO?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>CONCEPTO DEL EVALUADO?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>NOMBRES Y APELLIDOS</td>
+                <td class='field-header' colspan='4'>TELEFONO (S)</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='4'></td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>PREGUNTAS</td>
+                <td class='field-header' colspan='4'>RESPUESTA</td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿HACE CUÁNTO TIEMPO SE
+                  CONOCEN?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿EN QUE ÁMBITO SE
+                  CONOCIERON?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>¿A QUE SE DEDICA EL
+                  EVALUADO?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='4'>CONCEPTO DEL EVALUADO?</td>
+                <td class='field' colspan='4'></td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='1' style='width: 40%;'>¿TIENE
+                  FAMILIARES QUE TRABAJEN EN LA EMPRESA?</td>
+                <td class='field' colspan='3'></td>
+                <td colspan='4'></td>
+              </tr>
+              <tr>
+                <td colspan='2'></td>
+                <td class='field-header' colspan='2'>PARENTESCO</td>
+                <td class='field-header' colspan='2'>CAGO</td>
+                <td class='field-header' colspan='2'>TELEFONO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+                <td class='field' colspan='2'></td>
+              </tr>
+              <tr>
+                <td colspan='7'>EL EVALUADO SUMINISTRÓ LA INFORMACIÓN SOLICITADA
+                  EN EL PRESENTE ESTUDIO DE SEGURIDAD</td>
+                <td class='field' colspan='1'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>11. REGISTRO FOTOGRÁFICO</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td colspan='2' style='text-align: start;'>LA PERSONA QUE
+                  ATENDIO LA VISITA FUE:</td>
+                <td colspan='6' style='width: 350px;'>
+                  <div style='border-bottom: 2px solid #004251;'></div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan='6' style='text-align: start;'>IDENTIFICADO CON
+                  CÉDULA DE CIUDADANÍA No.</td>
+                <td colspan='2'>
+                </td>
+              </tr>
+              <tr>
+                <td colspan='8'>
+                  <div class='image-evidences'>
+                    <div class='photo-container border-b border-r'></div>
+                    <div class='photo-container'></div>
+                    <div class='photo-container'></div>
+                    <div class='photo-container border-t border-l'></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class='field-header' colspan='8'>DESCRIPCIÓN REGISTRO
+                  FOTOGRÁFICO</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th class='title-section'>
+            <span>12. CONCEPTO FINAL</span>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <table class='info-section'>
+              <tr>
+                <td class='field-header' colspan='8'>CONCEPTO GENERAL DE LA
+                  EVALUACIÓN</td>
+              </tr>
+              <tr>
+                <td class='field' colspan='8'></td>
+              </tr>
+            </table>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <div>
+              <span>DE ACUERDO A LA ANTERIOR INFORMACIÓN SE PUEDE ESTABLECER QUE
+                EL CONCEPTO DEL ESTUDIO DE SEGURIDAD ES:</span>
+
+              <div></div>
+
+              <div
+                style='display: flex; justify-content: flex-start; text-align: start; margin-top: 30px;'
+              >
+                <span>NOTA:
+                  <span>Este documento es propiedad intelectual de Thomas
+                    Seguridad Integral Ltda, se prohibe su producción y/o
+                    reproducción total o parcial sin previa autorización escrita</span></span>
+              </div>
+
+              <div
+                style='display: flex; justify-content: flex-start; text-align: start; margin-top: 30px;'
+              >
+                <span>El presente estudio de seguridad fue realizado y
+                  autorizado por:</span>
+              </div>
+
+              <div
+                style='display: flex; justify-content: space-between; margin-top: 40px; margin-bottom: 70px;'
+              >
+                <div>
+                  <div class='footer-fields sign-field'></div>
+                  <div class='footer-fields footer-field-bordered'></div>
+                  <div class='footer-fields'><span>Analista de información</span></div>
+                </div>
+                <div>
+                  <div class='footer-fields sign-field'></div>
+                  <div class='footer-fields footer-field-bordered'></div>
+                  <div class='footer-fields'><span>Visitador Domiciliario</span></div>
+                </div>
+                <div>
+                  <div class='footer-fields sign-field'></div>
+                  <div class='footer-fields footer-field-bordered'></div>
+                  <div class='footer-fields'><span>Analista de calidad</span></div>
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </table>
+    </div>
+  </body>
+
+</html>

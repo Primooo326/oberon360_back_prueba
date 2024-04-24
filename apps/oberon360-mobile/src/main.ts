@@ -24,5 +24,6 @@ async function bootstrap() {
 
   const port = configService.get<number>(SP_OBERON360MOBILE);
   await app.listen(port);
+  console.log(`Application is running on: ${await app.getUrl()}/api`);
 }
 bootstrap();

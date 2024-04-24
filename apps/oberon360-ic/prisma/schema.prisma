@@ -1,0 +1,866 @@
+generator client {
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+    provider          = "sqlserver"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model ParameterValueType {
+    id         Int          @id @default(autoincrement())
+    type       String
+    Parameters Parameters[]
+}
+
+model ParametersGroups {
+    id              Int          @id @default(autoincrement())
+    groupName       String
+    description     String
+    isCustomerGroup Boolean      @default(false)
+    order           Int          @default(0)
+    status          Boolean      @default(true)
+    Parameters      Parameters[]
+}
+
+model Parameters {
+    id                 Int                @id @default(autoincrement())
+    groupId            Int
+    parameterGroupId   ParametersGroups   @relation(fields: [groupId], references: [id])
+    value              String
+    valueType          Int
+    parameterValueType ParameterValueType @relation(fields: [valueType], references: [id])
+    fatherParameter    Int?
+    metaCode           String?
+    isParametric       Boolean            @default(false)
+    customerId         Int?
+    createdAt          DateTime           @default(now())
+    updatedAt          DateTime           @default(now())
+    status             Boolean            @default(true)
+    User               User[]
+}
+
+model OperationalLists {
+    id                    Int                     @id @default(autoincrement())
+    listName              String
+    description           String
+    order                 Int                     @default(0)
+    status                Boolean                 @default(true)
+    OperationalParameters OperationalParameters[]
+}
+
+model OperationalParameters {
+    id              Int              @id @default(autoincrement())
+    listId          Int
+    parameterListId OperationalLists @relation(fields: [listId], references: [id])
+    value           String
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @default(now())
+    status          Boolean          @default(true)
+}
+
+model OperationalGroups {
+    id                         Int                          @id @default(autoincrement())
+    name                       String
+    leader                     Int
+    user                       User                         @relation(fields: [leader], references: [id])
+    active                     Boolean
+    OperationalGroupsTeams     OperationalGroupsTeams[]
+    OperationalGroupsCustomers OperationalGroupsCustomers[]
+
+    @@unique([name])
+}
+
+model OperationalGroupsTeams {
+    id      Int               @id @default(autoincrement())
+    groupId Int
+    group   OperationalGroups @relation(fields: [groupId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+    userId  Int
+    user    User              @relation(fields: [userId], references: [id])
+
+    @@unique([groupId, userId])
+}
+
+model OperationalGroupsCustomers {
+    id         Int               @id @default(autoincrement())
+    groupId    Int
+    group      OperationalGroups @relation(fields: [groupId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+    customerId Int
+
+    @@unique([groupId, customerId])
+}
+
+model Modules {
+    id          Int           @id @default(autoincrement())
+    name        String        @unique()
+    description String
+    status      Boolean       @default(true)
+    Permissions Permissions[]
+}
+
+model Roles {
+    id          Int           @id @default(autoincrement())
+    name        String        @unique()
+    description String
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @default(now())
+    status      Boolean       @default(true)
+    Permissions Permissions[]
+    User        User[]
+}
+
+model Permissions {
+    id       Int     @id @default(autoincrement())
+    module   Modules @relation(fields: [moduleId], references: [id])
+    moduleId Int
+    role     Roles   @relation(fields: [roleId], references: [id])
+    roleId   Int
+    status   Boolean @default(true)
+
+    @@unique([moduleId, roleId])
+}
+
+model CustomerParameterType {
+    id                 Int                  @id @default(autoincrement())
+    name               String
+    loadDate           DateTime             @default(now())
+    status             Boolean              @default(true)
+    CustomerParameters CustomerParameters[]
+
+    @@unique([name])
+}
+
+model CustomerParameters {
+    id                      Int                   @id @default(autoincrement())
+    customerId              Int
+    customerParameterTypeId Int
+    customerParameterType   CustomerParameterType @relation(fields: [customerParameterTypeId], references: [id])
+    internalCode            String?
+    name                    String
+    isDefault               Boolean               @default(false)
+    loadDate                DateTime              @default(now())
+    status                  Boolean               @default(true)
+    RequestRegional         Request[]             @relation("RequestRegional")
+    RequestCostCenter       Request[]             @relation("RequestCostCenter")
+    RequestCustomerInternal Request[]             @relation("RequestCustomerInternal")
+
+    @@unique([customerId, customerParameterTypeId, internalCode])
+}
+
+model CustomerLogos {
+    id            Int    @id @default(autoincrement())
+    customerId    Int
+    imagePathName String
+
+    @@unique([customerId])
+}
+
+model User {
+    id                     Int                      @id @default(autoincrement())
+    name                   String
+    email                  String                   @unique
+    username               String                   @unique
+    password               String
+    signFilePath           String                   @default("")
+    news                   String?
+    lastLogin              DateTime                 @default(now())
+    roleId                 Int
+    role                   Roles                    @relation(fields: [roleId], references: [id])
+    chargeId               Int
+    charge                 Parameters               @relation(fields: [chargeId], references: [id])
+    customerId             Int?                     @default(0)
+    isSystemUser           Boolean                  @default(false)
+    createdAt              DateTime                 @default(now())
+    updatedAt              DateTime                 @default(now())
+    status                 Boolean                  @default(true)
+    OperationalGroupsTeams OperationalGroupsTeams[]
+    OperationalGroups      OperationalGroups[]
+    Studies                Studies[]
+}
+
+model Candidate {
+    id                          Int                           @id @default(autoincrement())
+    name                        String
+    email                       String
+    username                    String
+    password                    String
+    charge                      String?
+    signedDocument              Boolean                       @default(false)
+    lastLogin                   DateTime                      @default(now())
+    customerId                  Int
+    status                      Boolean                       @default(true)
+    CandidateBasicData          CandidateBasicData?
+    CandidateAcademicData       CandidateAcademicData[]
+    CandidateEmploymentData     CandidateEmploymentData[]
+    CandidateParentsData        CandidateParentsData?
+    CandidateSiblingsData       CandidateSiblingsData[]
+    CandidateSpouseAndInlawData CandidateSpouseAndInlawData?
+    CandidatePeopleWithLiveData CandidatePeopleWithLiveData[]
+    CandidateHousingData        CandidateHousingData?
+    CandidateReferencesData     CandidateReferencesData[]
+    RequestCandidates           RequestCandidates[]
+    CandidateFiles              CandidateFiles[]
+    Programmes                  Programmes[]
+    CandidateProcessStatus      CandidateProcessStatus?
+    Studies                     Studies[]
+
+    @@unique([username, email])
+}
+
+model CandidateBasicData {
+    id                          Int       @id @default(autoincrement())
+    candidateId                 Int       @unique
+    candidate                   Candidate @relation(fields: [candidateId], references: [id])
+    firstLastName               String
+    middleLastName              String?
+    firstName                   String
+    middleName                  String?
+    documentType                Int
+    identificationNumber        String
+    documentIssueDate           DateTime
+    documentIssuePlace          Int
+    birthDate                   DateTime
+    age                         Int
+    birthCountry                Int
+    birthDepartment             Int
+    birthTown                   Int
+    residenceAddress            String
+    cityResidence               Int
+    district                    Int
+    hasMilitaryPassbook         Boolean   @default(false)
+    militaryPassbookNumber      String?
+    typeOfPassbook              String?
+    militaryDistrict            String?
+    phone                       String?
+    cellPhone                   String
+    maritalStatus               Int
+    childrenNumber              Int
+    bodyMarkings                Int
+    otherBodyMarkings           String?
+    locationBodyMarkings        String?
+    RH                          Int
+    height                      String
+    financiallyDependentPersons Int
+    loadDate                    DateTime  @default(now())
+    updatedDate                 DateTime?
+}
+
+model CandidateAcademicData {
+    id                           Int                           @id @default(autoincrement())
+    candidateId                  Int
+    candidate                    Candidate                     @relation(fields: [candidateId], references: [id])
+    indexItem                    Int
+    academycDegree               String
+    academyName                  Int
+    dateOfGrade                  DateTime
+    studyType                    Int
+    loadDate                     DateTime                      @default(now())
+    updatedDate                  DateTime?
+    StudyReferencingAcademicData StudyReferencingAcademicData?
+
+    @@unique([candidateId, indexItem])
+}
+
+model CandidateEmploymentData {
+    id                             Int                             @id @default(autoincrement())
+    candidateId                    Int
+    candidate                      Candidate                       @relation(fields: [candidateId], references: [id])
+    indexItem                      Int
+    charge                         String
+    companyName                    String
+    dateEntry                      DateTime
+    dateLeaving                    DateTime
+    bossName                       String?
+    bossPhone                      String?
+    bossCharge                     String?
+    loadDate                       DateTime                        @default(now())
+    updatedDate                    DateTime?
+    StudyReferencingEmploymentData StudyReferencingEmploymentData?
+
+    @@unique([candidateId, indexItem])
+}
+
+model CandidateParentsData {
+    id               Int       @id @default(autoincrement())
+    candidateId      Int       @unique
+    candidate        Candidate @relation(fields: [candidateId], references: [id])
+    motherName       String
+    motherAdrress    String?
+    motherAge        Int?
+    motherPhone      String?
+    motherLives      Boolean
+    motherLivesWith  Boolean?
+    motherProfession Int?
+    motherCellPhone  String?
+    fatherName       String
+    fatherAdrress    String?
+    fatherAge        Int?
+    fatherPhone      String?
+    fatherLives      Boolean
+    fatherLivesWith  Boolean?
+    fatherProfession Int?
+    fatherCellPhone  String?
+    loadDate         DateTime  @default(now())
+    updatedDate      DateTime?
+}
+
+model CandidateSiblingsData {
+    id          Int       @id @default(autoincrement())
+    candidateId Int
+    candidate   Candidate @relation(fields: [candidateId], references: [id])
+    indexItem   Int
+    fullName    String
+    profession  Int?
+    address     String?
+    phone       String?
+    loadDate    DateTime  @default(now())
+    updatedDate DateTime?
+
+    @@unique([candidateId, indexItem])
+}
+
+model CandidateSpouseAndInlawData {
+    id                              Int       @id @default(autoincrement())
+    candidateId                     Int       @unique
+    candidate                       Candidate @relation(fields: [candidateId], references: [id])
+    fullName                        String
+    identificationNumber            String
+    birthDate                       DateTime
+    birthCountry                    Int
+    birthDepartment                 Int
+    birthTown                       Int
+    profession                      Int
+    yearsOfAcquaintances            Int
+    age                             Int
+    phoneNumber                     String?
+    cellPhoneNumber                 String
+    motherInLawFullName             String
+    motherInLawAge                  Int?
+    motherInLawLives                Boolean
+    motherInLawAddress              String?
+    motherInLawYearsOfAcquaintances Int?
+    motherInLawProfession           Int?
+    fatherInLawFullName             String
+    fatherInLawAge                  Int?
+    fatherInLawLives                Boolean
+    fatherInLawAddress              String?
+    fatherInLawYearsOfAcquaintances Int?
+    fatherInLawProfession           Int?
+    loadDate                        DateTime  @default(now())
+    updatedDate                     DateTime?
+}
+
+model CandidatePeopleWithLiveData {
+    id            Int       @id @default(autoincrement())
+    candidateId   Int
+    candidate     Candidate @relation(fields: [candidateId], references: [id])
+    indexItem     Int
+    fullName      String
+    age           Int
+    phone         String?
+    relationship  Int
+    maritalStatus Int
+    profession    Int?
+    loadDate      DateTime  @default(now())
+    updatedDate   DateTime?
+
+    @@unique([candidateId, indexItem])
+}
+
+model CandidateHousingData {
+    id          Int       @id @default(autoincrement())
+    candidateId Int       @unique
+    candidate   Candidate @relation(fields: [candidateId], references: [id])
+    houseType   Int
+    dateFrom    DateTime
+    district    Int
+    ownerName   String
+    stratum     String
+    address     String
+    loadDate    DateTime  @default(now())
+    updatedDate DateTime?
+}
+
+model CandidateReferencesData {
+    id                             Int                             @id @default(autoincrement())
+    candidateId                    Int
+    candidate                      Candidate                       @relation(fields: [candidateId], references: [id])
+    indexItem                      Int
+    fullName                       String
+    relationship                   Int
+    phoneNumber                    String?
+    yearsOfAcquaintances           BigInt
+    whereKnowFrom                  String
+    profession                     Int
+    loadDate                       DateTime                        @default(now())
+    updatedDate                    DateTime?
+    StudyReferencingReferencesData StudyReferencingReferencesData?
+
+    @@unique([candidateId, indexItem])
+}
+
+model CandidateFiles {
+    id            Int       @id @default(autoincrement())
+    candidateId   Int
+    candidate     Candidate @relation(fields: [candidateId], references: [id])
+    fileIndex     Int?
+    fileType      String
+    fileMongoPath String
+    loadDate      DateTime  @default(now())
+}
+
+model CandidateProcessStatus {
+    id                        Int       @id @default(autoincrement())
+    candidateId               Int
+    candidate                 Candidate @relation(fields: [candidateId], references: [id])
+    basicData                 String?
+    academicAndEmploymentData String?
+    parentsAndSiblingsData    String?
+    spouseAndInLawsData       String?
+    peopleWithLivesData       String?
+    personalReferencesData    String?
+    RICDate                   DateTime?
+
+    @@unique([candidateId])
+}
+
+model Programmes {
+    id                    Int       @id @default(autoincrement())
+    candidateId           Int
+    candidate             Candidate @relation(fields: [candidateId], references: [id])
+    serviceId             Int
+    studyId               Int
+    dateTimeEvent         DateTime
+    status                String
+    additionalInformation String?
+    createdAt             DateTime  @default(now())
+    programmedBy          Int
+
+    @@unique([candidateId, studyId])
+}
+
+model Request {
+    id                                 Int                 @id @default(autoincrement())
+    creationDate                       DateTime            @default(now())
+    submitDate                         DateTime?
+    cancellationDate                   DateTime?
+    customerId                         Int
+    costCenterId                       Int
+    regional                           Int
+    customerInternal                   Int
+    customerParametersRegional         CustomerParameters? @relation("RequestRegional", fields: [regional], references: [id], onUpdate: NoAction, onDelete: NoAction)
+    customerParametersCostCenter       CustomerParameters? @relation("RequestCostCenter", fields: [costCenterId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+    customerParametersCustomerInternal CustomerParameters? @relation("RequestCustomerInternal", fields: [customerInternal], references: [id], onUpdate: NoAction, onDelete: NoAction)
+    billable                           Boolean             @default(false)
+    remarks                            String
+    loadDate                           DateTime            @default(now())
+    status                             String
+    isActive                           Boolean             @default(true)
+    createdBy                          Int
+    updatedBy                          Int
+    cancelledBy                        Int?
+    submitBy                           Int?
+    RequestCandidates                  RequestCandidates[]
+    RequestServices                    RequestServices[]
+    Studies                            Studies[]
+}
+
+model RequestCandidates {
+    id          Int       @id @default(autoincrement())
+    requestId   Int
+    request     Request   @relation(fields: [requestId], references: [id])
+    candidateId Int
+    candidate   Candidate @relation(fields: [candidateId], references: [id])
+}
+
+model RequestServices {
+    id             Int     @id @default(autoincrement())
+    requestId      Int
+    request        Request @relation(fields: [requestId], references: [id])
+    serviceId      String?
+    servicePackage String?
+}
+
+model StudyTypes {
+    id                     Int                      @id @default(autoincrement())
+    name                   String
+    description            String
+    needsProgramming       Boolean                  @default(false)
+    itsAVisit              Boolean                  @default(false)
+    itsAPolygraph          Boolean                  @default(false)
+    createdAt              DateTime                 @default(now())
+    updatedAt              DateTime                 @default(now())
+    StudyTypesFromServices StudyTypesFromServices[]
+}
+
+model StudyTypesFromServices {
+    id                Int        @id @default(autoincrement())
+    studyTypeId       Int
+    studyType         StudyTypes @relation(fields: [studyTypeId], references: [id])
+    serviceId         Int
+    status            Boolean    @default(true)
+    canBeTakenVirtual Boolean    @default(false)
+}
+
+model Studies {
+    id                                                 Int                                                  @id @default(autoincrement())
+    requestId                                          Int
+    request                                            Request                                              @relation(fields: [requestId], references: [id])
+    candidateId                                        Int
+    candidate                                          Candidate                                            @relation(fields: [candidateId], references: [id])
+    serviceId                                          Int
+    status                                             String
+    AdvantageOfProgress                                Int
+    LeadAnalystId                                      Int
+    LeadAnalyst                                        User                                                 @relation(fields: [LeadAnalystId], references: [id])
+    assignmentDate                                     DateTime?
+    AnalystAssignedId                                  Int?
+    studyStage                                         String?
+    dateCompletion                                     DateTime?
+    createdAt                                          DateTime                                             @default(now())
+    updatedAt                                          DateTime                                             @default(now())
+    StudyReferencingEmploymentWorkInactivityData       StudyReferencingEmploymentWorkInactivityData[]
+    StudyReferencingEmploymentResult                   StudyReferencingEmploymentResult[]
+    StudyReferencingAcademicResult                     StudyReferencingAcademicResult?
+    StudyReferencingReferencesResult                   StudyReferencingReferencesResult?
+    StudyFinancialResult                               StudyFinancialResult?
+    StudyFinancialAccounts                             StudyFinancialAccounts[]
+    StudyFinancialData                                 StudyFinancialData[]
+    StudyBackgroundCheckData                           StudyBackgroundCheckData?
+    StudyBackgroundCheckFamilyHistoryData              StudyBackgroundCheckFamilyHistoryData[]
+    StudyBackgroundCheckResult                         StudyBackgroundCheckResult?
+    StudyVisitDomiciliarySecondaryFamilyChildsData     StudyVisitDomiciliarySecondaryFamilyChildsData[]
+    StudyVisitDomiciliarySecondaryFamilyData           StudyVisitDomiciliarySecondaryFamilyData[]
+    StudyVisitDomiciliaryFamilyData                    StudyVisitDomiciliaryFamilyData[]
+    StudyVisitDomiciliarySecondaryHousingData          StudyVisitDomiciliarySecondaryHousingData?
+    StudyVisitDomiciliarySecondaryHousingNeighborsData StudyVisitDomiciliarySecondaryHousingNeighborsData[]
+    StudyVisitDomiciliarySecondaryHousingPropertyData  StudyVisitDomiciliarySecondaryHousingPropertyData?
+    StudyVisitDomiciliarySecondaryEconomicIncomeData   StudyVisitDomiciliarySecondaryEconomicIncomeData?
+    StudyVisitDomiciliarySecondaryConcept              StudyVisitDomiciliarySecondaryConcept?
+    StudyVisitDomiciliaryRemarks                       StudyVisitDomiciliaryRemarks?
+
+    @@unique([requestId, candidateId, serviceId])
+}
+
+model StudyReferencingEmploymentResult {
+    id      Int     @id @default(autoincrement())
+    studyId Int
+    Study   Studies @relation(fields: [studyId], references: [id])
+    concept String
+    remarks String?
+
+    @@unique([studyId])
+}
+
+model StudyReferencingEmploymentData {
+    id                    Int                     @id @default(autoincrement())
+    candidateDataId       Int
+    candidateData         CandidateEmploymentData @relation(fields: [candidateDataId], references: [id])
+    performanceEvaluation String?
+    informationProvidedBy String?
+    position              Int?
+    reasonForRetirement   Int?
+    sourceOfInquiry       Int?
+    remarks               String?
+    loadDate              DateTime                @default(now())
+
+    @@unique([candidateDataId])
+}
+
+model StudyReferencingEmploymentWorkInactivityData {
+    id         Int       @id @default(autoincrement())
+    studyId    Int
+    Study      Studies   @relation(fields: [studyId], references: [id])
+    periodFrom DateTime?
+    periodTo   DateTime?
+    occupancy  String?
+    loadDate   DateTime  @default(now())
+}
+
+model StudyReferencingAcademicResult {
+    id      Int     @id @default(autoincrement())
+    studyId Int
+    Study   Studies @relation(fields: [studyId], references: [id])
+    concept String
+    remarks String?
+
+    @@unique([studyId])
+}
+
+model StudyReferencingAcademicData {
+    id                    Int                   @id @default(autoincrement())
+    candidateDataId       Int
+    candidateData         CandidateAcademicData @relation(fields: [candidateDataId], references: [id])
+    phone                 String?
+    folioOrRegistration   String?
+    informationProvidedBy String?
+    position              Int?
+    SourceOfInquiry       Int?
+    remarks               String?
+    loadDate              DateTime              @default(now())
+
+    @@unique([candidateDataId])
+}
+
+model StudyReferencingReferencesData {
+    id                    Int                     @id @default(autoincrement())
+    candidateDataId       Int
+    candidateData         CandidateReferencesData @relation(fields: [candidateDataId], references: [id])
+    ConceptOfTheEvaluated String?
+    loadDate              DateTime                @default(now())
+
+    @@unique([candidateDataId])
+}
+
+model StudyReferencingReferencesResult {
+    id      Int     @id @default(autoincrement())
+    studyId Int
+    Study   Studies @relation(fields: [studyId], references: [id])
+    concept String
+    remarks String?
+
+    @@unique([studyId])
+}
+
+model StudyFinancialAccounts {
+    id             Int      @id @default(autoincrement())
+    entity         Int?
+    typeOfAccount  Int?
+    quality        String?
+    status         Int?
+    currentBalance Int?
+    rating         String?
+    studyId        Int
+    Study          Studies  @relation(fields: [studyId], references: [id])
+    loadDate       DateTime @default(now())
+}
+
+model StudyFinancialData {
+    id             Int      @id @default(autoincrement())
+    sectorType     Int
+    entity         Int?
+    product        Int?
+    quota          Int?
+    monthlyPayment Int?
+    arrears        Int?
+    currentBalance Int?
+    quality        String?
+    behavior       String?
+    studyId        Int
+    Study          Studies  @relation(fields: [studyId], references: [id])
+    loadDate       DateTime @default(now())
+}
+
+model StudyFinancialResult {
+    id                  Int     @id @default(autoincrement())
+    studyId             Int
+    Study               Studies @relation(fields: [studyId], references: [id])
+    totalQuota          BigInt?
+    totalMonthlyPayment BigInt?
+    totalArrears        BigInt?
+    totalCurrentBalance BigInt?
+    concept             String
+    remarks             String?
+
+    @@unique([studyId])
+}
+
+model StudyBackgroundCheckFamilyHistoryData {
+    id           Int      @id @default(autoincrement())
+    fullName     String?
+    relationship Int?
+    remarks      String?
+    studyId      Int
+    Study        Studies  @relation(fields: [studyId], references: [id])
+    loadDate     DateTime @default(now())
+}
+
+model StudyBackgroundCheckData {
+    id                                                    Int      @id @default(autoincrement())
+    nationalRegistryofCivilStatus                         Boolean?
+    nationalRegistryofCivilStatusRemarks                  String?
+    nationalAttorneyGeneralsOffice                        Boolean?
+    nationalAttorneyGeneralsOfficeRemarks                 String?
+    generalComptrolleroftheNation                         Boolean?
+    generalComptrolleroftheNationRemarks                  String?
+    nationalPoliceDisqualifications                       Boolean?
+    nationalPoliceDisqualificationsRemarks                String?
+    NationalRegistrySystemofCorrectiveMeasuresRNMC        Boolean?
+    NationalRegistrySystemofCorrectiveMeasuresRNMCRemarks String?
+    judicialBranch                                        Boolean?
+    judicialBranchRemarks                                 String?
+    restrictivelistrecords                                Boolean?
+    restrictivelistrecordsRemarks                         String?
+    ConsultationOfLAFTLists                               Boolean?
+    ConsultationOfLAFTListsRemarks                        String?
+    ConsultationOfPEPSLists                               Boolean?
+    ConsultationOfPEPSListsRemarks                        String?
+    SIMITTrafficInformation                               Boolean?
+    SIMITTrafficInformationRemarks                        String?
+    RUNTTrafficInformation                                Boolean?
+    RUNTTrafficInformationRemarks                         String?
+    Adverse                                               Boolean?
+    AdverseRemarks                                        String?
+    MilitarySituation                                     Boolean?
+    MilitarySituationRemarks                              String?
+    studyId                                               Int
+    Study                                                 Studies  @relation(fields: [studyId], references: [id])
+    loadDate                                              DateTime @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyBackgroundCheckResult {
+    id      Int     @id @default(autoincrement())
+    studyId Int
+    Study   Studies @relation(fields: [studyId], references: [id])
+    concept String
+    remarks String?
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliaryFamilyData {
+    id           Int     @id @default(autoincrement())
+    studyId      Int
+    Study        Studies @relation(fields: [studyId], references: [id])
+    fullNames    String?
+    relationShip Int?
+    charge       Int?
+    phone        String?
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryFamilyData {
+    id                   Int      @id @default(autoincrement())
+    studyId              Int
+    Study                Studies  @relation(fields: [studyId], references: [id])
+    fullNamesPartner     String?
+    age                  Int?
+    identificationNumber String?
+    birthDepartment      Int?
+    address              String?
+    birthTown            Int?
+    profession           Int?
+    yearsOfAcquaintances Int?
+    phone                String?
+    cellPhone            String?
+    loadDate             DateTime @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryFamilyChildsData {
+    id                   Int       @id @default(autoincrement())
+    studyId              Int
+    Study                Studies   @relation(fields: [studyId], references: [id])
+    fullNames            String?
+    identificationNumber String?
+    birthDate            DateTime?
+    birthCountry         Int?
+    birthDepartment      Int?
+    birthTown            Int?
+    livesWith            Boolean?
+    age                  Int?
+    phone                String?
+    cellPhone            String?
+    profession           Int?
+    loadDate             DateTime  @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryHousingData {
+    id                                   Int      @id @default(autoincrement())
+    studyId                              Int
+    Study                                Studies  @relation(fields: [studyId], references: [id])
+    housingStatus                        Int?
+    accessRoads                          Int?
+    externalPresentation                 Int?
+    internalPresentation                 Int?
+    numberFamiliesLivingIn               String?
+    totalPersonsInTheDwelling            String?
+    environmentOfTheSector               Int?
+    descriptionOfTheHouse                String?
+    vulnerabilityOfTheSector             String?
+    publicServicesAndDomiciliaryServices String?
+    loadDate                             DateTime @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryHousingNeighborsData {
+    id           Int      @id @default(autoincrement())
+    studyId      Int
+    Study        Studies  @relation(fields: [studyId], references: [id])
+    fullNames    String?
+    address      String?
+    phone        String?
+    relationship Int?
+    loadDate     DateTime @default(now())
+}
+
+model StudyVisitDomiciliarySecondaryHousingPropertyData {
+    id                                                 Int                                                  @id @default(autoincrement())
+    studyId                                            Int
+    Study                                              Studies                                              @relation(fields: [studyId], references: [id])
+    ownsAssets                                         Boolean?
+    hasBusinessInterests                               Boolean?
+    StudyVisitDomiciliarySecondaryHousingPropertyItems StudyVisitDomiciliarySecondaryHousingPropertyItems[]
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryHousingPropertyItems {
+    id          Int                                               @id @default(autoincrement())
+    studyDataId Int
+    StudyData   StudyVisitDomiciliarySecondaryHousingPropertyData @relation(fields: [studyDataId], references: [id])
+    name        String?
+    quantity    Int?
+    description String?
+    loadDate    DateTime                                          @default(now())
+}
+
+model StudyVisitDomiciliarySecondaryEconomicIncomeData {
+    id                   Int      @id @default(autoincrement())
+    studyId              Int
+    Study                Studies  @relation(fields: [studyId], references: [id])
+    monthlyIncome        BigInt?
+    incomeConcept        String?
+    monthlyExpenses      BigInt?
+    expenseConcept       String?
+    numberOfContributors Int?
+    loadDate             DateTime @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliarySecondaryConcept {
+    id                            Int      @id @default(autoincrement())
+    studyId                       Int
+    Study                         Studies  @relation(fields: [studyId], references: [id])
+    descriptionPhotographicRecord String?
+    remarks                       String?
+    conceptOfVisit                String?
+    loadDate                      DateTime @default(now())
+
+    @@unique([studyId])
+}
+
+model StudyVisitDomiciliaryRemarks {
+    id                         Int     @id @default(autoincrement())
+    studyId                    Int
+    Study                      Studies @relation(fields: [studyId], references: [id])
+    familyDataRemarks          String?
+    secondaryFamilyDataRemarks String?
+    housingDataRemarks         String?
+    employmentDataRemarks      String?
+    academicDataRemarks        String?
+    economicalDataRemarks      String?
+    referencingRemarks         String?
+
+    @@unique([studyId])
+}

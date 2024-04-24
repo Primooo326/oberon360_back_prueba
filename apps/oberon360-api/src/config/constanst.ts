@@ -36,5 +36,6 @@ export const ApiPaginatedResponse = <TModel extends Type<any>>(
 export const SP_OBERON360DEFAULT = 'SP_OBERON360DEFAULT';
 export const SP_OBERON360WEB = 'SP_OBERON360WEB';
 export const SP_OBERON360MOBILE = 'SP_OBERON360MOBILE';
+export const SP_OBERON360IC = 'SP_OBERON360IC';
 
 export const cors = require('cors');
