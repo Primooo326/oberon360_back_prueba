@@ -188,7 +188,7 @@ export class MapService {
     }, {}));
   }
 
-  public async getEventsPlates(): Promise<any>
+  public async getEventsPlates(): Promise<any> 
   {
     const data = await this.repositoryVehicle.query('EXEC SP504_GET_OPE012_LAST_GPS_V3 @PUNTO = @0, @FLOTA = @1, @DISTRIBUIDOR = @2, @UBICACION = @3', [null, null, null, null]);
     
@@ -260,9 +260,11 @@ export class MapService {
 
   public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>
   {
-    const driver = await this.repositoryDriver.findOneBy({CONDUCTOR_ID});
+    const driver = await this.repositoryDriver.findOneBy({CONDUCTOR_ID}); 
 
     if (!driver) throw new HttpException('No existe el conductor solicitado', 404);
+
+    driver.CONDUCTOR_FOTO = this.bufferToBase64(driver.CONDUCTOR_FOTO);
 
     return driver;
   }
@@ -354,5 +356,9 @@ export class MapService {
     });
 
     return await Promise.all(promises);
+  }
+
+  bufferToBase64(buffer: Buffer): string {
+    return buffer.toString('base64');
   }
 }

@@ -36,6 +36,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/oberon360-mobile/tsconfig.app.json"
       }
+    },
+    "oberon360-ic": {
+      "type": "application",
+      "root": "apps/oberon360-ic",
+      "entryFile": "main",
+      "sourceRoot": "apps/oberon360-ic/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/oberon360-ic/tsconfig.app.json"
+      }
     }
   }
 }

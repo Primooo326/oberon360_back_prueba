@@ -39,7 +39,7 @@ export class Driver {
     CONDUCTOR_CORREO: string;
 
     @Column({ type: 'varbinary'})
-    CONDUCTOR_FOTO: string;
+    CONDUCTOR_FOTO: string | any;
 
     @Column({ type: 'char'})
     CONDUCTOR_ESTADO: string;
