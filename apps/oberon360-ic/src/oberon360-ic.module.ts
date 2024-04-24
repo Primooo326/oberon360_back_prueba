@@ -7,6 +7,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CoreModule } from './core/core.module';
 import { UtilsModule } from './utils/utils.module';
 import { FilesModule } from './files/files.module';
+import { IntegrationsModule } from './integrations/integrations.module';
+import { SystemModule } from './system/system.module';
+import { OperationModule } from './operation/operation.module';
+import { CandidatesModule } from './candidates/candidates.module';
 
 @Module({
   imports: [
@@ -20,6 +24,10 @@ import { FilesModule } from './files/files.module';
     MongooseModule.forRoot(String(process.env.MONGO_DB_URL)),
     CoreModule,
     FilesModule,
+    IntegrationsModule,
+    SystemModule,
+    CandidatesModule,
+    OperationModule,
     UtilsModule,
   ],
   controllers: [Oberon360IcController],
