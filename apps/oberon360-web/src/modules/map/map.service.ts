@@ -260,7 +260,11 @@ export class MapService {
 
   public async getInfoDriver(CONDUCTOR_ID: string): Promise<any>
   {
-    const driver = await this.repositoryDriver.findOneBy({CONDUCTOR_ID}); 
+    const driver = await this.repositoryDriver.createQueryBuilder('employee')
+      .leftJoinAndSelect('employee.typeIdentification', 'typeIdentification')
+      .leftJoinAndSelect('employee.factorRh', 'factorRh')
+      .where({CONDUCTOR_ID})
+      .getOne(); 
 
     if (!driver) throw new HttpException('No existe el conductor solicitado', 404);
 

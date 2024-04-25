@@ -1,12 +1,18 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { TypeIdentification } from "./type-identification.entity";
+import { FactorRh } from "./factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class Driver {
     @PrimaryColumn({ type: 'bigint'})
     CONDUCTOR_ID: string;
 
-    @Column({ type: 'char'})
-    CONDUCTOR_ID_TIPOIDENTIFICACION: string;
+    @Column()
+    CONDUCTOR_ID_TIPOIDENTIFICACION: number;
+
+    @ManyToOne(() => TypeIdentification, (typeIdentification) => typeIdentification.driver)
+    @JoinColumn({name: 'CONDUCTOR_ID_TIPOIDENTIFICACION'})
+    typeIdentification: TypeIdentification;
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_IDENTIFICACION: string;
@@ -26,8 +32,12 @@ export class Driver {
     @Column({ type: 'nvarchar'})
     CONDUCTOR_SEGUNDOAPELLIDO: string;
 
-    @Column({ type: 'smallint'})
+    @Column()
     CONDUCTOR_ID_RH: number;
+
+    @ManyToOne(() => FactorRh, (factorRh) => factorRh.driver)
+    @JoinColumn({name: 'CONDUCTOR_ID_RH'})
+    factorRh: FactorRh;
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_TELPERSONAL: string;
