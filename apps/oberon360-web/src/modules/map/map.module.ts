@@ -15,11 +15,13 @@ import { Driver } from './entities/driver.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { Point } from './entities/point.entity';
 import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
+import { ZProtocolo } from './entities/z-protocolos.entity';
+import { ZEventos } from './entities/z-events.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ClientUbication, Client], 'COP'),
-    TypeOrmModule.forFeature([User], 'OC'),
+    TypeOrmModule.forFeature([User, ZProtocolo, ZEventos], 'OC'),
     TypeOrmModule.forFeature([Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Driver, ItineraryPointExecuted, Point], 'MAP'),
     TypeOrmModule.forFeature([OpeGps], 'MDA'),
   ],

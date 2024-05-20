@@ -10,13 +10,27 @@ import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { EventPlate } from './entities/event-plate.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
+import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
+import { ZEventos } from './entities/z-events.entity';
 
 @ApiBearerAuth()
-@ApiTags('easy-recognition')
+@ApiTags('map')
 @UseGuards(JwtAuthGuard)
 @Controller('map')
 export class MapController {
   constructor(private readonly mapService: MapService) {}
+
+  @HttpCode(200)
+  @Get('getEventsShips')
+  async getEventsShips(): Promise<PageDto<ZEventos>> {
+    return this.mapService.getEventsShips();
+  }
+
+  @HttpCode(200)
+  @Post('createZProtocolos')
+  createZProtocolos(@Body() createZProtocolosDto: CreateZProtocolosDto) {
+    return this.mapService.createZProtocolos(createZProtocolosDto);
+  }
 
   @HttpCode(200)
   @Post('getUbications')

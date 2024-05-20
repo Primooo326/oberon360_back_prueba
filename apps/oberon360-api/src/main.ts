@@ -24,7 +24,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  const port = configService.get<number>(SP_OBERON360DEFAULT);
+  const port = configService.get<number>(SP_OBERON360DEFAULT || '8000');
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}/api`);
 }

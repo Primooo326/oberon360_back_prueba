@@ -15,6 +15,9 @@ import { OpeGps } from './entities/ope-gps.entity';
 import { Driver } from './entities/driver.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
+import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
+import { ZProtocolo } from './entities/z-protocolos.entity';
+import { ZEventos } from './entities/z-events.entity';
 
 @Injectable()
 export class MapService {
@@ -26,7 +29,25 @@ export class MapService {
     @InjectRepository(OpeGps, 'MDA') private repositoryOpeGps: Repository<OpeGps>,
     @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
     @InjectRepository(ItineraryPointExecuted, 'MAP') private repositoryItineraryPointExecuted: Repository<ItineraryPointExecuted>,
+    @InjectRepository(ZProtocolo, 'OC') private repositoryZProtocolo: Repository<ZProtocolo>,
+    @InjectRepository(ZEventos, 'OC') private repositoryZEvents: Repository<ZEventos>,
   ) { }
+
+  public async createZProtocolos(createZProtocolosDto: CreateZProtocolosDto): Promise<any> 
+  {
+    const data = this.repositoryZProtocolo.create(createZProtocolosDto);
+    await this.repositoryZProtocolo.save(data);
+
+    return {message: 'Protocolo registrado exitosamente'};
+  }
+
+  public async getEventsShips(): Promise<any> 
+  {
+    const data = await this.repositoryZEvents.createQueryBuilder('events')
+        .getMany();
+
+    return data;
+  }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> 
   {

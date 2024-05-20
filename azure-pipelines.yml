@@ -1,0 +1,88 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  dockerRegistryServiceConnection: '62f8014a-dbae-422f-9433-c47da879519c'
+  containerRegistry: 'oberontsi.azurecr.io'
+  tag: 'latest'
+  vmImageName: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and Push Stage
+
+  jobs:
+  - job: Build_Deploy_Oberonapi
+    displayName: Build and Deploy Microservice Oberon API
+    pool:
+      vmImage: $(vmImageName)
+    variables:
+      imageRepository: 'oberon360-api'
+      dockerfilePath: '$(Build.SourcesDirectory)/apps/oberon360-api/Dockerfile'
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Oberon API Image
+      inputs:
+        command: buildAndPush
+        repository: $(containerRegistry)/$(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+  
+  - job: Build_Deploy_Oberonic
+    displayName: Build and Deploy Microservice Oberon IC
+    pool:
+      vmImage: $(vmImageName)
+    variables:
+      imageRepository: 'oberon360-ic'
+      dockerfilePath: '$(Build.SourcesDirectory)/apps/oberon360-ic/Dockerfile'
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Oberon IC Image
+      inputs:
+        command: buildAndPush
+        repository: $(containerRegistry)/$(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+  - job: Build_Deploy_Oberonmobile
+    displayName: Build and Deploy Microservice Oberon Mobile
+    pool:
+      vmImage: $(vmImageName)
+    variables:
+      imageRepository: 'oberon360-mobile'
+      dockerfilePath: '$(Build.SourcesDirectory)/apps/oberon360-mobile/Dockerfile'
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Oberon Mobile Image
+      inputs:
+        command: buildAndPush
+        repository: $(containerRegistry)/$(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+  - job: Build_Deploy_Oberonweb
+    displayName: Build and Deploy Microservice Oberon Web
+    pool:
+      vmImage: $(vmImageName)
+    variables:
+      imageRepository: 'oberon360-web'
+      dockerfilePath: '$(Build.SourcesDirectory)/apps/oberon360-web/Dockerfile'
+    steps:
+    - task: Docker@2
+      displayName: Build and Push Oberon Web Image
+      inputs:
+        command: buildAndPush
+        repository: $(containerRegistry)/$(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
