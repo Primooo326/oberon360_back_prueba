@@ -29,7 +29,7 @@ export class ZEventos {
     @Column({ type: 'nvarchar'})
     CLIPMARK_PREVIEW_PATH: string;
 
-    @Column({ type: 'geography'})
+    @Column('geography')
     CLIPMARK_EVENT_LOCATION: string;
 
     @Column({ type: 'bigint'})

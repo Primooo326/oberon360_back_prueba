@@ -44,7 +44,12 @@ export class MapService {
 
   public async createPointsMaps(createPointsMapsDto: CreatePointsMapsDto): Promise<any> 
   {
-    const data = this.repositoryZEvents.create(createPointsMapsDto);
+    const validatedLocation = `geography::STGeomFromText('${createPointsMapsDto.CLIPMARK_EVENT_LOCATION}', 4326)`;
+
+    const data = this.repositoryZEvents.create({
+      ...createPointsMapsDto,
+      CLIPMARK_EVENT_LOCATION : validatedLocation
+    });
     await this.repositoryZEvents.save(data);
 
     return {message: 'Punto registrado exitosamente'};
@@ -55,7 +60,29 @@ export class MapService {
     const data = await this.repositoryZEvents.createQueryBuilder('events')
         .getMany();
 
+    for (const element of data) {
+      const coordinates = await this.extractCoordinates(element.CLIPMARK_EVENT_LOCATION);
+
+      element.CLIPMARK_LATITUD = coordinates.latitude.toString();
+      element.CLIPMARK_LONGITUD = coordinates.longitude.toString();
+    }
+
     return data;
+  }
+
+  extractCoordinates(location: string) { 
+    const match = location.match(/POINT\s*\(\s*([\d.-]+)\s+([\d.-]+)\s*\)/);
+    if (!match) {
+      throw new Error('Invalid location format');
+    }
+
+    const longitude = parseFloat(match[1]);
+    const latitude = parseFloat(match[2]);
+
+    return {
+      longitude,
+      latitude
+    }
   }
 
   public async getUbications(mapDto: MapDto, user: UserLoginDto): Promise<ClientUbication[]> 
