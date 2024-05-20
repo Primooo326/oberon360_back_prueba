@@ -2,6 +2,10 @@ import { IsBoolean, IsNumber, IsNotEmpty, IsString, IsOptional } from "class-val
 
 export class CreatePointsMapsDto {
     @IsNotEmpty()
+    @IsNumber()
+    CLIPMARK_ID: number;
+
+    @IsNotEmpty()
     @IsString()
     CLIPMARK_LABEL: string;
 
