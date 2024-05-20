@@ -12,6 +12,7 @@ import { EventPlate } from './entities/event-plate.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
 import { ZEventos } from './entities/z-events.entity';
+import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
 
 @ApiBearerAuth()
 @ApiTags('map')
@@ -30,6 +31,12 @@ export class MapController {
   @Post('createZProtocolos')
   createZProtocolos(@Body() createZProtocolosDto: CreateZProtocolosDto) {
     return this.mapService.createZProtocolos(createZProtocolosDto);
+  }
+
+  @HttpCode(200)
+  @Post('createPointsMaps')
+  createPointsMaps(@Body() createPointsMapsDto: CreatePointsMapsDto) {
+    return this.mapService.createPointsMaps(createPointsMapsDto);
   }
 
   @HttpCode(200)

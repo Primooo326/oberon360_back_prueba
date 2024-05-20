@@ -18,6 +18,7 @@ import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
 import { ZProtocolo } from './entities/z-protocolos.entity';
 import { ZEventos } from './entities/z-events.entity';
+import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
 
 @Injectable()
 export class MapService {
@@ -39,6 +40,14 @@ export class MapService {
     await this.repositoryZProtocolo.save(data);
 
     return {message: 'Protocolo registrado exitosamente'};
+  }
+
+  public async createPointsMaps(createPointsMapsDto: CreatePointsMapsDto): Promise<any> 
+  {
+    const data = this.repositoryZEvents.create(createPointsMapsDto);
+    await this.repositoryZEvents.save(data);
+
+    return {message: 'Punto registrado exitosamente'};
   }
 
   public async getEventsShips(): Promise<any> 
