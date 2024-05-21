@@ -16,7 +16,7 @@ import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
 
 @ApiBearerAuth()
 @ApiTags('map')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @Controller('map')
 export class MapController {
   constructor(private readonly mapService: MapService) {}

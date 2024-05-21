@@ -11,7 +11,7 @@ import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import IResponse from 'apps/oberon360-ic/src/types/IResponse';
 
 @Controller('parameters/groups')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiTags('System/Parameters')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}

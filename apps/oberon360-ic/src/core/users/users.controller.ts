@@ -21,7 +21,7 @@ import IResponse from '../../types/IResponse';
 import { User } from '@prisma/client';
 
 @Controller('core/users')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiTags('Operation/Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

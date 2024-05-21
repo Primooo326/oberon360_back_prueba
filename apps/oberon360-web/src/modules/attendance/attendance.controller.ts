@@ -9,7 +9,7 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 
 @ApiBearerAuth()
 @ApiTags('attendance')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiPaginatedResponse(CreateAttendanceDto)
 @Controller('attendance')
 export class AttendanceController {

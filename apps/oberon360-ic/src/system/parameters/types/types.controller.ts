@@ -14,7 +14,7 @@ import { ParameterValueType } from '@prisma/client';
 import IResponse from 'apps/oberon360-ic/src/types/IResponse';
 
 @Controller('parameters/types')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiTags('System/Parameters')
 export class TypesController {
   constructor(private readonly typesService: TypesService) {}

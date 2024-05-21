@@ -22,7 +22,7 @@ import { AcademicAndEmploymentData, IParentsAndSiblingsData, PeopleLivesAndHousi
 import { CandidateSpouseAndInlawData } from '@prisma/client';
 
 @Controller('candidates/information')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiTags('Candidates/Information')
 export class InformationController {
   constructor(
