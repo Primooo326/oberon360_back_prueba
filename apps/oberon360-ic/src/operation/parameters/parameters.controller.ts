@@ -12,7 +12,7 @@ import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import IResponse from '../../types/IResponse';
 
 @Controller('operation/parameters')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Operation/Parameters')
 export class ParametersController {
   constructor(private parametersService: ParametersService) {}

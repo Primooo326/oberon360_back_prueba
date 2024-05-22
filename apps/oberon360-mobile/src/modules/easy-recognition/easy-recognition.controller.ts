@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('easy-recognition')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('oberon360mobile/api/easy-recognition')
 export class EasyRecognitionController {
   constructor(private readonly easyRecognitionService: EasyRecognitionService) {}

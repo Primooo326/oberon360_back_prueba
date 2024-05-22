@@ -16,7 +16,7 @@ import { Parameters } from '@prisma/client';
 import IResponse from '../../types/IResponse';
 
 @Controller('core/charges')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Core/Charges')
 export class ChargesController {
   constructor(private readonly chargesService: ChargesService) {}

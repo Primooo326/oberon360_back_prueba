@@ -17,7 +17,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('validate')
   @HttpCode(200)
   async validate(@Request() req): Promise<IResponse> {

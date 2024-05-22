@@ -25,7 +25,7 @@ import IResponse from '../../types/IResponse';
 import { ParametersService } from '../../system/parameters/parameters.service';
 
 @Controller('operation/request')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Operation/Requests')
 export class RequestController {
   constructor(

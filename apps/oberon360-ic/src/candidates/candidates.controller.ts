@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../core/auth/jwt-auth.guard';
 import IResponse from '../types/IResponse';
 
 @Controller('candidates')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Candidates')
 export class CandidatesController {
   constructor(private readonly candidatesService: CandidatesService) {}

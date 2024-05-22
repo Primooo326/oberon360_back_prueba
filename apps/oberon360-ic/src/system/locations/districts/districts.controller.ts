@@ -15,7 +15,7 @@ import { Parameters } from '@prisma/client';
 import IResponse from 'apps/oberon360-ic/src/types/IResponse';
 
 @Controller('locations/districts')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('System/Locations')
 export class DistrictsController {
   constructor(private readonly districtsService: DistrictsService) {}

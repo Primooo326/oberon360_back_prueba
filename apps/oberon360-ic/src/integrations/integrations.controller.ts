@@ -10,7 +10,7 @@ import { IntegrationsService } from './integrations.service';
 import { JwtAuthGuard } from '../core/auth/jwt-auth.guard';
 
 @Controller('integrations')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class IntegrationsController {
   constructor(private readonly integrationsService: IntegrationsService) {}
 

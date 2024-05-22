@@ -17,7 +17,7 @@ import { RolesCreationRequest } from '../../types/Requests';
 import IResponse from '../../types/IResponse';
 
 @Controller('core/roles')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Operation/Roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}

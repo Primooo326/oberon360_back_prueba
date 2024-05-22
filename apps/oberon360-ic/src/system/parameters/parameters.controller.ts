@@ -18,7 +18,7 @@ import { Parameters } from '@prisma/client';
 import IResponse from '../../types/IResponse';
 
 @Controller('parameters')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('System/Parameters')
 export class ParametersController {
   constructor(private readonly parametersService: ParametersService) {}

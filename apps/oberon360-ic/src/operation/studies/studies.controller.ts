@@ -25,7 +25,7 @@ import { StudyBackgroundCheck, StudyFinancial, StudyReferencingAcademic, StudyRe
 import { EconomicIncomeData, FamilyData, HousingData, VisitDomiciliaryConcept } from '../../types/CustomEntities';
 
 @Controller('operation/studies')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @ApiTags('Operation/Studies')
 export class StudiesController {
   constructor(private readonly studiesService: StudiesService) {}
