@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { Driver } from "apps/oberon360-web/src/modules/map/entities/driver.entity";
+import { Driver } from "apps/oberon360-web/src/modules/driver/entities/driver.entity";
 import { EventPlate } from "apps/oberon360-web/src/modules/map/entities/event-plate.entity";
 import { FactorRh } from "apps/oberon360-web/src/modules/map/entities/factor-rh.entity";
 import { ItineraryAssignment } from "apps/oberon360-web/src/modules/map/entities/itinerary-assignment.entity";

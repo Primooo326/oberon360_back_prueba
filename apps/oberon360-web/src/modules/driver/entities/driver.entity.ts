@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { TypeIdentification } from "./type-identification.entity";
-import { FactorRh } from "./factor-rh.entity";
+import { TypeIdentification } from "../../map/entities/type-identification.entity";
+import { FactorRh } from "../../map/entities/factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class Driver {

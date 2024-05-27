@@ -11,7 +11,7 @@ import { OpeGps } from './entities/ope-gps.entity';
 import { ItineraryAssignment } from './entities/itinerary-assignment.entity';
 import { Itinerary } from './entities/itinerary.entity';
 import { ItineraryPoint } from './entities/itinerary-point.entity';
-import { Driver } from './entities/driver.entity';
+import { Driver } from '../driver/entities/driver.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { Point } from './entities/point.entity';
 import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';

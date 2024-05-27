@@ -12,6 +12,7 @@ import { IcpMssqlConfig } from 'apps/oberon360-api/src/config/icp-mssql.config';
 import { OcMssqlConfig } from 'apps/oberon360-api/src/config/oc-mssql.config';
 import { MapMssqlConfig } from 'apps/oberon360-api/src/config/map-mssql.config';
 import { MdaMssqlConfig } from 'apps/oberon360-api/src/config/mda-mssql.config';
+import { DriverModule } from './modules/driver/driver.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { MdaMssqlConfig } from 'apps/oberon360-api/src/config/mda-mssql.config';
     TypeOrmModule.forRoot( MdaMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_MDANAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     AttendanceModule,
     MapModule,
+    DriverModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],
