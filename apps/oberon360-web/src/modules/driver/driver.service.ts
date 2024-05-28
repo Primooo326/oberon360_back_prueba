@@ -15,47 +15,89 @@ export class DriverService {
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<any> {
     const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
+      .leftJoin('driver.typeIdentification', 'typeIdentification')
+      .leftJoin('driver.factorRh', 'factorRh')
       .select([
-        'CONDUCTOR_ID', 
-        'CONDUCTOR_ID_TIPOIDENTIFICACION', 
-        'CONDUCTOR_IDENTIFICACION', 
-        'CONDUCTOR_CODCONDUCTOR', 
-        'CONDUCTOR_PRIMERNOMBRE', 
-        'CONDUCTOR_SEGUNDONOMBRE', 
-        'CONDUCTOR_PRIMERAPELLIDO', 
-        'CONDUCTOR_SEGUNDOAPELLIDO',
-        'CONDUCTOR_ID_RH',
-        'CONDUCTOR_TELPERSONAL',
-        'CONDUCTOR_TELCORPORATIVO',
-        'CONDUCTOR_CORREO',
-        'CONDUCTOR_ID_CIUDAD',
-        'CONDUCTOR_FECINGRESO',
-        'CONDUCTOR_ESTADO'
+        'driver.CONDUCTOR_ID',
+        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'driver.CONDUCTOR_IDENTIFICACION', 
+        'driver.CONDUCTOR_CODCONDUCTOR', 
+        'driver.CONDUCTOR_PRIMERNOMBRE',
+        'driver.CONDUCTOR_SEGUNDONOMBRE',
+        'driver.CONDUCTOR_PRIMERAPELLIDO',
+        'driver.CONDUCTOR_SEGUNDOAPELLIDO',
+        'factorRh.FACTOR_RH_DESCRIPCION',
+        'driver.CONDUCTOR_TELPERSONAL',
+        'driver.CONDUCTOR_TELCORPORATIVO',
+        'driver.CONDUCTOR_CORREO',
+        'driver.CONDUCTOR_FECINGRESO',
+        'driver.CONDUCTOR_ESTADO'
       ])
-      .addSelect("CONCAT(CONDUCTOR_PRIMERNOMBRE, ' ', CONDUCTOR_SEGUNDONOMBRE, ' ', CONDUCTOR_PRIMERAPELLIDO, ' ', CONDUCTOR_SEGUNDOAPELLIDO)", "CONDUCTOR_NOMBRE_COMPLETO")
-      .where('CONDUCTOR_PRIMERNOMBRE LIKE :term', {
+      .where('driver.CONDUCTOR_PRIMERNOMBRE LIKE :term', {
         term: `%${pageOptionsDto.term}%`
       })
-      .orderBy("CONDUCTOR_ID", pageOptionsDto.order)
+      .orderBy("driver.CONDUCTOR_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   
-    const [rawResults, itemCount] = await Promise.all([
-      queryBuilder.getRawMany(),
-      queryBuilder.getCount(),
-    ]);
+      const itemCount = await queryBuilder.getCount();
+      const { entities } = await queryBuilder.getRawAndEntities();
   
-    const entities = rawResults.map(rawResult => {
+      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+      const columns = await this.getColumns();
       return {
-        ...rawResult,
-        CONDUCTOR_NOMBRE_COMPLETO: rawResult.CONDUCTOR_NOMBRE_COMPLETO,
-      };
+        data: entities,
+        columns:columns.columns,
+        meta: pageMetaDto
+      }
+  }
+  
+  getColumns() {
+    return new Promise<any>((resolve) => {
+      setTimeout(() => {
+          resolve({
+            columns: [
+              {
+                name: 'Tipo de Documento',
+                selector: (row: any) => row.typeIdentification.TIP_IDEN_DESCRIPCION,
+                sortable: true,
+              },
+              {
+                name: 'Documento',
+                selector: (row: any) => row.CONDUCTOR_IDENTIFICACION,
+                sortable: true,
+              },
+              {
+                name: 'Código',
+                selector: (row: any) => row.CONDUCTOR_CODCONDUCTOR,
+                sortable: true,
+              },
+              {
+                name: 'Nombre',
+                selector: (row: any) => row.CONDUCTOR_PRIMERNOMBRE,
+                sortable: true,
+              },
+              {
+                name: 'RH',
+                selector: (row: any) => row.factorRh.FACTOR_RH_DESCRIPCION,
+                sortable: true,
+              },
+              {
+                name: 'Teléfono Personal',
+                selector: (row: any) => row.CONDUCTOR_TELPERSONAL,
+                sortable: true,
+              },
+              {
+                name: 'Teléfono Corporativo',
+                selector: (row: any) => row.CONDUCTOR_TELCORPORATIVO,
+                sortable: true,
+              }
+            ]
+          });
+        }, 1);
     });
-  
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-  
-    return new PageDto(entities, pageMetaDto);
-  }  
+  }
 
   async findOne(id: number) {
     const data = await this.repositoryDriver.createQueryBuilder("driver")
