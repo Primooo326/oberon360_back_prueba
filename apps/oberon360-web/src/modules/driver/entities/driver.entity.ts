@@ -53,4 +53,7 @@ export class Driver {
 
     @Column({ type: 'char'})
     CONDUCTOR_ESTADO: string;
+
+    @Column({ type: 'datetime'})
+    CONDUCTOR_FECINGRESO: string;
 }

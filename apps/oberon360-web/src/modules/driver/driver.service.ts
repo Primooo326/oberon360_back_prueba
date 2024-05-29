@@ -6,6 +6,7 @@ import { Driver } from './entities/driver.entity';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
 
 @Injectable()
 export class DriverService {
@@ -15,47 +16,116 @@ export class DriverService {
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<any> {
     const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
+      .leftJoin('driver.typeIdentification', 'typeIdentification')
+      .leftJoin('driver.factorRh', 'factorRh')
       .select([
-        'CONDUCTOR_ID', 
-        'CONDUCTOR_ID_TIPOIDENTIFICACION', 
-        'CONDUCTOR_IDENTIFICACION', 
-        'CONDUCTOR_CODCONDUCTOR', 
-        'CONDUCTOR_PRIMERNOMBRE', 
-        'CONDUCTOR_SEGUNDONOMBRE', 
-        'CONDUCTOR_PRIMERAPELLIDO', 
-        'CONDUCTOR_SEGUNDOAPELLIDO',
-        'CONDUCTOR_ID_RH',
-        'CONDUCTOR_TELPERSONAL',
-        'CONDUCTOR_TELCORPORATIVO',
-        'CONDUCTOR_CORREO',
-        'CONDUCTOR_ID_CIUDAD',
-        'CONDUCTOR_FECINGRESO',
-        'CONDUCTOR_ESTADO'
+        'driver.CONDUCTOR_ID',
+        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'driver.CONDUCTOR_IDENTIFICACION', 
+        'driver.CONDUCTOR_CODCONDUCTOR', 
+        'driver.CONDUCTOR_PRIMERNOMBRE',
+        'driver.CONDUCTOR_SEGUNDONOMBRE',
+        'driver.CONDUCTOR_PRIMERAPELLIDO',
+        'driver.CONDUCTOR_SEGUNDOAPELLIDO',
+        'factorRh.FACTOR_RH_DESCRIPCION',
+        'driver.CONDUCTOR_TELPERSONAL',
+        'driver.CONDUCTOR_TELCORPORATIVO',
+        'driver.CONDUCTOR_CORREO',
+        'driver.CONDUCTOR_FECINGRESO',
+        'driver.CONDUCTOR_ESTADO'
       ])
-      .addSelect("CONCAT(CONDUCTOR_PRIMERNOMBRE, ' ', CONDUCTOR_SEGUNDONOMBRE, ' ', CONDUCTOR_PRIMERAPELLIDO, ' ', CONDUCTOR_SEGUNDOAPELLIDO)", "CONDUCTOR_NOMBRE_COMPLETO")
-      .where('CONDUCTOR_PRIMERNOMBRE LIKE :term', {
+      .where('driver.CONDUCTOR_PRIMERNOMBRE LIKE :term', {
         term: `%${pageOptionsDto.term}%`
       })
-      .orderBy("CONDUCTOR_ID", pageOptionsDto.order)
+      .orderBy("driver.CONDUCTOR_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   
-    const [rawResults, itemCount] = await Promise.all([
-      queryBuilder.getRawMany(),
-      queryBuilder.getCount(),
-    ]);
+      const itemCount = await queryBuilder.getCount();
+      const { entities } = await queryBuilder.getRawAndEntities();
   
-    const entities = rawResults.map(rawResult => {
+      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+      const columns: IHeaderCustomTable[] = await this.getColumns();
       return {
-        ...rawResult,
-        CONDUCTOR_NOMBRE_COMPLETO: rawResult.CONDUCTOR_NOMBRE_COMPLETO,
-      };
-    });
+        data: entities,
+        columns: columns,
+        meta: pageMetaDto
+      }
+  }
   
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
-  
-    return new PageDto(entities, pageMetaDto);
-  }  
+  private async getColumns(): Promise<IHeaderCustomTable[]> {
+    return [
+      {
+        type: 'button',
+        name: 'Detalle',
+        props: {
+          options: {
+            color: 'primary',
+            size: 'sm',
+          },
+          disabled: false,
+          children: 'Foto'
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Tipo de Documento',
+        props: {
+          selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Documento',
+        props: {
+          selector: "CONDUCTOR_IDENTIFICACION",
+          sortable: true, 
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Código',
+        props: {
+          selector: "CONDUCTOR_CODCONDUCTOR",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Nombre',
+        props: {
+          selector: "CONDUCTOR_PRIMERNOMBRE",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'RH',
+        props: {
+          selector: "factorRh.FACTOR_RH_DESCRIPCION",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Personal',
+        props: {
+          selector: "CONDUCTOR_TELPERSONAL",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Corporativo',
+        props: {
+          selector: "CONDUCTOR_TELCORPORATIVO",
+          sortable: true,
+        }
+      }
+    ]
+  }
 
   async findOne(id: number) {
     const data = await this.repositoryDriver.createQueryBuilder("driver")
