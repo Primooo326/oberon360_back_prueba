@@ -71,58 +71,44 @@ export class DriverService {
       {
         type: 'cell',
         name: 'Tipo de Documento',
-        props: {
-          selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
-          sortable: true,
-        }
+        selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'Documento',
-        props: {
-          selector: "CONDUCTOR_IDENTIFICACION",
-          sortable: true, 
-        }
+        selector: "CONDUCTOR_IDENTIFICACION",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'Código',
-        props: {
-          selector: "CONDUCTOR_CODCONDUCTOR",
-          sortable: true,
-        }
+        selector: "CONDUCTOR_CODCONDUCTOR",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'Nombre',
-        props: {
-          selector: "CONDUCTOR_PRIMERNOMBRE",
-          sortable: true,
-        }
+        selector: "CONDUCTOR_PRIMERNOMBRE",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'RH',
-        props: {
-          selector: "factorRh.FACTOR_RH_DESCRIPCION",
-          sortable: true,
-        }
+        selector: "factorRh.FACTOR_RH_DESCRIPCION",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'Teléfono Personal',
-        props: {
-          selector: "CONDUCTOR_TELPERSONAL",
-          sortable: true,
-        }
+        selector: "CONDUCTOR_TELPERSONAL",
+        sortable: true
       },
       {
         type: 'cell',
         name: 'Teléfono Corporativo',
-        props: {
-          selector: "CONDUCTOR_TELCORPORATIVO",
-          sortable: true,
-        }
+        selector: "CONDUCTOR_TELCORPORATIVO",
+        sortable: true
       }
     ]
   }

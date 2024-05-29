@@ -35,7 +35,6 @@ interface CustomAvatar {
 
 interface CustomCellButtonProps {
     options: CustomButton,
-    disabled: boolean,
     children: string
     [key: string]: any
 }
@@ -53,8 +52,6 @@ interface CustomCellAvatarProps {
 }
 
 interface CustomCellProps {
-    selector: string,
-    sortable: boolean,
     children?: string,
     [key: string]: any
 }
@@ -62,5 +59,7 @@ interface CustomCellProps {
 export interface IHeaderCustomTable {
     type: "button" | "badge" | "avatar" | "cell",
     name: string,
-    props: CustomCellProps | CustomCellButtonProps | CustomCellBadgeProps | CustomCellAvatarProps,
+    props?: CustomCellProps | CustomCellButtonProps | CustomCellBadgeProps | CustomCellAvatarProps,
+    selector?: string,
+    sortable?: boolean,
 }
