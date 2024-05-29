@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateDriverDto {
     @IsNotEmpty()
@@ -13,55 +13,55 @@ export class CreateDriverDto {
     @IsString()
     CONDUCTOR_CODCONDUCTOR: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_PRIMERNOMBRE: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_SEGUNDONOMBRE: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_PRIMERAPELLIDO: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_SEGUNDOAPELLIDO: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     CONDUCTOR_ID_RH: number;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_TELPERSONAL: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_TELCORPORATIVO: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_CORREO: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     CONDUCTOR_ID_CIUDAD: number;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_PASSWORD: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    CONDUCTOR_FOTO: string;
+    CONDUCTOR_FOTO: any;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_FECINGRESO: string;
     
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     CONDUCTOR_ESTADO: string;
 }

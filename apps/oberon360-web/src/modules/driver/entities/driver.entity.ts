@@ -4,9 +4,6 @@ import { FactorRh } from "../../map/entities/factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class Driver {
-    @PrimaryColumn({ type: 'bigint'})
-    CONDUCTOR_ID: string;
-
     @Column()
     CONDUCTOR_ID_TIPOIDENTIFICACION: string;
 
@@ -14,7 +11,7 @@ export class Driver {
     @JoinColumn({name: 'CONDUCTOR_ID_TIPOIDENTIFICACION'})
     typeIdentification: TypeIdentification;
 
-    @Column({ type: 'nvarchar'})
+    @PrimaryColumn({ type: 'nvarchar'})
     CONDUCTOR_IDENTIFICACION: string;
 
     @Column({ type: 'nvarchar'})
@@ -48,12 +45,12 @@ export class Driver {
     @Column({ type: 'nvarchar'})
     CONDUCTOR_CORREO: string;
 
-    @Column({ type: 'varbinary'})
-    CONDUCTOR_FOTO: string | any;
+    @Column({ type: 'varbinary', nullable: true })
+    CONDUCTOR_FOTO: any;
 
     @Column({ type: 'char'})
     CONDUCTOR_ESTADO: string;
 
     @Column({ type: 'datetime'})
-    CONDUCTOR_FECINGRESO: string;
+    CONDUCTOR_FECINGRESO: Date;
 }
