@@ -6,6 +6,7 @@ import { Driver } from './entities/driver.entity';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
 
 @Injectable()
 export class DriverService {
@@ -45,58 +46,85 @@ export class DriverService {
   
       const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
-      const columns = await this.getColumns();
+      const columns: IHeaderCustomTable[] = await this.getColumns();
       return {
         data: entities,
-        columns:columns.columns,
+        columns: columns,
         meta: pageMetaDto
       }
   }
   
-  getColumns() {
-    return new Promise<any>((resolve) => {
-      setTimeout(() => {
-          resolve({
-            columns: [
-              {
-                name: 'Tipo de Documento',
-                selector: (row: any) => row.typeIdentification.TIP_IDEN_DESCRIPCION,
-                sortable: true,
-              },
-              {
-                name: 'Documento',
-                selector: (row: any) => row.CONDUCTOR_IDENTIFICACION,
-                sortable: true,
-              },
-              {
-                name: 'Código',
-                selector: (row: any) => row.CONDUCTOR_CODCONDUCTOR,
-                sortable: true,
-              },
-              {
-                name: 'Nombre',
-                selector: (row: any) => row.CONDUCTOR_PRIMERNOMBRE,
-                sortable: true,
-              },
-              {
-                name: 'RH',
-                selector: (row: any) => row.factorRh.FACTOR_RH_DESCRIPCION,
-                sortable: true,
-              },
-              {
-                name: 'Teléfono Personal',
-                selector: (row: any) => row.CONDUCTOR_TELPERSONAL,
-                sortable: true,
-              },
-              {
-                name: 'Teléfono Corporativo',
-                selector: (row: any) => row.CONDUCTOR_TELCORPORATIVO,
-                sortable: true,
-              }
-            ]
-          });
-        }, 1);
-    });
+  private async getColumns(): Promise<IHeaderCustomTable[]> {
+    return [
+      {
+        type: 'button',
+        name: 'Detalle',
+        props: {
+          options: {
+            color: 'primary',
+            size: 'sm',
+          },
+          disabled: false,
+          children: 'Foto'
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Tipo de Documento',
+        props: {
+          selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Documento',
+        props: {
+          selector: "CONDUCTOR_IDENTIFICACION",
+          sortable: true, 
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Código',
+        props: {
+          selector: "CONDUCTOR_CODCONDUCTOR",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Nombre',
+        props: {
+          selector: "CONDUCTOR_PRIMERNOMBRE",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'RH',
+        props: {
+          selector: "factorRh.FACTOR_RH_DESCRIPCION",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Personal',
+        props: {
+          selector: "CONDUCTOR_TELPERSONAL",
+          sortable: true,
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Corporativo',
+        props: {
+          selector: "CONDUCTOR_TELCORPORATIVO",
+          sortable: true,
+        }
+      }
+    ]
   }
 
   async findOne(id: number) {
