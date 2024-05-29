@@ -8,7 +8,7 @@ export class Driver {
     CONDUCTOR_ID: string;
 
     @Column()
-    CONDUCTOR_ID_TIPOIDENTIFICACION: number;
+    CONDUCTOR_ID_TIPOIDENTIFICACION: string;
 
     @ManyToOne(() => TypeIdentification, (typeIdentification) => typeIdentification.driver)
     @JoinColumn({name: 'CONDUCTOR_ID_TIPOIDENTIFICACION'})

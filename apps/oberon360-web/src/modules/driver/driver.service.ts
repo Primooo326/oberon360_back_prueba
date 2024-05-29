@@ -61,8 +61,9 @@ export class DriverService {
         name: 'Detalle',
         props: {
           options: {
-            color: 'primary',
-            size: 'sm',
+            color: 'secondary',
+            size: 'md',
+            loader: true
           },
           disabled: false,
           children: 'Foto'
@@ -124,6 +125,7 @@ export class DriverService {
   }
 
   async create(dto: CreateDriverDto): Promise<Driver | any> {
+    return dto;
     const data = this.repositoryDriver.create(dto);
 
     await this.repositoryDriver.save(data);
