@@ -5,7 +5,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 
 @ApiBearerAuth()
 @ApiTags('driver')

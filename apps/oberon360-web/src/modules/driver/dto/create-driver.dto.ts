@@ -1,18 +1,67 @@
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+
 export class CreateDriverDto {
-    CONDUCTOR_ID_TIPOIDENTIFICACION?: number;
-    CONDUCTOR_IDENTIFICACION?: string;
-    CONDUCTOR_CODCONDUCTOR?: string;
-    CONDUCTOR_PRIMERNOMBRE?: string;
-    CONDUCTOR_SEGUNDONOMBRE?: string;
-    CONDUCTOR_PRIMERAPELLIDO?: string;
-    CONDUCTOR_SEGUNDOAPELLIDO?: string;
-    CONDUCTOR_ID_RH?: number;
-    CONDUCTOR_TELPERSONAL?: string;
-    CONDUCTOR_TELCORPORATIVO?: string;
-    CONDUCTOR_CORREO?: string;
-    CONDUCTOR_ID_CIUDAD?: string;
-    CONDUCTOR_PASSWORD?: string;
-    CONDUCTOR_FOTO?: string;
-    CONDUCTOR_FECINGRESO?: string;
-    CONDUCTOR_ESTADO?: string;
+    @IsNotEmpty()
+    @IsString()
+    CONDUCTOR_ID_TIPOIDENTIFICACION: string;
+
+    @IsNotEmpty()
+    @IsString()
+    CONDUCTOR_IDENTIFICACION: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    CONDUCTOR_CODCONDUCTOR: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_PRIMERNOMBRE: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_SEGUNDONOMBRE: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_PRIMERAPELLIDO: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_SEGUNDOAPELLIDO: string;
+    
+    @IsOptional()
+    @IsNumber()
+    CONDUCTOR_ID_RH: number;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_TELPERSONAL: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_TELCORPORATIVO: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_CORREO: string;
+    
+    @IsOptional()
+    @IsNumber()
+    CONDUCTOR_ID_CIUDAD: number;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_PASSWORD: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_FOTO: any;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_FECINGRESO: string;
+    
+    @IsOptional()
+    @IsString()
+    CONDUCTOR_ESTADO: string;
 }

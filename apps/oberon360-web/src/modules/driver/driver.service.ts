@@ -61,8 +61,9 @@ export class DriverService {
         name: 'Detalle',
         props: {
           options: {
-            color: 'primary',
-            size: 'sm',
+            color: 'secondary',
+            size: 'md',
+            loader: true
           },
           disabled: false,
           children: 'Foto'
@@ -124,21 +125,58 @@ export class DriverService {
   }
 
   async create(dto: CreateDriverDto): Promise<Driver | any> {
-    const data = this.repositoryDriver.create(dto);
+    const createData = {
+      CONDUCTOR_ID_TIPOIDENTIFICACION: dto.CONDUCTOR_ID_TIPOIDENTIFICACION,
+      CONDUCTOR_IDENTIFICACION: dto.CONDUCTOR_IDENTIFICACION,
+      CONDUCTOR_CODCONDUCTOR: dto.CONDUCTOR_CODCONDUCTOR,
+      CONDUCTOR_PRIMERNOMBRE: dto.CONDUCTOR_PRIMERNOMBRE,
+      CONDUCTOR_SEGUNDONOMBRE: dto.CONDUCTOR_SEGUNDONOMBRE,
+      CONDUCTOR_PRIMERAPELLIDO: dto.CONDUCTOR_PRIMERAPELLIDO,
+      CONDUCTOR_SEGUNDOAPELLIDO: dto.CONDUCTOR_SEGUNDOAPELLIDO,
+      CONDUCTOR_ID_RH: dto.CONDUCTOR_ID_RH,
+      CONDUCTOR_TELPERSONAL: dto.CONDUCTOR_TELPERSONAL,
+      CONDUCTOR_TELCORPORATIVO: dto.CONDUCTOR_TELCORPORATIVO,
+      CONDUCTOR_CORREO: dto.CONDUCTOR_CORREO,
+      CONDUCTOR_ID_CIUDAD: dto.CONDUCTOR_ID_CIUDAD,
+      CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
+      CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
+      CONDUCTOR_FECINGRESO: new Date(),
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO,
+    };
+
+    const data = this.repositoryDriver.create(createData);
 
     await this.repositoryDriver.save(data);
 
-    return {message: 'Catálogo registrado exitosamente'};
+    return { message: 'Conductor registrado exitosamente' };
   }
 
   async update(id: number, dto: CreateDriverDto): Promise<any> {
-    // const data = await this.findOne(id);
+    const data = await this.findOne(id);
   
-    // if (!data) throw new NotFoundException({ message: 'No existe el catálogo solicitado' });
+    if (!data) throw new NotFoundException({ message: 'No existe el conductor solicitado' });
+    
+    const updateData = {
+      CONDUCTOR_ID_TIPOIDENTIFICACION: dto.CONDUCTOR_ID_TIPOIDENTIFICACION,
+      CONDUCTOR_IDENTIFICACION: dto.CONDUCTOR_IDENTIFICACION,
+      CONDUCTOR_CODCONDUCTOR: dto.CONDUCTOR_CODCONDUCTOR,
+      CONDUCTOR_PRIMERNOMBRE: dto.CONDUCTOR_PRIMERNOMBRE,
+      CONDUCTOR_SEGUNDONOMBRE: dto.CONDUCTOR_SEGUNDONOMBRE,
+      CONDUCTOR_PRIMERAPELLIDO: dto.CONDUCTOR_PRIMERAPELLIDO,
+      CONDUCTOR_SEGUNDOAPELLIDO: dto.CONDUCTOR_SEGUNDOAPELLIDO,
+      CONDUCTOR_ID_RH: dto.CONDUCTOR_ID_RH,
+      CONDUCTOR_TELPERSONAL: dto.CONDUCTOR_TELPERSONAL,
+      CONDUCTOR_TELCORPORATIVO: dto.CONDUCTOR_TELCORPORATIVO,
+      CONDUCTOR_CORREO: dto.CONDUCTOR_CORREO,
+      CONDUCTOR_ID_CIUDAD: dto.CONDUCTOR_ID_CIUDAD,
+      CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? await this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
+      CONDUCTOR_FECINGRESO: new Date(),
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO,
+    };
+
+    await this.repositoryDriver.update(id, updateData);
   
-    // await this.repositoryDriver.update(id, dto);
-  
-    // return { message: 'Catálogo actualizado exitosamente' };
+    return { message: 'Conductor actualizado exitosamente' };
   } 
 
   async remove(id: number) {
@@ -146,6 +184,10 @@ export class DriverService {
 
     await this.repositoryDriver.delete(id);
 
-    return {message: 'Catálogo eliminado exitosamente'};
+    return {message: 'Conductor eliminado exitosamente'};
+  }
+
+  private base64ToBinary(base64: string): any {
+    return Buffer.from(base64, 'base64');
   }
 }
