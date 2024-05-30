@@ -4,6 +4,9 @@ import { FactorRh } from "../../map/entities/factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class Driver {
+    @PrimaryColumn({ type: 'bigint'})
+    CONDUCTOR_ID: string;
+
     @Column()
     CONDUCTOR_ID_TIPOIDENTIFICACION: string;
 
@@ -11,7 +14,7 @@ export class Driver {
     @JoinColumn({name: 'CONDUCTOR_ID_TIPOIDENTIFICACION'})
     typeIdentification: TypeIdentification;
 
-    @PrimaryColumn({ type: 'nvarchar'})
+    @Column({ type: 'nvarchar'})
     CONDUCTOR_IDENTIFICACION: string;
 
     @Column({ type: 'nvarchar'})
