@@ -32,7 +32,8 @@ export class DriverService {
         'driver.CONDUCTOR_TELCORPORATIVO',
         'driver.CONDUCTOR_CORREO',
         'driver.CONDUCTOR_FECINGRESO',
-        'driver.CONDUCTOR_ESTADO'
+        'driver.CONDUCTOR_ESTADO',
+        'driver.CONDUCTOR_FOTO'
       ])
       .where('driver.CONDUCTOR_PRIMERNOMBRE LIKE :term', {
         term: `%${pageOptionsDto.term}%`
@@ -46,12 +47,21 @@ export class DriverService {
   
       const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
-      const columns: IHeaderCustomTable[] = await this.getColumns();
+      for (const element of entities){
+        if (element.CONDUCTOR_FOTO) {
+          const photoBase64 = this.bufferToBase64(element.CONDUCTOR_FOTO);
+          element.CONDUCTOR_FOTO = photoBase64;
+        }
+      }
+
       return {
         data: entities,
-        columns: columns,
         meta: pageMetaDto
       }
+  }
+
+  private bufferToBase64(buffer: Buffer): string {
+    return buffer.toString('base64');
   }
   
   private async getColumns(): Promise<IHeaderCustomTable[]> {
@@ -66,7 +76,8 @@ export class DriverService {
             loader: true
           },
           disabled: false,
-          children: 'Foto'
+          children: 'Foto',
+          onClick: () => console.log('click'),
         }
       },
       {
