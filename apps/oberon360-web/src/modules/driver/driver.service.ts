@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Driver } from './entities/driver.entity';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
@@ -14,7 +14,7 @@ export class DriverService {
     @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<any> {
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Driver>>{
     const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
       .leftJoin('driver.typeIdentification', 'typeIdentification')
       .leftJoin('driver.factorRh', 'factorRh')
@@ -42,29 +42,29 @@ export class DriverService {
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   
-      const itemCount = await queryBuilder.getCount();
-      const { entities } = await queryBuilder.getRawAndEntities();
-  
-      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
 
-      for (const element of entities){
-        if (element.CONDUCTOR_FOTO) {
-          const photoBase64 = this.bufferToBase64(element.CONDUCTOR_FOTO);
-          element.CONDUCTOR_FOTO = photoBase64;
-        }
-      }
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
 
-      return {
-        data: entities,
-        meta: pageMetaDto
+    for (const element of entities){
+      if (element.CONDUCTOR_FOTO) {
+        const photoBase64 = this.bufferToBase64(element.CONDUCTOR_FOTO);
+        element.CONDUCTOR_FOTO = photoBase64;
       }
+    }
+
+    return {
+      data: entities,
+      meta: pageMetaDto
+    }
   }
 
-  private bufferToBase64(buffer: Buffer): string {
+  private bufferToBase64(buffer: Buffer): string{
     return buffer.toString('base64');
   }
   
-  private async getColumns(): Promise<IHeaderCustomTable[]> {
+  private async getColumns(): Promise<IHeaderCustomTable[]>{
     return [
       {
         type: 'button',
@@ -125,7 +125,7 @@ export class DriverService {
     ]
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Driver | NotFoundException>{
     const data = await this.repositoryDriver.createQueryBuilder("driver")
       .where("driver.CONDUCTOR_ID= :id", { id: id })
       .getOne();
@@ -135,7 +135,25 @@ export class DriverService {
     return data;
   }
 
-  async create(dto: CreateDriverDto): Promise<Driver | any> {
+  async findByTerm(nameColumn: string, term: string, isUpdate: boolean = false, driverId: number = null): Promise<Driver | null> {
+    const query: Record<string, any> = {};
+    query[nameColumn] = term;
+  
+    const whereCondition: Record<string, any> = { ...query };
+    
+    if (isUpdate) {
+      whereCondition.CONDUCTOR_ID = Not(driverId);
+    }
+  
+    return await this.repositoryDriver.findOne({
+      where: whereCondition,
+    });
+  } 
+
+  async create(dto: CreateDriverDto): Promise<{message: string}>{
+    if (await this.findByTerm('CONDUCTOR_IDENTIFICACION', dto.CONDUCTOR_IDENTIFICACION)) throw new NotFoundException('Ya existe un conductor con el documento ' + dto.CONDUCTOR_IDENTIFICACION);
+    if (await this.findByTerm('CONDUCTOR_CODCONDUCTOR', dto.CONDUCTOR_CODCONDUCTOR)) throw new NotFoundException('Ya existe un conductor con el código ' + dto.CONDUCTOR_CODCONDUCTOR);
+
     const createData = {
       CONDUCTOR_ID_TIPOIDENTIFICACION: dto.CONDUCTOR_ID_TIPOIDENTIFICACION,
       CONDUCTOR_IDENTIFICACION: dto.CONDUCTOR_IDENTIFICACION,
@@ -148,11 +166,10 @@ export class DriverService {
       CONDUCTOR_TELPERSONAL: dto.CONDUCTOR_TELPERSONAL,
       CONDUCTOR_TELCORPORATIVO: dto.CONDUCTOR_TELCORPORATIVO,
       CONDUCTOR_CORREO: dto.CONDUCTOR_CORREO,
-      CONDUCTOR_ID_CIUDAD: dto.CONDUCTOR_ID_CIUDAD,
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO,
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO ? dto.CONDUCTOR_ESTADO : '1'
     };
 
     const data = this.repositoryDriver.create(createData);
@@ -162,11 +179,14 @@ export class DriverService {
     return { message: 'Conductor registrado exitosamente' };
   }
 
-  async update(id: number, dto: CreateDriverDto): Promise<any> {
+  async update(id: number, dto: CreateDriverDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
     if (!data) throw new NotFoundException({ message: 'No existe el conductor solicitado' });
     
+    if (await this.findByTerm('CONDUCTOR_IDENTIFICACION', dto.CONDUCTOR_IDENTIFICACION, true, id)) throw new NotFoundException('Ya existe un conductor con el documento ' + dto.CONDUCTOR_IDENTIFICACION);
+    if (await this.findByTerm('CONDUCTOR_CODCONDUCTOR', dto.CONDUCTOR_CODCONDUCTOR, true, id)) throw new NotFoundException('Ya existe un conductor con el código ' + dto.CONDUCTOR_CODCONDUCTOR);
+
     const updateData = {
       CONDUCTOR_ID_TIPOIDENTIFICACION: dto.CONDUCTOR_ID_TIPOIDENTIFICACION,
       CONDUCTOR_IDENTIFICACION: dto.CONDUCTOR_IDENTIFICACION,
@@ -179,10 +199,10 @@ export class DriverService {
       CONDUCTOR_TELPERSONAL: dto.CONDUCTOR_TELPERSONAL,
       CONDUCTOR_TELCORPORATIVO: dto.CONDUCTOR_TELCORPORATIVO,
       CONDUCTOR_CORREO: dto.CONDUCTOR_CORREO,
-      CONDUCTOR_ID_CIUDAD: dto.CONDUCTOR_ID_CIUDAD,
-      CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? await this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
+      CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
+      CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO,
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO ? dto.CONDUCTOR_ESTADO : '1'
     };
 
     await this.repositoryDriver.update(id, updateData);
@@ -190,7 +210,7 @@ export class DriverService {
     return { message: 'Conductor actualizado exitosamente' };
   } 
 
-  async remove(id: number) {
+  async remove(id: number): Promise<{message: string}>{
     await this.findOne(id);
 
     await this.repositoryDriver.delete(id);
@@ -198,7 +218,7 @@ export class DriverService {
     return {message: 'Conductor eliminado exitosamente'};
   }
 
-  private base64ToBinary(base64: string): any {
+  private base64ToBinary(base64: string): any{
     return Buffer.from(base64, 'base64');
   }
 }
