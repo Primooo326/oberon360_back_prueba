@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, HttpCode, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, HttpCode, Query, Res } from '@nestjs/common';
 import { DriverService } from './driver.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
+import { DownloadExcelDto } from './dto/download.excel.dto';
+import { Response } from 'express';
 
 @ApiBearerAuth()
 @ApiTags('driver')
@@ -13,6 +15,19 @@ import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options
 @Controller('driver')
 export class DriverController {
   constructor(private readonly driverService: DriverService) {}
+
+  @Post('downloadExcel')
+  async downloadExcel(@Body() dto: DownloadExcelDto, @Res() res: Response) {
+    const filePath = await this.driverService.downloadExcel(dto);
+    res.download(filePath, 'data.xlsx', (err) => {
+      if (err) {
+        res.status(500).send({
+          message: 'Error downloading file',
+        });
+      }
+    });
+  }
+
   @Get()
   @HttpCode(200)
   @ApiPaginatedResponse(CreateDriverDto)

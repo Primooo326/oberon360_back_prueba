@@ -7,6 +7,9 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
+import { DownloadExcelDto, ElementData } from './dto/download.excel.dto';
+import { Workbook } from 'exceljs';
+import * as fs from 'fs';
 
 @Injectable()
 export class DriverService {
@@ -58,71 +61,6 @@ export class DriverService {
       data: entities,
       meta: pageMetaDto
     }
-  }
-
-  private bufferToBase64(buffer: Buffer): string{
-    return buffer.toString('base64');
-  }
-  
-  private async getColumns(): Promise<IHeaderCustomTable[]>{
-    return [
-      {
-        type: 'button',
-        name: 'Detalle',
-        props: {
-          options: {
-            color: 'secondary',
-            size: 'md',
-            loader: true
-          },
-          disabled: false,
-          children: 'Foto',
-          onClick: () => console.log('click'),
-        }
-      },
-      {
-        type: 'cell',
-        name: 'Tipo de Documento',
-        selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'Documento',
-        selector: "CONDUCTOR_IDENTIFICACION",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'Código',
-        selector: "CONDUCTOR_CODCONDUCTOR",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'Nombre',
-        selector: "CONDUCTOR_PRIMERNOMBRE",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'RH',
-        selector: "factorRh.FACTOR_RH_DESCRIPCION",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'Teléfono Personal',
-        selector: "CONDUCTOR_TELPERSONAL",
-        sortable: true
-      },
-      {
-        type: 'cell',
-        name: 'Teléfono Corporativo',
-        selector: "CONDUCTOR_TELCORPORATIVO",
-        sortable: true
-      }
-    ]
   }
 
   async findOne(id: number): Promise<Driver | NotFoundException>{
@@ -218,7 +156,123 @@ export class DriverService {
     return {message: 'Conductor eliminado exitosamente'};
   }
 
+  async downloadExcel(dto: DownloadExcelDto): Promise<any> {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+
+    const headers = Object.keys(dto.dataExport[0]);
+    const headerRow = worksheet.addRow(headers);
+
+    headerRow.eachCell((cell) => {
+        cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: '3B82F6' }
+        };
+        cell.font = {
+            color: { argb: 'FFFFFFFF' },
+            bold: true
+        };
+    });
+
+    dto.dataExport.forEach((element: ElementData) => {
+        const row = [];
+        headers.forEach((header) => {
+            row.push(element[header]);
+        });
+        worksheet.addRow(row);
+    });
+
+    worksheet.columns.forEach(column => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, cell => {
+            const cellValue = cell.value ? cell.value.toString() : '';
+            if (cellValue.length > maxLength) {
+                maxLength = cellValue.length;
+            }
+        });
+        column.width = maxLength < 10 ? 10 : maxLength + 2;
+    });
+
+    const timestamp = new Date().getTime();
+    const directory = 'exports';
+    const filePath = `${directory}/excel_${timestamp}.xlsx`;
+
+    if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory);
+    }
+
+    await workbook.xlsx.writeFile(filePath);
+
+    return filePath;
+  }
+
   private base64ToBinary(base64: string): any{
     return Buffer.from(base64, 'base64');
+  }
+
+  private bufferToBase64(buffer: Buffer): string{
+    return buffer.toString('base64');
+  }
+  
+  private async getColumns(): Promise<IHeaderCustomTable[]>{
+    return [
+      {
+        type: 'button',
+        name: 'Detalle',
+        props: {
+          options: {
+            color: 'secondary',
+            size: 'md',
+            loader: true
+          },
+          disabled: false,
+          children: 'Foto',
+          onClick: () => console.log('click'),
+        }
+      },
+      {
+        type: 'cell',
+        name: 'Tipo de Documento',
+        selector: "typeIdentification.TIP_IDEN_DESCRIPCION",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'Documento',
+        selector: "CONDUCTOR_IDENTIFICACION",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'Código',
+        selector: "CONDUCTOR_CODCONDUCTOR",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'Nombre',
+        selector: "CONDUCTOR_PRIMERNOMBRE",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'RH',
+        selector: "factorRh.FACTOR_RH_DESCRIPCION",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Personal',
+        selector: "CONDUCTOR_TELPERSONAL",
+        sortable: true
+      },
+      {
+        type: 'cell',
+        name: 'Teléfono Corporativo',
+        selector: "CONDUCTOR_TELCORPORATIVO",
+        sortable: true
+      }
+    ]
   }
 }
