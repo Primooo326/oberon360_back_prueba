@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { TypeIdentification } from "../../map/entities/type-identification.entity";
 import { FactorRh } from "../../map/entities/factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class Driver {
-    @PrimaryColumn({ type: 'bigint'})
-    CONDUCTOR_ID: string;
+    @PrimaryGeneratedColumn({ type: 'bigint'})
+    CONDUCTOR_ID: number;
 
     @Column()
     CONDUCTOR_ID_TIPOIDENTIFICACION: string;
@@ -47,6 +47,9 @@ export class Driver {
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_CORREO: string;
+
+    @Column({ type: 'nvarchar'})
+    CONDUCTOR_PASSWORD: string;
 
     @Column({ type: 'varbinary', nullable: true })
     CONDUCTOR_FOTO: any;

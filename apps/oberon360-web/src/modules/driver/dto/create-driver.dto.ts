@@ -46,10 +46,6 @@ export class CreateDriverDto {
     CONDUCTOR_CORREO: string;
     
     @IsOptional()
-    @IsNumber()
-    CONDUCTOR_ID_CIUDAD: number;
-    
-    @IsOptional()
     @IsString()
     CONDUCTOR_PASSWORD: string;
     
