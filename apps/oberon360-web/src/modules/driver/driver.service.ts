@@ -17,6 +17,37 @@ export class DriverService {
     @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
   ) { }
 
+  async findAllDrivers(): Promise<{data: Driver[]}>{
+    const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
+      .leftJoin('driver.typeIdentification', 'typeIdentification')
+      .leftJoin('driver.factorRh', 'factorRh')
+      .select([
+        'driver.CONDUCTOR_ID',
+        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'driver.CONDUCTOR_IDENTIFICACION', 
+        'driver.CONDUCTOR_CODCONDUCTOR', 
+        'driver.CONDUCTOR_PRIMERNOMBRE',
+        'driver.CONDUCTOR_SEGUNDONOMBRE',
+        'driver.CONDUCTOR_PRIMERAPELLIDO',
+        'driver.CONDUCTOR_SEGUNDOAPELLIDO',
+        'factorRh.FACTOR_RH_DESCRIPCION',
+        'driver.CONDUCTOR_TELPERSONAL',
+        'driver.CONDUCTOR_TELCORPORATIVO',
+        'driver.CONDUCTOR_CORREO',
+        'driver.CONDUCTOR_FECINGRESO',
+        'driver.CONDUCTOR_ESTADO'
+      ])
+      .orderBy("driver.CONDUCTOR_ID", 'ASC')
+      .skip(1)
+      .take(1000);
+  
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    return {
+      data: entities
+    }
+  }
+
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Driver>>{
     const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
       .leftJoin('driver.typeIdentification', 'typeIdentification')
