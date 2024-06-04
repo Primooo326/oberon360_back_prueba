@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateProtocolDto {
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    FUN_CARGOID: string;
+    FUN_CARGOID?: string | null;
 
     @IsNotEmpty()
     @IsString()
@@ -13,7 +13,11 @@ export class CreateProtocolDto {
     @IsString()
     FUN_PREG_ID: string;
     
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     FUN_FUNCION: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    FUN_STATUS: string;
 }

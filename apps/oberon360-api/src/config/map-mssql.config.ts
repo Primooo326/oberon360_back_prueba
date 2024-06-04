@@ -26,6 +26,6 @@ TypeOrmModuleOptions =>  {
         database: database,
         entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, TypeFunction, QuestionFunction],    
         synchronize: false,
-        logging: false
+        logging: true
     }
 }
