@@ -19,8 +19,6 @@ export class ProtocolService {
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Protocol>>{
     const queryBuilder = this.repositoryProtocol.createQueryBuilder("protocol")
-      .leftJoinAndSelect('protocol.typeFunction', 'typeFunction')
-      .leftJoinAndSelect('protocol.questionFunction', 'questionFunction')
       .andWhere(qb => {
         qb.where('(protocol.FUN_FUNCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })

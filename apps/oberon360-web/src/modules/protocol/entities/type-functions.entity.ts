@@ -12,6 +12,9 @@ export class TypeFunction {
     @Column({ type: 'char'})
     TFUN_ORDEN: string;
 
+    @Column({ type: 'char'})
+    TFUN_STATUS: string;
+
     @OneToMany(() => Protocol, (protocol) => protocol.typeFunction)
     protocol: Protocol[];
 }

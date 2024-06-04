@@ -4,26 +4,29 @@ import { QuestionFunction } from "./question-function.entity";
 
 @Entity('COP003_FUNCIONES')
 export class Protocol {
-    @PrimaryGeneratedColumn({ type: 'numeric'})
+    @PrimaryGeneratedColumn()
     FUN_ID: number;
 
-    @Column({ type: 'nvarchar'})
-    FUN_CARGOID: string;
+    @Column({ type: 'nvarchar', nullable: true })
+    FUN_CARGOID: string | null;
 
-    @Column()
+    @Column({ type: 'nvarchar' })
     FUN_TIPOFUNID: string;
 
-    @ManyToOne(() => TypeFunction, (typeFunction) => typeFunction.protocol)
-    @JoinColumn({name: 'FUN_TIPOFUNID'})
-    typeFunction: TypeFunction;
+    // @ManyToOne(() => TypeFunction, (typeFunction) => typeFunction.protocol, { nullable: true })
+    // @JoinColumn({ name: 'FUN_TIPOFUNID' })
+    // typeFunction: TypeFunction;
 
-    @Column()
+    @Column({ type: 'nvarchar' })
     FUN_PREG_ID: string;
 
-    @ManyToOne(() => QuestionFunction, (questionFunction) => questionFunction.protocol)
-    @JoinColumn({name: 'FUN_PREG_ID'})
-    questionFunction: QuestionFunction;
+    // @ManyToOne(() => QuestionFunction, (questionFunction) => questionFunction.protocol, { nullable: true })
+    // @JoinColumn({ name: 'FUN_PREG_ID' })
+    // questionFunction: QuestionFunction;
 
-    @Column({ type: 'nvarchar'})
+    @Column({ type: 'nvarchar' })
     FUN_FUNCION: string;
+
+    @Column({ type: 'char', default: '1' })
+    FUN_STATUS: string;
 }
