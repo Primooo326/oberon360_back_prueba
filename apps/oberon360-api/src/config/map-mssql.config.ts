@@ -10,6 +10,9 @@ import { Point } from "apps/oberon360-web/src/modules/map/entities/point.entity"
 import { StateIpe } from "apps/oberon360-web/src/modules/map/entities/state-ipe.entity";
 import { TypeIdentification } from "apps/oberon360-web/src/modules/map/entities/type-identification.entity";
 import { Vehicle } from "apps/oberon360-web/src/modules/map/entities/vehicle.entity";
+import { Protocol } from "apps/oberon360-web/src/modules/protocol/entities/protocol.entity";
+import { QuestionFunction } from "apps/oberon360-web/src/modules/protocol/entities/question-function.entity";
+import { TypeFunction } from "apps/oberon360-web/src/modules/protocol/entities/type-functions.entity";
 
 export const MapMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {
@@ -21,7 +24,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh],    
+        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, TypeFunction, QuestionFunction],    
         synchronize: false,
         logging: false
     }

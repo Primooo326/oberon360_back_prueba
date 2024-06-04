@@ -16,8 +16,4 @@ export class CreateProtocolDto {
     @IsOptional()
     @IsString()
     FUN_FUNCION: string;
-    
-    @IsOptional()
-    @IsString()
-    FUN_STATUS: string;
 }
