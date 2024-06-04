@@ -16,6 +16,12 @@ import { Response } from 'express';
 export class DriverController {
   constructor(private readonly driverService: DriverService) {}
 
+  @Get('findAllDrivers')
+  @HttpCode(200)
+  async findAllDrivers(): Promise<any> {
+    return this.driverService.findAllDrivers();
+  }
+
   @Post('downloadExcel')
   async downloadExcel(@Body() dto: DownloadExcelDto, @Res() res: Response) {
     const filePath = await this.driverService.downloadExcel(dto);
