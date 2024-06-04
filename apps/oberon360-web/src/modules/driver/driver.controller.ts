@@ -7,6 +7,7 @@ import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { DownloadExcelDto } from './dto/download.excel.dto';
 import { Response } from 'express';
+import { UpdateDriverDto } from './dto/update-driver.dto';
 
 @ApiBearerAuth()
 @ApiTags('driver')
@@ -57,7 +58,7 @@ export class DriverController {
   @HttpCode(201)
   @UsePipes(new ValidationPipe({whitelist: true}))
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateDriverDto) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateDriverDto) {
     return await this.driverService.update(id, dto);
   }
 
