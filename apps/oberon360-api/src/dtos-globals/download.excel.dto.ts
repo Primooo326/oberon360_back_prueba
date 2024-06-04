@@ -3,10 +3,10 @@ import { IsArray, IsNotEmpty } from "class-validator";
 export class DownloadExcelDto {
     @IsNotEmpty()
     @IsArray()
-    dataExport: ElementData[];
+    dataExport: ElementDriver[] | ElementProtocol[];
 }
 
-export class ElementData {
+export class ElementDriver {
     CONDUCTOR_ID: string;
     CONDUCTOR_IDENTIFICACION: string;
     CONDUCTOR_CODCONDUCTOR: string;
@@ -25,4 +25,14 @@ export class ElementData {
     factorRh: {
         FACTOR_RH_DESCRIPCION: string;
     };
+}
+
+export class ElementProtocol {
+    CONDUCTOR_ID: string;
+    CONDUCTOR_IDENTIFICACION: string;
+    CONDUCTOR_CODCONDUCTOR: string;
+    CONDUCTOR_PRIMERNOMBRE: string;
+    CONDUCTOR_SEGUNDONOMBRE: string;
+    CONDUCTOR_PRIMERAPELLIDO: string;
+    CONDUCTOR_SEGUNDOAPELLIDO: string;
 }

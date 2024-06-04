@@ -7,7 +7,7 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
-import { DownloadExcelDto, ElementData } from './dto/download.excel.dto';
+import { DownloadExcelDto, ElementDriver } from '../../../../oberon360-api/src/dtos-globals/download.excel.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
 import { UpdateDriverDto } from './dto/update-driver.dto';
@@ -55,14 +55,14 @@ export class DriverService {
       .leftJoin('driver.factorRh', 'factorRh')
       .select([
         'driver.CONDUCTOR_ID',
-        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'typeIdentification',
         'driver.CONDUCTOR_IDENTIFICACION', 
         'driver.CONDUCTOR_CODCONDUCTOR', 
         'driver.CONDUCTOR_PRIMERNOMBRE',
         'driver.CONDUCTOR_SEGUNDONOMBRE',
         'driver.CONDUCTOR_PRIMERAPELLIDO',
         'driver.CONDUCTOR_SEGUNDOAPELLIDO',
-        'factorRh.FACTOR_RH_DESCRIPCION',
+        'factorRh',
         'driver.CONDUCTOR_TELPERSONAL',
         'driver.CONDUCTOR_TELCORPORATIVO',
         'driver.CONDUCTOR_CORREO',
@@ -217,7 +217,7 @@ export class DriverService {
         };
     });
 
-    dto.dataExport.forEach((element: ElementData) => {
+    dto.dataExport.forEach((element: ElementDriver) => {
         const row = [];
         headers.forEach((header) => {
             row.push(element[header]);
