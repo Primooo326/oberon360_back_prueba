@@ -10,6 +10,7 @@ import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-com
 import { DownloadExcelDto, ElementData } from './dto/download.excel.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
+import { UpdateDriverDto } from './dto/update-driver.dto';
 
 @Injectable()
 export class DriverService {
@@ -69,8 +70,14 @@ export class DriverService {
         'driver.CONDUCTOR_ESTADO',
         'driver.CONDUCTOR_FOTO'
       ])
-      .where('driver.CONDUCTOR_PRIMERNOMBRE LIKE :term', {
-        term: `%${pageOptionsDto.term}%`
+      .andWhere(qb => {
+        qb.where('(driver.CONDUCTOR_PRIMERNOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_SEGUNDONOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_PRIMERAPELLIDO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_SEGUNDOAPELLIDO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_TELPERSONAL LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_TELCORPORATIVO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.orWhere('(driver.CONDUCTOR_CORREO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
       .orderBy("driver.CONDUCTOR_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -148,13 +155,17 @@ export class DriverService {
     return { message: 'Conductor registrado exitosamente' };
   }
 
-  async update(id: number, dto: CreateDriverDto): Promise<{message: string} | NotFoundException>{
+  async update(id: number, dto: UpdateDriverDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
     if (!data) throw new NotFoundException({ message: 'No existe el conductor solicitado' });
     
-    if (await this.findByTerm('CONDUCTOR_IDENTIFICACION', dto.CONDUCTOR_IDENTIFICACION, true, id)) throw new NotFoundException('Ya existe un conductor con el documento ' + dto.CONDUCTOR_IDENTIFICACION);
-    if (await this.findByTerm('CONDUCTOR_CODCONDUCTOR', dto.CONDUCTOR_CODCONDUCTOR, true, id)) throw new NotFoundException('Ya existe un conductor con el código ' + dto.CONDUCTOR_CODCONDUCTOR);
+    if (dto.CONDUCTOR_IDENTIFICACION){
+      if (await this.findByTerm('CONDUCTOR_IDENTIFICACION', dto.CONDUCTOR_IDENTIFICACION, true, id)) throw new NotFoundException('Ya existe un conductor con el documento ' + dto.CONDUCTOR_IDENTIFICACION);
+    }
+    if (dto.CONDUCTOR_CODCONDUCTOR){
+      if (await this.findByTerm('CONDUCTOR_CODCONDUCTOR', dto.CONDUCTOR_CODCONDUCTOR, true, id)) throw new NotFoundException('Ya existe un conductor con el código ' + dto.CONDUCTOR_CODCONDUCTOR);
+    }
 
     const updateData = {
       CONDUCTOR_ID_TIPOIDENTIFICACION: dto.CONDUCTOR_ID_TIPOIDENTIFICACION,

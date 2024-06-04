@@ -13,6 +13,7 @@ import { OcMssqlConfig } from 'apps/oberon360-api/src/config/oc-mssql.config';
 import { MapMssqlConfig } from 'apps/oberon360-api/src/config/map-mssql.config';
 import { MdaMssqlConfig } from 'apps/oberon360-api/src/config/mda-mssql.config';
 import { DriverModule } from './modules/driver/driver.module';
+import { ProtocolModule } from './modules/protocol/protocol.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DriverModule } from './modules/driver/driver.module';
     AttendanceModule,
     MapModule,
     DriverModule,
+    ProtocolModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],
