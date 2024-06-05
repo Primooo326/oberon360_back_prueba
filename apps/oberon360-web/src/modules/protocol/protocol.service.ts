@@ -19,6 +19,8 @@ export class ProtocolService {
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Protocol>>{
     const queryBuilder = this.repositoryProtocol.createQueryBuilder("protocol")
+      .leftJoinAndSelect('protocol.typeFunction', 'typeFunction')
+      .leftJoinAndSelect('protocol.questionFunction', 'questionFunction')
       .andWhere(qb => {
         qb.where('(protocol.FUN_FUNCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
@@ -47,7 +49,7 @@ export class ProtocolService {
     return data;
   }
 
-  async create(dto: CreateProtocolDto): Promise<{message: string}>{
+  async create(dto: CreateProtocolDto): Promise<{ message: string }> {
     const data = this.repositoryProtocol.create(dto);
 
     await this.repositoryProtocol.save(data);
