@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { QuestionFunction } from "./question-function.entity";
 import { ProtocolResponsible } from "../../protocol-responsible/entities/protocol-responsible.entity";
+import { Activity } from "../../activity/entities/activity.entity";
 
 @Entity('COP003_FUNCIONES')
 export class Protocol {
@@ -20,9 +20,9 @@ export class Protocol {
     @Column({ type: 'nvarchar', length: 20, nullable: false })
     FUN_PREG_ID: string;
 
-    @ManyToOne(() => QuestionFunction, (questionFunction) => questionFunction.protocol, { nullable: true })
+    @ManyToOne(() => Activity, (activity) => activity.protocol, { nullable: true })
     @JoinColumn({ name: 'FUN_PREG_ID' })
-    questionFunction: QuestionFunction;
+    activity: Activity;
 
     @Column({ type: 'nvarchar', nullable: false })
     FUN_FUNCION: string;

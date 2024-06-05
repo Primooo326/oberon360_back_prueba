@@ -7,7 +7,7 @@ import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
-import { DownloadExcelDto, ElementProtocol } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
+import { DownloadExcelDto, ElementProtocol, ElementProtocolResponsible } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 import { ProtocolResponsible } from './entities/protocol-responsible.entity';
 import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
 
@@ -96,7 +96,7 @@ export class ProtocolResponsibleService {
         };
     });
 
-    dto.dataExport.forEach((element: ElementProtocol) => {
+    dto.dataExport.forEach((element: ElementProtocolResponsible) => {
         const row = [];
         headers.forEach((header) => {
             row.push(element[header]);

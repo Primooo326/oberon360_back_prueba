@@ -7,32 +7,29 @@ export class DownloadExcelDto {
 }
 
 export class ElementDriver {
-    CONDUCTOR_ID: string;
-    CONDUCTOR_IDENTIFICACION: string;
-    CONDUCTOR_CODCONDUCTOR: string;
-    CONDUCTOR_PRIMERNOMBRE: string;
-    CONDUCTOR_SEGUNDONOMBRE: string;
-    CONDUCTOR_PRIMERAPELLIDO: string;
-    CONDUCTOR_SEGUNDOAPELLIDO: string;
-    CONDUCTOR_TELPERSONAL: string;
-    CONDUCTOR_TELCORPORATIVO: string;
-    CONDUCTOR_CORREO: string;
-    CONDUCTOR_ESTADO: string;
-    CONDUCTOR_FECINGRESO: string;
-    typeIdentification: {
-        TIP_IDEN_DESCRIPCION: string;
-    };
-    factorRh: {
-        FACTOR_RH_DESCRIPCION: string;
-    };
+    "ID": string;
+    "Tipo de Documento": string;
+    "Documento": string;
+    "Código": string;
+    "Nombre Completo": string;
+    "Teléfono Personal": string;
+    "Teléfono Corporativo": string;
+    "Correo Electrónico": string;
+    "RH": string;
+}
+
+export class ElementActivity {
+    "Código": string;
+    "Actividad": string;
+}
+
+export class ElementProtocolResponsible {
+    "Código": string;
+    "Responsable Protocolo": string;
 }
 
 export class ElementProtocol {
-    CONDUCTOR_ID: string;
-    CONDUCTOR_IDENTIFICACION: string;
-    CONDUCTOR_CODCONDUCTOR: string;
-    CONDUCTOR_PRIMERNOMBRE: string;
-    CONDUCTOR_SEGUNDONOMBRE: string;
-    CONDUCTOR_PRIMERAPELLIDO: string;
-    CONDUCTOR_SEGUNDOAPELLIDO: string;
+    "Responsable Protocolo": string;
+    "Actividad": string;
+    "Protocolo": string;
 }

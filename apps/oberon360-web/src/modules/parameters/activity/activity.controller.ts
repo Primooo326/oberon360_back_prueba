@@ -1,25 +1,25 @@
 import { Controller, Get, Post, Body, Put, Param, Delete, UsePipes, ValidationPipe, UseGuards, HttpCode, Query, Res } from '@nestjs/common';
-import { ProtocolResponsibleService } from './protocol-responsible.service';
-import { CreateProtocolResponsibleDto } from './dto/create-protocol-responsible.dto';
+import { ActivityService } from './activity.service';
+import { CreateActivityDto } from './dto/create-activity.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { Response } from 'express';
 import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
-import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
+import { UpdateActivityDto } from './dto/update-activity.dto';
 
 @ApiBearerAuth()
-@ApiTags('protocol-responsible')
+@ApiTags('activity')
 @UseGuards(JwtAuthGuard)
-@ApiPaginatedResponse(CreateProtocolResponsibleDto)
-@Controller('protocol-responsible')
-export class ProtocolResponsibleController {
-  constructor(private readonly protocolResponsibleService: ProtocolResponsibleService) {}
+@ApiPaginatedResponse(CreateActivityDto)
+@Controller('activity')
+export class ActivityController {
+  constructor(private readonly activityService: ActivityService) {}
 
   @Post('downloadExcel')
   async downloadExcel(@Body() dto: DownloadExcelDto, @Res() res: Response) {
-    const filePath = await this.protocolResponsibleService.downloadExcel(dto);
+    const filePath = await this.activityService.downloadExcel(dto);
     res.download(filePath, 'data.xlsx', (err) => {
       if (err) {
         res.status(500).send({
@@ -31,34 +31,34 @@ export class ProtocolResponsibleController {
 
   @Get()
   @HttpCode(200)
-  @ApiPaginatedResponse(CreateProtocolResponsibleDto)
+  @ApiPaginatedResponse(CreateActivityDto)
   async findAll(@Query() pageOptionsDto: PageOptionsDto): Promise<any> {
-    return this.protocolResponsibleService.findAll(pageOptionsDto);
+    return this.activityService.findAll(pageOptionsDto);
   }
 
   @HttpCode(200)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.protocolResponsibleService.findOne(id);
+    return await this.activityService.findOne(id);
   }
 
   @HttpCode(201)
   @Post()
   @UsePipes(new ValidationPipe({whitelist: true}))
-  async create(@Body() dto: CreateProtocolResponsibleDto) {
-    return await this.protocolResponsibleService.create(dto);
+  async create(@Body() dto: CreateActivityDto) {
+    return await this.activityService.create(dto);
   }
 
   @HttpCode(201)
   @UsePipes(new ValidationPipe({whitelist: true}))
   @Put(':id')
-  async update(@Param('id') id: string, @Body() dto: UpdateProtocolResponsibleDto) {
-    return await this.protocolResponsibleService.update(id, dto);
+  async update(@Param('id') id: string, @Body() dto: UpdateActivityDto) {
+    return await this.activityService.update(id, dto);
   }
 
   @HttpCode(200)
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.protocolResponsibleService.remove(id);
+    return await this.activityService.remove(id);
   }
 }
