@@ -1,9 +1,9 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { Protocol } from "./protocol.entity";
 
 @Entity('COP004_TIPO_FUNCIONES')
 export class TypeFunction {
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn({ type: 'nvarchar', length: 20 })
     TFUN_ID: string;
 
     @Column({ type: 'nvarchar'})
