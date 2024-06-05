@@ -1,13 +1,11 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, HttpCode, Query, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, ParseIntPipe, UsePipes, ValidationPipe, UseGuards, HttpCode, Query } from '@nestjs/common';
 import { DriverService } from './driver.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { Response } from 'express';
 import { UpdateDriverDto } from './dto/update-driver.dto';
-import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @ApiBearerAuth()
 @ApiTags('driver')
@@ -21,18 +19,6 @@ export class DriverController {
   @HttpCode(200)
   async findAllDrivers(): Promise<any> {
     return this.driverService.findAllDrivers();
-  }
-
-  @Post('downloadExcel')
-  async downloadExcel(@Body() dto: DownloadExcelDto, @Res() res: Response) {
-    const filePath = await this.driverService.downloadExcel(dto);
-    res.download(filePath, 'data.xlsx', (err) => {
-      if (err) {
-        res.status(500).send({
-          message: 'Error downloading file',
-        });
-      }
-    });
   }
 
   @Get()

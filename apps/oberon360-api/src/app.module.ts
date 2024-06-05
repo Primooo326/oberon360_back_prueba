@@ -8,6 +8,7 @@ import { join } from 'path';
 import { AuthModule } from './modules/auth/auth.module';
 import { OcMssqlConfig } from './config/oc-mssql.config';
 import { UserModule } from './modules/user/user.module';
+import { ExcelModule } from './exports/excel/excel.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { UserModule } from './modules/user/user.module';
     }),
     TypeOrmModule.forRoot( OcMssqlConfig(process.env.DB_HOST, process.env.DB_PORT, process.env.DB_OCNAME, process.env.DB_USER, process.env.DB_PASSWORD) ),
     AuthModule,
-    UserModule
+    UserModule,
+    ExcelModule
   ],
   controllers: [AppController],
   providers: [AppService],

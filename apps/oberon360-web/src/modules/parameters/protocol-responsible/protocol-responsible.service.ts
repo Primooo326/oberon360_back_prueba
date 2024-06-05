@@ -5,9 +5,6 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { Workbook } from 'exceljs';
-import * as fs from 'fs';
-import { DownloadExcelDto, ElementProtocol, ElementProtocolResponsible } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 import { ProtocolResponsible } from './entities/protocol-responsible.entity';
 import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
 
@@ -75,56 +72,5 @@ export class ProtocolResponsibleService {
     await this.repositoryProtocolResponsible.delete(id);
 
     return {message: 'Responsable de protocolo eliminado exitosamente'};
-  }
-
-  async downloadExcel(dto: DownloadExcelDto): Promise<any> {
-    const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
-
-    const headers = Object.keys(dto.dataExport[0]);
-    const headerRow = worksheet.addRow(headers);
-
-    headerRow.eachCell((cell) => {
-        cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: '3B82F6' }
-        };
-        cell.font = {
-            color: { argb: 'FFFFFFFF' },
-            bold: true
-        };
-    });
-
-    dto.dataExport.forEach((element: ElementProtocolResponsible) => {
-        const row = [];
-        headers.forEach((header) => {
-            row.push(element[header]);
-        });
-        worksheet.addRow(row);
-    });
-
-    worksheet.columns.forEach(column => {
-        let maxLength = 0;
-        column.eachCell({ includeEmpty: true }, cell => {
-            const cellValue = cell.value ? cell.value.toString() : '';
-            if (cellValue.length > maxLength) {
-                maxLength = cellValue.length;
-            }
-        });
-        column.width = maxLength < 10 ? 10 : maxLength + 2;
-    });
-
-    const timestamp = new Date().getTime();
-    const directory = 'exports';
-    const filePath = `${directory}/excel_${timestamp}.xlsx`;
-
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory);
-    }
-
-    await workbook.xlsx.writeFile(filePath);
-
-    return filePath;
   }
 }
