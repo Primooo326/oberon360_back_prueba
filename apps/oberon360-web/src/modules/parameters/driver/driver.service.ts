@@ -7,10 +7,7 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
-import { Workbook } from 'exceljs';
-import * as fs from 'fs';
 import { UpdateDriverDto } from './dto/update-driver.dto';
-import { DownloadExcelDto, ElementDriver } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @Injectable()
 export class DriverService {
@@ -196,57 +193,6 @@ export class DriverService {
     await this.repositoryDriver.delete(id);
 
     return {message: 'Conductor eliminado exitosamente'};
-  }
-
-  async downloadExcel(dto: DownloadExcelDto): Promise<any> {
-    const workbook = new Workbook();
-    const worksheet = workbook.addWorksheet('Sheet 1');
-
-    const headers = Object.keys(dto.dataExport[0]);
-    const headerRow = worksheet.addRow(headers);
-
-    headerRow.eachCell((cell) => {
-        cell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: '3B82F6' }
-        };
-        cell.font = {
-            color: { argb: 'FFFFFFFF' },
-            bold: true
-        };
-    });
-
-    dto.dataExport.forEach((element: ElementDriver) => {
-        const row = [];
-        headers.forEach((header) => {
-            row.push(element[header]);
-        });
-        worksheet.addRow(row);
-    });
-
-    worksheet.columns.forEach(column => {
-        let maxLength = 0;
-        column.eachCell({ includeEmpty: true }, cell => {
-            const cellValue = cell.value ? cell.value.toString() : '';
-            if (cellValue.length > maxLength) {
-                maxLength = cellValue.length;
-            }
-        });
-        column.width = maxLength < 10 ? 10 : maxLength + 2;
-    });
-
-    const timestamp = new Date().getTime();
-    const directory = 'exports';
-    const filePath = `${directory}/excel_${timestamp}.xlsx`;
-
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory);
-    }
-
-    await workbook.xlsx.writeFile(filePath);
-
-    return filePath;
   }
 
   private base64ToBinary(base64: string): any{

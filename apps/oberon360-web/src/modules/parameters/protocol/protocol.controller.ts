@@ -6,8 +6,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { Response } from 'express';
-import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @ApiBearerAuth()
 @ApiTags('protocol')
@@ -16,18 +14,6 @@ import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.e
 @Controller('protocol')
 export class ProtocolController {
   constructor(private readonly protocolService: ProtocolService) {}
-
-  @Post('downloadExcel')
-  async downloadExcel(@Body() dto: DownloadExcelDto, @Res() res: Response) {
-    const filePath = await this.protocolService.downloadExcel(dto);
-    res.download(filePath, 'data.xlsx', (err) => {
-      if (err) {
-        res.status(500).send({
-          message: 'Error downloading file',
-        });
-      }
-    });
-  }
 
   @Get()
   @HttpCode(200)
