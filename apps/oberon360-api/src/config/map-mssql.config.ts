@@ -9,10 +9,10 @@ import { Point } from "apps/oberon360-web/src/modules/map/entities/point.entity"
 import { StateIpe } from "apps/oberon360-web/src/modules/map/entities/state-ipe.entity";
 import { TypeIdentification } from "apps/oberon360-web/src/modules/map/entities/type-identification.entity";
 import { Vehicle } from "apps/oberon360-web/src/modules/map/entities/vehicle.entity";
+import { Activity } from "apps/oberon360-web/src/modules/parameters/activity/entities/activity.entity";
 import { Driver } from "apps/oberon360-web/src/modules/parameters/driver/entities/driver.entity";
 import { ProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/protocol-responsible.entity";
 import { Protocol } from "apps/oberon360-web/src/modules/parameters/protocol/entities/protocol.entity";
-import { QuestionFunction } from "apps/oberon360-web/src/modules/parameters/protocol/entities/question-function.entity";
 
 export const MapMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {
@@ -24,7 +24,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, ProtocolResponsible, QuestionFunction],    
+        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, ProtocolResponsible, Activity],    
         synchronize: false,
         logging: false
     }

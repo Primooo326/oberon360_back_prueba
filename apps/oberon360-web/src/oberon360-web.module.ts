@@ -15,6 +15,7 @@ import { MdaMssqlConfig } from 'apps/oberon360-api/src/config/mda-mssql.config';
 import { DriverModule } from './modules/parameters/driver/driver.module';
 import { ProtocolModule } from './modules/parameters/protocol/protocol.module';
 import { ProtocolResponsibleModule } from './modules/parameters/protocol-responsible/protocol-responsible.module';
+import { ActivityModule } from './modules/parameters/activity/activity.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ProtocolResponsibleModule } from './modules/parameters/protocol-respons
     DriverModule,
     ProtocolModule,
     ProtocolResponsibleModule,
+    ActivityModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],

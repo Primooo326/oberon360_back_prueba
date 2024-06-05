@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProtocolDto } from './dto/create-protocol.dto';
-import { UpdateProtocolDto } from './dto/update-protocol.dto';
+import { CreateActivityDto } from './dto/create-activity.dto';
+import { UpdateActivityDto } from './dto/update-activity.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
@@ -8,23 +8,21 @@ import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
-import { Protocol } from './entities/protocol.entity';
-import { DownloadExcelDto, ElementProtocol } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
+import { Activity } from './entities/activity.entity';
+import { DownloadExcelDto, ElementActivity } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @Injectable()
-export class ProtocolService {
+export class ActivityService {
   constructor(
-    @InjectRepository(Protocol, 'MAP') private repositoryProtocol: Repository<Protocol>,
+    @InjectRepository(Activity, 'MAP') private repositoryActivity: Repository<Activity>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Protocol>>{
-    const queryBuilder = this.repositoryProtocol.createQueryBuilder("protocol")
-      .leftJoinAndSelect('protocol.protocolResponsible', 'protocolResponsible')
-      .leftJoinAndSelect('protocol.activity', 'activity')
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Activity>>{
+    const queryBuilder = this.repositoryActivity.createQueryBuilder("activity")
       .andWhere(qb => {
-        qb.where('(protocol.FUN_FUNCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.where('(activity.PREFUN_PREGUNTA LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
-      .orderBy("protocol.FUN_ID", pageOptionsDto.order)
+      .orderBy("activity.PREFUN_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   
@@ -39,43 +37,44 @@ export class ProtocolService {
     }
   }
 
-  async findOne(id: number): Promise<Protocol | NotFoundException>{
-    const data = await this.repositoryProtocol.createQueryBuilder("protocol")
-      .where("protocol.FUN_ID= :id", { id: id })
+  async findOne(id: string): Promise<Activity | NotFoundException>{
+    const data = await this.repositoryActivity.createQueryBuilder("activity")
+      .where("activity.PREFUN_ID= :id", { id: id })
       .getOne();
 
-    if (!data) throw new NotFoundException('No existe un protocolo con el id '+id);
+    if (!data) throw new NotFoundException('No existe una actividad con el id '+id);
 
     return data;
   }
 
-  async create(dto: CreateProtocolDto): Promise<{ message: string }> {
-    const data = this.repositoryProtocol.create({
+  async create(dto: CreateActivityDto): Promise<{ message: string }> {
+    const data = this.repositoryActivity.create({
       ...dto,
-      FUN_STATUS: '1'
+      PREFUN_ID: dto.PREFUN_ID,
+      PREFUN_STATUS: '1'
     });
 
-    await this.repositoryProtocol.save(data);
+    await this.repositoryActivity.save(data);
 
-    return { message: 'Protocolo registrado exitosamente' };
+    return { message: 'Actividad registrada exitosamente' };
   }
 
-  async update(id: number, dto: UpdateProtocolDto): Promise<{message: string} | NotFoundException>{
+  async update(id: string, dto: UpdateActivityDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
-    if (!data) throw new NotFoundException({ message: 'No existe el protocolo solicitado' });
+    if (!data) throw new NotFoundException({ message: 'No existe la actividad solicitada' });
 
-    await this.repositoryProtocol.update(id, dto);
+    await this.repositoryActivity.update(id, dto);
   
-    return { message: 'Protocolo actualizado exitosamente' };
+    return { message: 'Actividad actualizada exitosamente' };
   } 
 
-  async remove(id: number): Promise<{message: string}>{
+  async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryProtocol.delete(id);
+    await this.repositoryActivity.delete(id);
 
-    return {message: 'Protocolo eliminado exitosamente'};
+    return {message: 'Actividad eliminada exitosamente'};
   }
 
   async downloadExcel(dto: DownloadExcelDto): Promise<any> {
@@ -97,7 +96,7 @@ export class ProtocolService {
         };
     });
 
-    dto.dataExport.forEach((element: ElementProtocol) => {
+    dto.dataExport.forEach((element: ElementActivity) => {
         const row = [];
         headers.forEach((header) => {
             row.push(element[header]);
