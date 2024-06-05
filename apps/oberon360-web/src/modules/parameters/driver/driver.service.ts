@@ -180,7 +180,7 @@ export class DriverService {
       CONDUCTOR_TELCORPORATIVO: dto.CONDUCTOR_TELCORPORATIVO,
       CONDUCTOR_CORREO: dto.CONDUCTOR_CORREO,
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
-      CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
+      CONDUCTOR_FOTO: this.base64ToBinary(dto.CONDUCTOR_FOTO),
       CONDUCTOR_FECINGRESO: new Date(),
       CONDUCTOR_ESTADO: '1'
     };
@@ -250,7 +250,7 @@ export class DriverService {
   }
 
   private base64ToBinary(base64: string): any{
-    return Buffer.from(base64, 'base64');
+    if (base64) return Buffer.from(base64, 'base64');
   }
 
   private bufferToBase64(buffer: Buffer): string{
