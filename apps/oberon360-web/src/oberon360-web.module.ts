@@ -12,8 +12,9 @@ import { IcpMssqlConfig } from 'apps/oberon360-api/src/config/icp-mssql.config';
 import { OcMssqlConfig } from 'apps/oberon360-api/src/config/oc-mssql.config';
 import { MapMssqlConfig } from 'apps/oberon360-api/src/config/map-mssql.config';
 import { MdaMssqlConfig } from 'apps/oberon360-api/src/config/mda-mssql.config';
-import { DriverModule } from './modules/driver/driver.module';
-import { ProtocolModule } from './modules/protocol/protocol.module';
+import { DriverModule } from './modules/parameters/driver/driver.module';
+import { ProtocolModule } from './modules/parameters/protocol/protocol.module';
+import { ProtocolResponsibleModule } from './modules/parameters/protocol-responsible/protocol-responsible.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProtocolModule } from './modules/protocol/protocol.module';
     MapModule,
     DriverModule,
     ProtocolModule,
+    ProtocolResponsibleModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],

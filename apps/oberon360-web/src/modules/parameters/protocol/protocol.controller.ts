@@ -7,10 +7,10 @@ import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { Response } from 'express';
-import { DownloadExcelDto } from '../../../../oberon360-api/src/dtos-globals/download.excel.dto';
+import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @ApiBearerAuth()
-@ApiTags('driver')
+@ApiTags('protocol')
 @UseGuards(JwtAuthGuard)
 @ApiPaginatedResponse(CreateProtocolDto)
 @Controller('protocol')

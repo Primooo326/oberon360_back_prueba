@@ -12,13 +12,13 @@ import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
 import { Vehicle } from './entities/vehicle.entity';
 import { OpeGps } from './entities/ope-gps.entity';
-import { Driver } from '../driver/entities/driver.entity';
 import { ItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
 import { ZProtocolo } from './entities/z-protocolos.entity';
 import { ZEventos } from './entities/z-events.entity';
 import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
+import { Driver } from '../parameters/driver/entities/driver.entity';
 
 @Injectable()
 export class MapService {

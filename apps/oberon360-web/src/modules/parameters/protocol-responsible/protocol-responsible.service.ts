@@ -1,30 +1,28 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateProtocolDto } from './dto/create-protocol.dto';
-import { UpdateProtocolDto } from './dto/update-protocol.dto';
+import { CreateProtocolResponsibleDto } from './dto/create-protocol-responsible.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
-import { Protocol } from './entities/protocol.entity';
 import { DownloadExcelDto, ElementProtocol } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
+import { ProtocolResponsible } from './entities/protocol-responsible.entity';
+import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
 
 @Injectable()
-export class ProtocolService {
+export class ProtocolResponsibleService {
   constructor(
-    @InjectRepository(Protocol, 'MAP') private repositoryProtocol: Repository<Protocol>,
+    @InjectRepository(ProtocolResponsible, 'MAP') private repositoryProtocolResponsible: Repository<ProtocolResponsible>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Protocol>>{
-    const queryBuilder = this.repositoryProtocol.createQueryBuilder("protocol")
-      .leftJoinAndSelect('protocol.typeFunction', 'typeFunction')
-      .leftJoinAndSelect('protocol.questionFunction', 'questionFunction')
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<ProtocolResponsible>>{
+    const queryBuilder = this.repositoryProtocolResponsible.createQueryBuilder("protocolResponsible")
       .andWhere(qb => {
-        qb.where('(protocol.FUN_FUNCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        qb.where('(protocolResponsible.TFUN_NOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
-      .orderBy("protocol.FUN_ID", pageOptionsDto.order)
+      .orderBy("protocolResponsible.TFUN_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   
@@ -39,40 +37,44 @@ export class ProtocolService {
     }
   }
 
-  async findOne(id: number): Promise<Protocol | NotFoundException>{
-    const data = await this.repositoryProtocol.createQueryBuilder("protocol")
-      .where("protocol.FUN_ID= :id", { id: id })
+  async findOne(id: string): Promise<ProtocolResponsible | NotFoundException>{
+    const data = await this.repositoryProtocolResponsible.createQueryBuilder("protocolResponsible")
+      .where("protocolResponsible.TFUN_ID= :id", { id: id })
       .getOne();
 
-    if (!data) throw new NotFoundException('No existe un protocolo con el id '+id);
+    if (!data) throw new NotFoundException('No existe un responsable de responsable de protocolo con el id '+id);
 
     return data;
   }
 
-  async create(dto: CreateProtocolDto): Promise<{ message: string }> {
-    const data = this.repositoryProtocol.create(dto);
+  async create(dto: CreateProtocolResponsibleDto): Promise<{ message: string }> {
+    const data = this.repositoryProtocolResponsible.create({
+      ...dto,
+      TFUN_ID: dto.TFUN_ID,
+      TFUN_STATUS: '1'
+    });
 
-    await this.repositoryProtocol.save(data);
+    await this.repositoryProtocolResponsible.save(data);
 
-    return { message: 'Protocolo registrado exitosamente' };
+    return { message: 'Responsable de protocolo registrado exitosamente' };
   }
 
-  async update(id: number, dto: UpdateProtocolDto): Promise<{message: string} | NotFoundException>{
+  async update(id: string, dto: UpdateProtocolResponsibleDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
-    if (!data) throw new NotFoundException({ message: 'No existe el protocolo solicitado' });
+    if (!data) throw new NotFoundException({ message: 'No existe el responsable de protocolo solicitado' });
 
-    await this.repositoryProtocol.update(id, dto);
+    await this.repositoryProtocolResponsible.update(id, dto);
   
-    return { message: 'Protocolo actualizado exitosamente' };
+    return { message: 'Responsable de protocolo actualizado exitosamente' };
   } 
 
-  async remove(id: number): Promise<{message: string}>{
+  async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryProtocol.delete(id);
+    await this.repositoryProtocolResponsible.delete(id);
 
-    return {message: 'Protocolo eliminado exitosamente'};
+    return {message: 'Responsable de protocolo eliminado exitosamente'};
   }
 
   async downloadExcel(dto: DownloadExcelDto): Promise<any> {
