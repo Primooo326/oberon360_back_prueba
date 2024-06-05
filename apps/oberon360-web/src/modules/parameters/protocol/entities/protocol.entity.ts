@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { TypeFunction } from "./type-functions.entity";
 import { QuestionFunction } from "./question-function.entity";
+import { ProtocolResponsible } from "../../protocol-responsible/entities/protocol-responsible.entity";
 
 @Entity('COP003_FUNCIONES')
 export class Protocol {
@@ -13,9 +13,9 @@ export class Protocol {
     @Column({ type: 'nvarchar', length: 20, nullable: false })
     FUN_TIPOFUNID: string;
 
-    @ManyToOne(() => TypeFunction, (typeFunction) => typeFunction.protocol, { nullable: true })
+    @ManyToOne(() => ProtocolResponsible, (protocolResponsible) => protocolResponsible.protocol, { nullable: true })
     @JoinColumn({ name: 'FUN_TIPOFUNID' })
-    typeFunction: TypeFunction;
+    protocolResponsible: ProtocolResponsible;
 
     @Column({ type: 'nvarchar', length: 20, nullable: false })
     FUN_PREG_ID: string;

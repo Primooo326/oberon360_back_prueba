@@ -5,9 +5,9 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { DownloadExcelDto } from '../../../../oberon360-api/src/dtos-globals/download.excel.dto';
 import { Response } from 'express';
 import { UpdateDriverDto } from './dto/update-driver.dto';
+import { DownloadExcelDto } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @ApiBearerAuth()
 @ApiTags('driver')

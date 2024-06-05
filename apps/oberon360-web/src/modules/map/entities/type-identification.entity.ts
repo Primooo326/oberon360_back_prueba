@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { Driver } from "../../driver/entities/driver.entity";
+import { Driver } from "../../parameters/driver/entities/driver.entity";
 
 @Entity('OPE004_TIPO_IDENTIFICACION')
 export class TypeIdentification {

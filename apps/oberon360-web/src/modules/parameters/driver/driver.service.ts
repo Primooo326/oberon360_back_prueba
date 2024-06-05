@@ -7,10 +7,10 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { IHeaderCustomTable } from 'apps/oberon360-api/src/interfaces/global-components.interface';
-import { DownloadExcelDto, ElementDriver } from '../../../../oberon360-api/src/dtos-globals/download.excel.dto';
 import { Workbook } from 'exceljs';
 import * as fs from 'fs';
 import { UpdateDriverDto } from './dto/update-driver.dto';
+import { DownloadExcelDto, ElementDriver } from 'apps/oberon360-api/src/dtos-globals/download.excel.dto';
 
 @Injectable()
 export class DriverService {
@@ -145,7 +145,7 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO ? dto.CONDUCTOR_ESTADO : '1'
+      CONDUCTOR_ESTADO: '1'
     };
 
     const data = this.repositoryDriver.create(createData);
@@ -182,7 +182,7 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO ? dto.CONDUCTOR_ESTADO : '1'
+      CONDUCTOR_ESTADO: '1'
     };
 
     await this.repositoryDriver.update(id, updateData);
