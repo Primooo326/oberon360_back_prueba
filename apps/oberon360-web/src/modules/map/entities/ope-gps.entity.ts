@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity('CO_118_OPE_GPS')
-export class OpeGps {
+export class MdaOpeGps {
     @PrimaryColumn({ type: 'numeric'})
     GPS_ID: number;
 

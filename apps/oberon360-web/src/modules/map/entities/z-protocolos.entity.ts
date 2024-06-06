@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm"
 
 @Entity('Z_PROTOCOLOS_DVEX')
-export class ZProtocolo {
+export class OcZProtocolo {
     @PrimaryColumn({ type: 'varchar'})
     PRODVEX_NAME: string;
 

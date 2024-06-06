@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity('COP023_ASISTENCIA')
-export class Attendance {
+export class IcpAttendance {
     @PrimaryColumn({ type: 'numeric'})
     ASISTENCIA_ID: number;
 

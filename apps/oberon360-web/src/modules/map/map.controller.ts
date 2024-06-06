@@ -5,13 +5,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
-import { Client } from './entities/client.entity';
+import { CopClient } from './entities/client.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
-import { EventPlate } from './entities/event-plate.entity';
+import { MapEventPlate } from './entities/event-plate.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
-import { ZEventos } from './entities/z-events.entity';
+import { OcZEventos } from './entities/z-events.entity';
 import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
 
 @ApiBearerAuth()
@@ -23,7 +23,7 @@ export class MapController {
 
   @HttpCode(200)
   @Get('getEventsShips')
-  async getEventsShips(): Promise<PageDto<ZEventos>> {
+  async getEventsShips(): Promise<PageDto<OcZEventos>> {
     return this.mapService.getEventsShips();
   }
 
@@ -47,7 +47,7 @@ export class MapController {
 
   @HttpCode(200)
   @Get('getClients')
-  async getClients(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<Client>> {
+  async getClients(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<CopClient>> {
     return this.mapService.getClients(pageOptionsDto);
   }
 
@@ -65,13 +65,13 @@ export class MapController {
 
   @HttpCode(200)
   @Get('getEventsPlates')
-  async getEventsPlates(): Promise<EventPlate[]> {
+  async getEventsPlates(): Promise<MapEventPlate[]> {
     return this.mapService.getEventsPlates();
   }
 
   @HttpCode(200)
   @Get('getEventsPlatesDispon')
-  async getEventsPlatesDispon(): Promise<EventPlate[]> {
+  async getEventsPlatesDispon(): Promise<MapEventPlate[]> {
     return this.mapService.getEventsPlatesDispon();
   }
 

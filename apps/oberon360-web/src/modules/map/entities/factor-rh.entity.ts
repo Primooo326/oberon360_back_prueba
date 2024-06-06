@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { Driver } from "../../parameters/driver/entities/driver.entity";
+import { MapDriver } from "../../parameters/driver/entities/driver.entity";
 
 @Entity('CAT093FACTOR_RH')
-export class FactorRh {
+export class MapFactorRh {
     @PrimaryColumn({ type: 'smallint'})
     FACTOR_RH_ID_REG: number;
 
@@ -15,6 +15,6 @@ export class FactorRh {
     @Column({ type: 'nvarchar'})
     FACTOR_RH_SIGLA: string;
 
-    @OneToMany(() => Driver, (driver) => driver.factorRh)
-    driver: Driver[];
+    @OneToMany(() => MapDriver, (mapDriver) => mapDriver.mapFactorRh)
+    mapDriver: MapDriver[];
 }

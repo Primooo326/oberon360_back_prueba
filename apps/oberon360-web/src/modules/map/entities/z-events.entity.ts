@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm"
 
 @Entity('Z_EVENTOS_DVEX')
-export class ZEventos {
+export class OcZEventos {
     @PrimaryColumn({ type: 'int'})
     CLIPMARK_ID: number;
 

@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Protocol } from "../../protocol/entities/protocol.entity";
+import { MapProtocol } from "../../protocol/entities/protocol.entity";
 
 @Entity('COP026_PREGUNTA_FUNCION')
-export class Activity {
+export class MapActivity {
     @PrimaryColumn({ type: 'nvarchar', length: 20 })
     PREFUN_ID: string;
 
@@ -12,6 +12,6 @@ export class Activity {
     @Column({ type: 'char'})
     PREFUN_STATUS: string;
 
-    @OneToMany(() => Protocol, (protocol) => protocol.activity)
-    protocol: Protocol[];
+    @OneToMany(() => MapProtocol, (mapProtocol) => mapProtocol.mapActivity)
+    mapProtocol: MapProtocol[];
 }

@@ -2,21 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Attendance } from './entities/attendance.entity';
+import { IcpAttendance } from './entities/attendance.entity';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 
 @Injectable()
 export class AttendanceService {
   constructor(
-    @InjectRepository(Attendance, 'ICP') private repositoryAttendance: Repository<Attendance>,
+    @InjectRepository(IcpAttendance, 'ICP') private repositoryIcpAttendance: Repository<IcpAttendance>,
   ) { }
 
   async findAttendance(pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> 
   {
     const { term, page, take } = pageOptionsDto;
     try {
-      const data = await this.repositoryAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA @FechaInicio = @0, @FechaFinal = @1, @term = @2', ['', '', term]);
+      const data = await this.repositoryIcpAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA @FechaInicio = @0, @FechaFinal = @1, @term = @2', ['', '', term]);
       const itemCount = data.length;
       const skip = (page - 1) * take;
       const pageData = data.slice(skip, skip + take);

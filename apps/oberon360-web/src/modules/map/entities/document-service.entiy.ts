@@ -1,25 +1,25 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { Document } from "./document.entity";
-import { InventoryTree } from "./inventory-tree.entity";
+import { CopDocument } from "./document.entity";
+import { CopInventoryTree } from "./inventory-tree.entity";
 
 @Entity('NEG002DOCUMENTO_SERVICIOS')
-export class DocumentService {
+export class CopDocumentService {
     @PrimaryColumn({ type: 'bigint'})
     DOCSER_ID_REG: number;
 
     @Column()
     DOCSER_ID_DOCUMENTO: number;
 
-    @ManyToOne(() => Document, (document) => document.documentService)
+    @ManyToOne(() => CopDocument, (copDocument) => copDocument.copDocumentService)
     @JoinColumn({name: 'DOCSER_ID_DOCUMENTO'})
-    document: Document;
+    copDocument: CopDocument;
 
     @Column()
     DOCSER_COD_SERV_ID_REG: number;
 
-    @ManyToOne(() => InventoryTree, (inventoryTree) => inventoryTree.documentService)
+    @ManyToOne(() => CopInventoryTree, (copInventoryTree) => copInventoryTree.copDocumentService)
     @JoinColumn({name: 'DOCSER_COD_SERV_ID_REG'})
-    inventoryTree: InventoryTree;
+    copInventoryTree: CopInventoryTree;
 
     @Column({ type: 'bigint'})
     DOCSER_MODALIDAD_ID: number;

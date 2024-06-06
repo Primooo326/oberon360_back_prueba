@@ -6,16 +6,16 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { Activity } from './entities/activity.entity';
+import { MapActivity } from './entities/activity.entity';
 
 @Injectable()
 export class ActivityService {
   constructor(
-    @InjectRepository(Activity, 'MAP') private repositoryActivity: Repository<Activity>,
+    @InjectRepository(MapActivity, 'MAP') private repositoryMapActivity: Repository<MapActivity>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Activity>>{
-    const queryBuilder = this.repositoryActivity.createQueryBuilder("activity")
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapActivity>>{
+    const queryBuilder = this.repositoryMapActivity.createQueryBuilder("activity")
       .andWhere(qb => {
         qb.where('(activity.PREFUN_PREGUNTA LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
@@ -34,8 +34,8 @@ export class ActivityService {
     }
   }
 
-  async findOne(id: string): Promise<Activity | NotFoundException>{
-    const data = await this.repositoryActivity.createQueryBuilder("activity")
+  async findOne(id: string): Promise<MapActivity | NotFoundException>{
+    const data = await this.repositoryMapActivity.createQueryBuilder("activity")
       .where("activity.PREFUN_ID= :id", { id: id })
       .getOne();
 
@@ -45,13 +45,13 @@ export class ActivityService {
   }
 
   async create(dto: CreateActivityDto): Promise<{ message: string }> {
-    const data = this.repositoryActivity.create({
+    const data = this.repositoryMapActivity.create({
       ...dto,
       PREFUN_ID: dto.PREFUN_ID,
       PREFUN_STATUS: '1'
     });
 
-    await this.repositoryActivity.save(data);
+    await this.repositoryMapActivity.save(data);
 
     return { message: 'Actividad registrada exitosamente' };
   }
@@ -61,7 +61,7 @@ export class ActivityService {
   
     if (!data) throw new NotFoundException({ message: 'No existe la actividad solicitada' });
 
-    await this.repositoryActivity.update(id, dto);
+    await this.repositoryMapActivity.update(id, dto);
   
     return { message: 'Actividad actualizada exitosamente' };
   } 
@@ -69,7 +69,7 @@ export class ActivityService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryActivity.delete(id);
+    await this.repositoryMapActivity.delete(id);
 
     return {message: 'Actividad eliminada exitosamente'};
   }

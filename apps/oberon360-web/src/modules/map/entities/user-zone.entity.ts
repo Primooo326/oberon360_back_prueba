@@ -1,8 +1,8 @@
-import { User } from "apps/oberon360-api/src/modules/user/entities/user.entity";
+import { OcUser } from "apps/oberon360-api/src/modules/user/entities/user.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 
 @Entity('SEC024USER_ZONES')
-export class UserZone {
+export class OcUserZone {
     @PrimaryColumn({ type: 'bigint'})
     SUZ_ID_REG: number;
 
@@ -21,6 +21,6 @@ export class UserZone {
     @Column({ type: 'nvarchar'})
     SUZ_LIMIT_LONGITUD_OESTE: string;
 
-    @OneToMany(() => User, (user) => user.userZone)
-    user: User[];
+    @OneToMany(() => OcUser, (ocUser) => ocUser.ocUserZone)
+    ocUser: OcUser[];
 }

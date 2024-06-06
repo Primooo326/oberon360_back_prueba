@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { ItineraryPointExecuted } from "./itinerary-point-executed.entity";
+import { MapItineraryPointExecuted } from "./itinerary-point-executed.entity";
 
 @Entity('COP096_ESTADO_IPE')
-export class StateIpe {
+export class MapStateIpe {
     @PrimaryColumn({ type: 'smallint'})
     ESTADOIPE_ID: number;
 
@@ -12,6 +12,6 @@ export class StateIpe {
     @Column({ type: 'nvarchar'})
     ESTADOIPE_NOMBRE: number;
 
-    @OneToMany(() => ItineraryPointExecuted, (itineraryPointExecuted) => itineraryPointExecuted.state)
-    itineraryPointExecuted: ItineraryPointExecuted[];
+    @OneToMany(() => MapItineraryPointExecuted, (mapItineraryPointExecuted) => mapItineraryPointExecuted.mapStateIpe)
+    mapItineraryPointExecuted: MapItineraryPointExecuted[];
 }

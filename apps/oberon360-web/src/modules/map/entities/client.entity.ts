@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { ClientUbication } from "./client-ubication.entity";
-import { Document } from "./document.entity";
+import { CopClientUbication } from "./client-ubication.entity";
+import { CopDocument } from "./document.entity";
 
 @Entity('CLI001CLIENTE')
-export class Client {
+export class CopClient {
     @PrimaryColumn({ type: 'bigint'})
     CLIE_ID_REG: number;
 
@@ -121,9 +121,9 @@ export class Client {
     @Column({ type: 'char'})
     CLIE_COP: string;
 
-    @OneToMany(() => ClientUbication, (clientUbication) => clientUbication.client)
-    clientUbication: ClientUbication[];
+    @OneToMany(() => CopClientUbication, (copClientUbication) => copClientUbication.copClient)
+    copClientUbication: CopClientUbication[];
 
-    @OneToMany(() => Document, (document) => document.client)
-    document: Document[];
+    @OneToMany(() => CopDocument, (copDocument) => copDocument.copClient)
+    copDocument: CopDocument[];
 }

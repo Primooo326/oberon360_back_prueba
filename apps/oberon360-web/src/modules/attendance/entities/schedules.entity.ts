@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity('COP101_HORARIOS_ACTUAL')
-export class Schedules {
+export class CopSchedules {
     @PrimaryColumn({ name: 'HORA_ID', type: 'numeric' })
     HORA_ID: number;
 

@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm"
 
 @Entity('OPE013_WT_EVENTOS')
-export class EventPlate {
+export class MapEventPlate {
     @PrimaryColumn({ type: 'numeric'})
     WTEVNT_ID: number;
 

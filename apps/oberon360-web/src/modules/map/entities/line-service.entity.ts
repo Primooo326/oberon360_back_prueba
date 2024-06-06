@@ -1,14 +1,14 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { InventoryTree } from "./inventory-tree.entity";
+import { CopInventoryTree } from "./inventory-tree.entity";
 
 @Entity('NEG054_LINEA_SERVICIOS')
-export class LineService {
+export class CopLineService {
     @PrimaryColumn({ type: 'bigint'})
     LINSER_ID_REG: string;
 
     @Column({ type: 'nvarchar'})
     LINSER_NAME: string;
 
-    @OneToMany(() => InventoryTree, (inventoryTree) => inventoryTree.lineService)
-    inventoryTree: InventoryTree[];
+    @OneToMany(() => CopInventoryTree, (copInventoryTree) => copInventoryTree.copLineService)
+    copInventoryTree: CopInventoryTree[];
 }

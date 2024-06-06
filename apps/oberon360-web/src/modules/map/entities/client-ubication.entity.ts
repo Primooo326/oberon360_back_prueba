@@ -1,17 +1,17 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { Client } from "./client.entity";
+import { CopClient } from "./client.entity";
 
 @Entity('CLI002CLIENTE_UBICACION')
-export class ClientUbication {
+export class CopClientUbication {
     @PrimaryColumn({ type: 'bigint' })
     CLIUBIC_ID_REG: number;
 
     @Column()
     CLIUBIC_ID_CLIENTE: number;
 
-    @ManyToOne(() => Client, (client) => client.clientUbication)
+    @ManyToOne(() => CopClient, (copClient) => copClient.copClientUbication)
     @JoinColumn({name: 'CLIUBIC_ID_CLIENTE'})
-    client: Client;
+    copClient: CopClient;
 
     @Column({ type: 'nvarchar' })
     CLIUBIC_NOMBRE: string;

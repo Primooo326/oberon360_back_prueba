@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { ProtocolResponsible } from "../../protocol-responsible/entities/protocol-responsible.entity";
-import { Activity } from "../../activity/entities/activity.entity";
+import { MapProtocolResponsible } from "../../protocol-responsible/entities/protocol-responsible.entity";
+import { MapActivity } from "../../activity/entities/activity.entity";
 
 @Entity('COP003_FUNCIONES')
-export class Protocol {
+export class MapProtocol {
     @PrimaryGeneratedColumn()
     FUN_ID: number;
 
@@ -13,16 +13,16 @@ export class Protocol {
     @Column({ type: 'nvarchar', length: 20, nullable: false })
     FUN_TIPOFUNID: string;
 
-    @ManyToOne(() => ProtocolResponsible, (protocolResponsible) => protocolResponsible.protocol, { nullable: true })
+    @ManyToOne(() => MapProtocolResponsible, (mapProtocolResponsible) => mapProtocolResponsible.mapProtocol, { nullable: true })
     @JoinColumn({ name: 'FUN_TIPOFUNID' })
-    protocolResponsible: ProtocolResponsible;
+    mapProtocolResponsible: MapProtocolResponsible;
 
     @Column({ type: 'nvarchar', length: 20, nullable: false })
     FUN_PREG_ID: string;
 
-    @ManyToOne(() => Activity, (activity) => activity.protocol, { nullable: true })
+    @ManyToOne(() => MapActivity, (mapActivity) => mapActivity.mapProtocol, { nullable: true })
     @JoinColumn({ name: 'FUN_PREG_ID' })
-    activity: Activity;
+    mapActivity: MapActivity;
 
     @Column({ type: 'nvarchar', nullable: false })
     FUN_FUNCION: string;

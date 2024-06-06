@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm"
 
 @Entity('COP018_EMPLEADOS')
-export class Employee {
+export class IcpEmployee {
     @PrimaryColumn({ type: 'nvarchar'})
     EMPL_IDEMPLEADO: number;
 

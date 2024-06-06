@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity('COP092_VEHICULO')
-export class Vehicle {
+export class MapVehicle {
     @PrimaryColumn({ type: 'smallint'})
     VEHICULO_ID: number;
 
