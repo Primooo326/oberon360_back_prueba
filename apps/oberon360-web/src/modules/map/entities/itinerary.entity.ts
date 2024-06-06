@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { ItineraryPoint } from "./itinerary-point.entity";
+import { MapItineraryPoint } from "./itinerary-point.entity";
 
 @Entity('COP086_ITINERARIO')
-export class Itinerary {
+export class MapItinerary {
     @PrimaryColumn({ type: 'bigint'})
     ITINE_ID: number;
 
@@ -15,6 +15,6 @@ export class Itinerary {
     @Column({ type: 'nvarchar'})
     ITINE_DESTINO: string;
 
-    @OneToMany(() => ItineraryPoint, (itineraryPoint) => itineraryPoint.itinerary)
-    itineraryPoint: ItineraryPoint[];
+    @OneToMany(() => MapItineraryPoint, (mapItineraryPoint) => mapItineraryPoint.mapItinerary)
+    mapItineraryPoint: MapItineraryPoint[];
 }

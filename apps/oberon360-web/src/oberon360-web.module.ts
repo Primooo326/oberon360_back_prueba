@@ -16,6 +16,7 @@ import { DriverModule } from './modules/parameters/driver/driver.module';
 import { ProtocolModule } from './modules/parameters/protocol/protocol.module';
 import { ProtocolResponsibleModule } from './modules/parameters/protocol-responsible/protocol-responsible.module';
 import { ActivityModule } from './modules/parameters/activity/activity.module';
+import { CategoryModule } from './modules/parameters/category/category.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ActivityModule } from './modules/parameters/activity/activity.module';
     ProtocolModule,
     ProtocolResponsibleModule,
     ActivityModule,
+    CategoryModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],

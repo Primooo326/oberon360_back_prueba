@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import { Point } from "./point.entity";
-import { StateIpe } from "./state-ipe.entity";
+import { MapPoint } from "./point.entity";
+import { MapStateIpe } from "./state-ipe.entity";
 
 @Entity('COP091_ITINERARIO_PUNTOS_EJECUTADO')
-export class ItineraryPointExecuted {
+export class MapItineraryPointExecuted {
     @PrimaryColumn({ type: 'bigint'})
     IPE_ID: number;
 
@@ -22,9 +22,9 @@ export class ItineraryPointExecuted {
     @Column()
     IPE_IDPUNTO: number;
 
-    @ManyToOne(() => Point, (point) => point.itineraryPointExecuted)
+    @ManyToOne(() => MapPoint, (mapPoint) => mapPoint.mapItineraryPointExecuted)
     @JoinColumn({name: 'IPE_IDPUNTO'})
-    point: Point;
+    mapPoint: MapPoint;
 
     @Column({ type: 'datetime'})
     IPE_FECHA_PRESUPUESTADO: string;
@@ -32,7 +32,7 @@ export class ItineraryPointExecuted {
     @Column()
     IPE_ESTADO: number;
 
-    @ManyToOne(() => StateIpe, (stateIpe) => stateIpe.itineraryPointExecuted)
+    @ManyToOne(() => MapStateIpe, (mapStateIpe) => mapStateIpe.mapItineraryPointExecuted)
     @JoinColumn({name: 'IPE_ESTADO'})
-    state: StateIpe;
+    mapStateIpe: MapStateIpe;
 }

@@ -1,25 +1,25 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import { Itinerary } from "./itinerary.entity";
-import { Point } from "./point.entity";
+import { MapItinerary } from "./itinerary.entity";
+import { MapPoint } from "./point.entity";
 
 @Entity('COP087_ITINERARIO_PUNTO')
-export class ItineraryPoint {
+export class MapItineraryPoint {
     @PrimaryColumn({ type: 'bigint'})
     ITINEPUN_ID: number;
 
     @Column()
     ITINEPUN_IDITINERARIO: number;
 
-    @ManyToOne(() => Itinerary, (itinerary) => itinerary.itineraryPoint)
+    @ManyToOne(() => MapItinerary, (mapItinerary) => mapItinerary.mapItineraryPoint)
     @JoinColumn({name: 'ITINEPUN_IDITINERARIO'})
-    itinerary: Itinerary;
+    mapItinerary: MapItinerary;
 
     @Column()
     ITINEPUN_IDPUNTO: number;
 
-    @ManyToOne(() => Point, (point) => point.itineraryPoint)
+    @ManyToOne(() => MapPoint, (mapPoint) => mapPoint.mapItineraryPoint)
     @JoinColumn({name: 'ITINEPUN_IDPUNTO'})
-    point: Point;
+    mapPoint: MapPoint;
 
     @Column({ type: 'smallint'})
     ITINEPUN_ORDEN: number;

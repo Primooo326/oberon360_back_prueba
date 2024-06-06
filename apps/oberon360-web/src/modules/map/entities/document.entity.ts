@@ -1,18 +1,18 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
-import { Client } from "./client.entity";
-import { DocumentService } from "./document-service.entiy";
+import { CopClient } from "./client.entity";
+import { CopDocumentService } from "./document-service.entiy";
 
 @Entity('NEG001DOCUMENTO')
-export class Document{
+export class CopDocument{
     @PrimaryColumn({ type: 'bigint'})
     NEGDOC_ID_REG: string;
 
     @Column()
     NEGDOC_ID_CLIENTE: number;
 
-    @ManyToOne(() => Client, (client) => client.document)
+    @ManyToOne(() => CopClient, (copClient) => copClient.copDocument)
     @JoinColumn({name: 'NEGDOC_ID_CLIENTE'})
-    client: Client;
+    copClient: CopClient;
 
     @Column({ type: 'nvarchar'})
     NEGDOC_PREFIJO_CONSECUT: string;
@@ -131,6 +131,6 @@ export class Document{
     @Column({ type: 'nvarchar'})
     NEGDOC_CENTRO_DE_COSTOS: string;
 
-    @OneToMany(() => DocumentService, (documentService) => documentService.document)
-    documentService: DocumentService[];
+    @OneToMany(() => CopDocumentService, (copDocumentService) => copDocumentService.copDocument)
+    copDocumentService: CopDocumentService[];
 }

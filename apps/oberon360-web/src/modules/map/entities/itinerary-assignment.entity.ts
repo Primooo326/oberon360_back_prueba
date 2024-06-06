@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from "typeorm"
 
 @Entity('COP085_ASISGNACION_ITINERARIO')
-export class ItineraryAssignment {
+export class MapItineraryAssignment {
     @PrimaryColumn({ type: 'bigint'})
     ITNE_ID: number;
 

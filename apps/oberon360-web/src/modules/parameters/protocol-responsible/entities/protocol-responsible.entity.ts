@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Protocol } from "../../protocol/entities/protocol.entity";
+import { MapProtocol } from "../../protocol/entities/protocol.entity";
 
 @Entity('COP004_TIPO_FUNCIONES')
-export class ProtocolResponsible {
+export class MapProtocolResponsible {
     @PrimaryColumn({ type: 'nvarchar', length: 20 })
     TFUN_ID: string;
 
@@ -15,6 +15,6 @@ export class ProtocolResponsible {
     @Column({ type: 'char'})
     TFUN_STATUS: string;
 
-    @OneToMany(() => Protocol, (protocol) => protocol.protocolResponsible)
-    protocol: Protocol[];
+    @OneToMany(() => MapProtocol, (mapProtocol) => mapProtocol.mapProtocolResponsible)
+    mapProtocol: MapProtocol[];
 }

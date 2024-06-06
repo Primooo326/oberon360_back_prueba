@@ -5,17 +5,17 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { ProtocolResponsible } from './entities/protocol-responsible.entity';
+import { MapProtocolResponsible } from './entities/protocol-responsible.entity';
 import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
 
 @Injectable()
 export class ProtocolResponsibleService {
   constructor(
-    @InjectRepository(ProtocolResponsible, 'MAP') private repositoryProtocolResponsible: Repository<ProtocolResponsible>,
+    @InjectRepository(MapProtocolResponsible, 'MAP') private repositoryMapProtocolResponsible: Repository<MapProtocolResponsible>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<ProtocolResponsible>>{
-    const queryBuilder = this.repositoryProtocolResponsible.createQueryBuilder("protocolResponsible")
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapProtocolResponsible>>{
+    const queryBuilder = this.repositoryMapProtocolResponsible.createQueryBuilder("protocolResponsible")
       .andWhere(qb => {
         qb.where('(protocolResponsible.TFUN_NOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
@@ -34,8 +34,8 @@ export class ProtocolResponsibleService {
     }
   }
 
-  async findOne(id: string): Promise<ProtocolResponsible | NotFoundException>{
-    const data = await this.repositoryProtocolResponsible.createQueryBuilder("protocolResponsible")
+  async findOne(id: string): Promise<MapProtocolResponsible | NotFoundException>{
+    const data = await this.repositoryMapProtocolResponsible.createQueryBuilder("protocolResponsible")
       .where("protocolResponsible.TFUN_ID= :id", { id: id })
       .getOne();
 
@@ -45,13 +45,13 @@ export class ProtocolResponsibleService {
   }
 
   async create(dto: CreateProtocolResponsibleDto): Promise<{ message: string }> {
-    const data = this.repositoryProtocolResponsible.create({
+    const data = this.repositoryMapProtocolResponsible.create({
       ...dto,
       TFUN_ID: dto.TFUN_ID,
       TFUN_STATUS: '1'
     });
 
-    await this.repositoryProtocolResponsible.save(data);
+    await this.repositoryMapProtocolResponsible.save(data);
 
     return { message: 'Responsable de protocolo registrado exitosamente' };
   }
@@ -61,7 +61,7 @@ export class ProtocolResponsibleService {
   
     if (!data) throw new NotFoundException({ message: 'No existe el responsable de protocolo solicitado' });
 
-    await this.repositoryProtocolResponsible.update(id, dto);
+    await this.repositoryMapProtocolResponsible.update(id, dto);
   
     return { message: 'Responsable de protocolo actualizado exitosamente' };
   } 
@@ -69,7 +69,7 @@ export class ProtocolResponsibleService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryProtocolResponsible.delete(id);
+    await this.repositoryMapProtocolResponsible.delete(id);
 
     return {message: 'Responsable de protocolo eliminado exitosamente'};
   }

@@ -1,18 +1,18 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { TypeIdentification } from "../../../map/entities/type-identification.entity";
-import { FactorRh } from "../../../map/entities/factor-rh.entity";
+import { MapTypeIdentification } from "../../../map/entities/type-identification.entity";
+import { MapFactorRh } from "../../../map/entities/factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
-export class Driver {
+export class MapDriver {
     @PrimaryGeneratedColumn({ type: 'bigint'})
     CONDUCTOR_ID: number;
 
     @Column()
     CONDUCTOR_ID_TIPOIDENTIFICACION: string;
 
-    @ManyToOne(() => TypeIdentification, (typeIdentification) => typeIdentification.driver)
+    @ManyToOne(() => MapTypeIdentification, (mapTypeIdentification) => mapTypeIdentification.mapDriver)
     @JoinColumn({name: 'CONDUCTOR_ID_TIPOIDENTIFICACION'})
-    typeIdentification: TypeIdentification;
+    mapTypeIdentification: MapTypeIdentification;
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_IDENTIFICACION: string;
@@ -35,9 +35,9 @@ export class Driver {
     @Column()
     CONDUCTOR_ID_RH: number;
 
-    @ManyToOne(() => FactorRh, (factorRh) => factorRh.driver)
+    @ManyToOne(() => MapFactorRh, (mapFactorRh) => mapFactorRh.mapDriver)
     @JoinColumn({name: 'CONDUCTOR_ID_RH'})
-    factorRh: FactorRh;
+    mapFactorRh: MapFactorRh;
 
     @Column({ type: 'nvarchar'})
     CONDUCTOR_TELPERSONAL: string;

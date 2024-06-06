@@ -1,8 +1,8 @@
-import { UserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
+import { OcUserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
 
 @Entity('SEC002_USER')
-export class User {
+export class OcUser {
     @PrimaryColumn({ type: 'bigint'})
     SUSU_ID_REG: number;
 
@@ -90,9 +90,9 @@ export class User {
     @Column()
     SUSU_USER_ZONE_ID: number;
 
-    @ManyToOne(() => UserZone, (userZone) => userZone.user)
+    @ManyToOne(() => OcUserZone, (ocUserZone) => ocUserZone.ocUser)
     @JoinColumn({name: 'SUSU_USER_ZONE_ID'})
-    userZone: UserZone;
+    ocUserZone: OcUserZone;
 
     @Column({ type: 'datetime'})
     SUSU_UPDATE_PASS: Date;
