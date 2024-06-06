@@ -10,11 +10,12 @@ import { MapStateIpe } from "apps/oberon360-web/src/modules/map/entities/map-sta
 import { MapTypeIdentification } from "apps/oberon360-web/src/modules/map/entities/map-type-identification.entity";
 import { MapVehicle } from "apps/oberon360-web/src/modules/map/entities/map-vehicle.entity";
 import { MapActivity } from "apps/oberon360-web/src/modules/parameters/activity/entities/map-activity.entity";
-import { MapCategory } from "apps/oberon360-web/src/modules/parameters/category/entities/map-category.entity";
-import { MapClient } from "apps/oberon360-web/src/modules/parameters/category/entities/map-client.entity";
+import { MapCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-category-novelty.entity";
+import { MapClient } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-client.entity";
 import { MapDriver } from "apps/oberon360-web/src/modules/parameters/driver/entities/map-driver.entity";
 import { MapProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/map-protocol-responsible.entity";
 import { MapProtocol } from "apps/oberon360-web/src/modules/parameters/protocol/entities/map-protocol.entity";
+import { MapSubCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/sub-category-novelty/entities/map-sub-category-novelty.entity";
 
 export const MapMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {
@@ -26,7 +27,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategory, MapClient],    
+        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategoryNovelty, MapClient, MapSubCategoryNovelty],    
         synchronize: false,
         logging: false
     }

@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class UpdateSubCategoryDto {
+export class UpdateSubCategoryNoveltyDto {
     @IsNotEmpty()
     @IsNumber()
     NOVRUTA_IDTIPO: number;

@@ -21,14 +21,14 @@ export class DriverService {
       .leftJoin('driver.mapFactorRh', 'mapFactorRh')
       .select([
         'driver.CONDUCTOR_ID',
-        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'mapTypeIdentification.TIP_IDEN_DESCRIPCION',
         'driver.CONDUCTOR_IDENTIFICACION', 
         'driver.CONDUCTOR_CODCONDUCTOR', 
         'driver.CONDUCTOR_PRIMERNOMBRE',
         'driver.CONDUCTOR_SEGUNDONOMBRE',
         'driver.CONDUCTOR_PRIMERAPELLIDO',
         'driver.CONDUCTOR_SEGUNDOAPELLIDO',
-        'factorRh.FACTOR_RH_DESCRIPCION',
+        'mapFactorRh.FACTOR_RH_DESCRIPCION',
         'driver.CONDUCTOR_TELPERSONAL',
         'driver.CONDUCTOR_TELCORPORATIVO',
         'driver.CONDUCTOR_CORREO',
