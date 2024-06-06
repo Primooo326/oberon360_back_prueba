@@ -48,7 +48,7 @@ export class ProtocolResponsibleService {
     const data = this.repositoryMapProtocolResponsible.create({
       ...dto,
       TFUN_ID: dto.TFUN_ID,
-      TFUN_STATUS: '1'
+      TFUN_STATUS: dto.TFUN_STATUS
     });
 
     await this.repositoryMapProtocolResponsible.save(data);

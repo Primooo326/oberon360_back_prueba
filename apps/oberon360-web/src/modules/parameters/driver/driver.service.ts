@@ -142,7 +142,7 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO || '1'
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO
     };
 
     const data = this.repositoryMapDriver.create(createData);

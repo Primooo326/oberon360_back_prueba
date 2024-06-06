@@ -16,4 +16,8 @@ export class CreateProtocolDto {
     @IsNotEmpty()
     @IsString()
     FUN_FUNCION: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    FUN_STATUS: string;
 }

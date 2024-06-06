@@ -49,7 +49,7 @@ export class CategoryService {
   async create(dto: CreateCategoryDto): Promise<{ message: string }> {
     const data = this.repositoryMapCategory.create({
       ...dto,
-      TIPRUTA_STATUS: dto.TIPRUTA_STATUS || '1'
+      TIPRUTA_STATUS: dto.TIPRUTA_STATUS
     });
 
     await this.repositoryMapCategory.save(data);

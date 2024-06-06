@@ -48,8 +48,7 @@ export class ProtocolService {
 
   async create(dto: CreateProtocolDto): Promise<{ message: string }> {
     const data = this.repositoryMapProtocol.create({
-      ...dto,
-      FUN_STATUS: '1'
+      ...dto
     });
 
     await this.repositoryMapProtocol.save(data);

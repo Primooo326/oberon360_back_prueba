@@ -48,7 +48,7 @@ export class ActivityService {
     const data = this.repositoryMapActivity.create({
       ...dto,
       PREFUN_ID: dto.PREFUN_ID,
-      PREFUN_STATUS: '1'
+      PREFUN_STATUS: dto.PREFUN_STATUS
     });
 
     await this.repositoryMapActivity.save(data);
