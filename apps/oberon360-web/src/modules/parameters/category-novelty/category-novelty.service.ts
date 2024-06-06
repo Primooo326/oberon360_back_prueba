@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapCategory } from './entities/map-category.entity';
+import { MapCategoryNovelty } from './entities/map-category-novelty.entity';
+import { CreateCategoryNoveltyDto } from './dto/create-category-novelty.dto';
+import { UpdateCategoryNoveltyDto } from './dto/update-category-novelty.dto';
 
 @Injectable()
-export class CategoryService {
+export class CategoryNoveltyService {
   constructor(
-    @InjectRepository(MapCategory, 'MAP') private repositoryMapCategory: Repository<MapCategory>,
+    @InjectRepository(MapCategoryNovelty, 'MAP') private repositoryMapCategoryNovelty: Repository<MapCategoryNovelty>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategory>>{
-    const queryBuilder = this.repositoryMapCategory.createQueryBuilder("query")
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
+    const queryBuilder = this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
         .where("query.TIPRUTA_STATUS= :column", { column: '1' })
@@ -35,8 +35,8 @@ export class CategoryService {
     }
   }
 
-  async findOne(id: string): Promise<MapCategory | NotFoundException>{
-    const data = await this.repositoryMapCategory.createQueryBuilder("query")
+  async findOne(id: string): Promise<MapCategoryNovelty | NotFoundException>{
+    const data = await this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .where("query.TIPRUTA_ID= :id", { id: id })
       .andWhere("query.TIPRUTA_STATUS= :column", { column: '1' })
       .getOne();
@@ -46,23 +46,23 @@ export class CategoryService {
     return data;
   }
 
-  async create(dto: CreateCategoryDto): Promise<{ message: string }> {
-    const data = this.repositoryMapCategory.create({
+  async create(dto: CreateCategoryNoveltyDto): Promise<{ message: string }> {
+    const data = this.repositoryMapCategoryNovelty.create({
       ...dto,
       TIPRUTA_STATUS: dto.TIPRUTA_STATUS
     });
 
-    await this.repositoryMapCategory.save(data);
+    await this.repositoryMapCategoryNovelty.save(data);
 
     return { message: 'Categoría registrada exitosamente' };
   }
 
-  async update(id: string, dto: UpdateCategoryDto): Promise<{message: string} | NotFoundException>{
+  async update(id: string, dto: UpdateCategoryNoveltyDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
     if (!data) throw new NotFoundException({ message: 'No existe la categoría solicitada' });
 
-    await this.repositoryMapCategory.update(id, {
+    await this.repositoryMapCategoryNovelty.update(id, {
       TIPRUTA_CLIENTEID: dto.TIPRUTA_CLIENTEID,
       TIPRUTA_DESCRIPCION: dto.TIPRUTA_DESCRIPCION,
       TIPRUTA_STATUS: dto.TIPRUTA_STATUS
@@ -74,7 +74,7 @@ export class CategoryService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapCategory.delete(id);
+    await this.repositoryMapCategoryNovelty.delete(id);
 
     return {message: 'Categoría eliminada exitosamente'};
   }

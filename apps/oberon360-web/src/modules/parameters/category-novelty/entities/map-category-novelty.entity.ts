@@ -1,16 +1,16 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { MapClient } from "./map-client.entity";
-import { MapSubCategory } from "../../sub-category/entities/map-sub-category.entity";
+import { MapSubCategoryNovelty } from "../../sub-category-novelty/entities/map-sub-category-novelty.entity";
 
 @Entity('COP045_TIPO_NOVRUTA')
-export class MapCategory {
+export class MapCategoryNovelty {
     @PrimaryGeneratedColumn()
     TIPRUTA_ID: number;
 
     @Column()
     TIPRUTA_CLIENTEID: string;
 
-    @ManyToOne(() => MapClient, (mapClient) => mapClient.mapCategory)
+    @ManyToOne(() => MapClient, (mapClient) => mapClient.mapCategoryNovelty)
     @JoinColumn({name: 'TIPRUTA_CLIENTEID'})
     mapClient: MapClient;
 
@@ -20,6 +20,6 @@ export class MapCategory {
     @Column({ type: 'char'})
     TIPRUTA_STATUS: string;
 
-    @OneToMany(() => MapSubCategory, (mapSubCategory) => mapSubCategory.mapCategory)
-    mapSubCategory: MapSubCategory[];
+    @OneToMany(() => MapSubCategoryNovelty, (mapSubCategoryNovelty) => mapSubCategoryNovelty.mapCategoryNovelty)
+    mapSubCategoryNovelty: MapSubCategoryNovelty[];
 }

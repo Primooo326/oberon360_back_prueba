@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
-import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapSubCategory } from './entities/map-sub-category.entity';
+import { MapSubCategoryNovelty } from './entities/map-sub-category-novelty.entity';
+import { CreateSubCategoryNoveltyDto } from './dto/create-sub-category-novelty.dto';
+import { UpdateSubCategoryNoveltyDto } from './dto/update-sub-category-novelty.dto';
 
 @Injectable()
-export class SubCategoryService {
+export class SubCategoryNoveltyService {
   constructor(
-    @InjectRepository(MapSubCategory, 'MAP') private repositoryMapSubCategory: Repository<MapSubCategory>,
+    @InjectRepository(MapSubCategoryNovelty, 'MAP') private repositoryMapSubCategoryNovelty: Repository<MapSubCategoryNovelty>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapSubCategory>>{
-    const queryBuilder = this.repositoryMapSubCategory.createQueryBuilder("query")
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapSubCategoryNovelty>>{
+    const queryBuilder = this.repositoryMapSubCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.NOVRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
         .where("query.NOVRUTA_STATUS= :column", { column: '1' })
@@ -35,8 +35,8 @@ export class SubCategoryService {
     }
   }
 
-  async findOne(id: string): Promise<MapSubCategory | NotFoundException>{
-    const data = await this.repositoryMapSubCategory.createQueryBuilder("query")
+  async findOne(id: string): Promise<MapSubCategoryNovelty | NotFoundException>{
+    const data = await this.repositoryMapSubCategoryNovelty.createQueryBuilder("query")
       .where("query.NOVRUTA_ID= :id", { id: id })
       .andWhere("query.NOVRUTA_STATUS= :column", { column: '1' })
       .getOne();
@@ -46,23 +46,23 @@ export class SubCategoryService {
     return data;
   }
 
-  async create(dto: CreateSubCategoryDto): Promise<{ message: string }> {
-    const data = this.repositoryMapSubCategory.create({
+  async create(dto: CreateSubCategoryNoveltyDto): Promise<{ message: string }> {
+    const data = this.repositoryMapSubCategoryNovelty.create({
       ...dto,
       NOVRUTA_STATUS: dto.NOVRUTA_STATUS
     });
 
-    await this.repositoryMapSubCategory.save(data);
+    await this.repositoryMapSubCategoryNovelty.save(data);
 
     return { message: 'Sub categoría registrada exitosamente' };
   }
 
-  async update(id: string, dto: UpdateSubCategoryDto): Promise<{message: string} | NotFoundException>{
+  async update(id: string, dto: UpdateSubCategoryNoveltyDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
     if (!data) throw new NotFoundException({ message: 'No existe la sub categoría solicitada' });
 
-    await this.repositoryMapSubCategory.update(id, {
+    await this.repositoryMapSubCategoryNovelty.update(id, {
       NOVRUTA_IDTIPO: dto.NOVRUTA_IDTIPO,
       NOVRUTA_DESCRIPCION: dto.NOVRUTA_DESCRIPCION,
       NOVRUTA_STATUS: dto.NOVRUTA_STATUS
@@ -74,7 +74,7 @@ export class SubCategoryService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapSubCategory.delete(id);
+    await this.repositoryMapSubCategoryNovelty.delete(id);
 
     return {message: 'Sub categoría eliminada exitosamente'};
   }

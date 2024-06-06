@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { MapCategory } from "./map-category.entity";
+import { MapCategoryNovelty } from "./map-category-novelty.entity";
 
 @Entity('CLI001CLIENTE')
 export class MapClient {
@@ -36,6 +36,6 @@ export class MapClient {
     @Column({ type: 'char'})
     CLIE_STATUS: string;
 
-    @OneToMany(() => MapCategory, (mapCategory) => mapCategory.mapClient)
-    mapCategory: MapCategory[];
+    @OneToMany(() => MapCategoryNovelty, (mapCategoryNovelty) => mapCategoryNovelty.mapClient)
+    mapCategoryNovelty: MapCategoryNovelty[];
 }

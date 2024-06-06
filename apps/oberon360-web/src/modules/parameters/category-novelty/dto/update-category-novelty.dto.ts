@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class UpdateCategoryDto {
+export class UpdateCategoryNoveltyDto {
     @IsOptional()
     @IsString()
     TIPRUTA_CLIENTEID: string;

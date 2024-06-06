@@ -1,17 +1,17 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { MapCategory } from "../../category/entities/map-category.entity";
+import { MapCategoryNovelty } from "../../category-novelty/entities/map-category-novelty.entity";
 
 @Entity('COP046_NOVEDAD_NOVRUTA')
-export class MapSubCategory {
+export class MapSubCategoryNovelty {
     @PrimaryGeneratedColumn()
     NOVRUTA_ID: number;
 
     @Column()
     NOVRUTA_IDTIPO: number;
 
-    @ManyToOne(() => MapCategory, (mapCategory) => mapCategory.mapSubCategory)
+    @ManyToOne(() => MapCategoryNovelty, (mapCategoryNovelty) => mapCategoryNovelty.mapSubCategoryNovelty)
     @JoinColumn({name: 'NOVRUTA_IDTIPO'})
-    mapCategory: MapCategory;
+    mapCategoryNovelty: MapCategoryNovelty;
 
     @Column({ type: 'char'})
     NOVRUTA_DESCRIPCION: string;
