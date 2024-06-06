@@ -7,11 +7,13 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { MapActivity } from './entities/map-activity.entity';
+import { MapProtocol } from '../protocol/entities/map-protocol.entity';
 
 @Injectable()
 export class ActivityService {
   constructor(
     @InjectRepository(MapActivity, 'MAP') private repositoryMapActivity: Repository<MapActivity>,
+    @InjectRepository(MapProtocol, 'MAP') private repositoryMapProtocol: Repository<MapProtocol>,
   ) { }
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapActivity>>{
@@ -68,6 +70,8 @@ export class ActivityService {
 
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
+
+    if (await this.repositoryMapProtocol.findOneBy({FUN_PREG_ID: id})) throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo.' });
 
     await this.repositoryMapActivity.delete(id);
 
