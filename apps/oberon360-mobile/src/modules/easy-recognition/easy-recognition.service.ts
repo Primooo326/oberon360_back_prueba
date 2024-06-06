@@ -3,10 +3,10 @@ import { ValidateEasyRecognitionDto } from './dto/validate-easy-recognition.dto'
 import { CompareFacesCommand, DetectFacesCommand, QualityFilter, RekognitionClient } from '@aws-sdk/client-rekognition';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IcpEmployee } from './entities/employee.entity';
+import { IcpEmployee } from './entities/icp-employee.entity';
 import { EmotionsEasyRecognitionDto } from './dto/emotions-easy-recognition.dto';
-import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { UserLoginDto } from 'apps/oberon360-api/src/dtos-globals/user-login.dto';
+import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/oc-user.entity';
 
 @Injectable()
 export class EasyRecognitionService {

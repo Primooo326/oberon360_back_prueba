@@ -13,10 +13,10 @@ import { MapItinerary } from './entities/itinerary.entity';
 import { MapItineraryPoint } from './entities/itinerary-point.entity';
 import { MapItineraryPointExecuted } from './entities/itinerary-point-executed.entity';
 import { MapPoint } from './entities/point.entity';
-import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { OcZProtocolo } from './entities/z-protocolos.entity';
 import { OcZEventos } from './entities/z-events.entity';
 import { MapDriver } from '../parameters/driver/entities/driver.entity';
+import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/oc-user.entity';
 
 @Module({
   imports: [

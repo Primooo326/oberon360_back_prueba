@@ -1,7 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OcUser } from '../user/entities/user.entity';
+import { OcUser } from '../user/entities/oc-user.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';

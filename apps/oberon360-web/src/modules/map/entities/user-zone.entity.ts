@@ -1,4 +1,4 @@
-import { OcUser } from "apps/oberon360-api/src/modules/user/entities/user.entity";
+import { OcUser } from "apps/oberon360-api/src/modules/user/entities/oc-user.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
 
 @Entity('SEC024USER_ZONES')
