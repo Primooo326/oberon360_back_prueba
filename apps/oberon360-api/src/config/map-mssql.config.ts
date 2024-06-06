@@ -10,6 +10,8 @@ import { StateIpe } from "apps/oberon360-web/src/modules/map/entities/state-ipe.
 import { TypeIdentification } from "apps/oberon360-web/src/modules/map/entities/type-identification.entity";
 import { Vehicle } from "apps/oberon360-web/src/modules/map/entities/vehicle.entity";
 import { Activity } from "apps/oberon360-web/src/modules/parameters/activity/entities/activity.entity";
+import { MapCategory } from "apps/oberon360-web/src/modules/parameters/category/entities/category.entity";
+import { MapClient } from "apps/oberon360-web/src/modules/parameters/category/entities/client.entity";
 import { Driver } from "apps/oberon360-web/src/modules/parameters/driver/entities/driver.entity";
 import { ProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/protocol-responsible.entity";
 import { Protocol } from "apps/oberon360-web/src/modules/parameters/protocol/entities/protocol.entity";
@@ -24,7 +26,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, ProtocolResponsible, Activity],    
+        entities: [Vehicle, EventPlate, ItineraryAssignment, Itinerary, ItineraryPoint, Point, Driver, ItineraryPointExecuted, StateIpe, TypeIdentification, FactorRh, Protocol, ProtocolResponsible, Activity, MapCategory, MapClient],    
         synchronize: false,
         logging: false
     }
