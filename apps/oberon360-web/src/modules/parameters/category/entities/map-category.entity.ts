@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { MapClient } from "./map-client.entity";
+import { MapSubCategory } from "../../sub-category/entities/map-sub-category.entity";
 
 @Entity('COP045_TIPO_NOVRUTA')
 export class MapCategory {
@@ -18,4 +19,7 @@ export class MapCategory {
 
     @Column({ type: 'char'})
     TIPRUTA_STATUS: string;
+
+    @OneToMany(() => MapSubCategory, (mapSubCategory) => mapSubCategory.mapCategory)
+    mapSubCategory: MapSubCategory[];
 }

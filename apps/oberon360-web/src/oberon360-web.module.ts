@@ -17,6 +17,7 @@ import { ProtocolModule } from './modules/parameters/protocol/protocol.module';
 import { ProtocolResponsibleModule } from './modules/parameters/protocol-responsible/protocol-responsible.module';
 import { ActivityModule } from './modules/parameters/activity/activity.module';
 import { CategoryModule } from './modules/parameters/category/category.module';
+import { SubCategoryModule } from './modules/parameters/sub-category/sub-category.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CategoryModule } from './modules/parameters/category/category.module';
     ProtocolResponsibleModule,
     ActivityModule,
     CategoryModule,
+    SubCategoryModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],
