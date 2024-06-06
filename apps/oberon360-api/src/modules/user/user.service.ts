@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OcUser } from './entities/user.entity';
+import { OcUser } from './entities/oc-user.entity';
 import { Repository } from 'typeorm';
 import { ChangePassDto } from './dto/change-pass.dto';
 import { UserLoginDto } from '../../dtos-globals/user-login.dto';

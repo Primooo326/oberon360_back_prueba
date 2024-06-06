@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EasyRecognitionService } from './easy-recognition.service';
 import { EasyRecognitionController } from './easy-recognition.controller';
-import { IcpEmployee } from './entities/employee.entity';
+import { IcpEmployee } from './entities/icp-employee.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { JwtStrategy } from 'apps/oberon360-api/src/jwt/jwt.strategy';
+import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/oc-user.entity';
 
 @Module({
   imports: [

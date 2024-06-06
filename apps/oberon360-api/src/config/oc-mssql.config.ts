@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { OcUser } from "../modules/user/entities/user.entity";
+import { OcUser } from "../modules/user/entities/oc-user.entity";
 import { OcUserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
 import { OcZProtocolo } from "apps/oberon360-web/src/modules/map/entities/z-protocolos.entity";
 import { OcZEventos } from "apps/oberon360-web/src/modules/map/entities/z-events.entity";
