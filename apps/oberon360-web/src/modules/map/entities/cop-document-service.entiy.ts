@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { CopDocument } from "./document.entity";
-import { CopInventoryTree } from "./inventory-tree.entity";
+import { CopDocument } from "./cop-document.entity";
+import { CopInventoryTree } from "./cop-inventory-tree.entity";
 
 @Entity('NEG002DOCUMENTO_SERVICIOS')
 export class CopDocumentService {

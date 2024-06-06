@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { MapProtocol } from "../../protocol/entities/protocol.entity";
+import { MapProtocol } from "../../protocol/entities/map-protocol.entity";
 
 @Entity('COP026_PREGUNTA_FUNCION')
 export class MapActivity {

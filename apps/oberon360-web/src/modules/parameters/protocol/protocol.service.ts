@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapProtocol } from './entities/protocol.entity';
+import { MapProtocol } from './entities/map-protocol.entity';
 
 @Injectable()
 export class ProtocolService {

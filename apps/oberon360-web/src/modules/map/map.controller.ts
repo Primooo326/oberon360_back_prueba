@@ -5,13 +5,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
-import { CopClient } from './entities/client.entity';
+import { CopClient } from './entities/cop-client.entity';
 import { ServicesForClientDto } from './dto/services-for-client.dto';
 import { LineServicesForClientDto } from './dto/line-services-for-client.dto';
-import { MapEventPlate } from './entities/event-plate.entity';
+import { MapEventPlate } from './entities/cop-event-plate.entity';
 import { EventsMotorcycleDto } from './dto/events-motorcycle.dto';
 import { CreateZProtocolosDto } from './dto/create-z-protocolo.dto';
-import { OcZEventos } from './entities/z-events.entity';
+import { OcZEventos } from './entities/oc-z-events.entity';
 import { CreatePointsMapsDto } from './dto/create-points-maps.dto';
 
 @ApiBearerAuth()

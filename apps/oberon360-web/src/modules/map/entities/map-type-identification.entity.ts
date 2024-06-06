@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { MapDriver } from "../../parameters/driver/entities/driver.entity";
+import { MapDriver } from "../../parameters/driver/entities/map-driver.entity";
 
 @Entity('OPE004_TIPO_IDENTIFICACION')
 export class MapTypeIdentification {

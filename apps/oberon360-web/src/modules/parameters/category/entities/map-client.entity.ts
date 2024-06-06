@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { MapCategory } from "./category.entity";
+import { MapCategory } from "./map-category.entity";
 
 @Entity('CLI001CLIENTE')
 export class MapClient {

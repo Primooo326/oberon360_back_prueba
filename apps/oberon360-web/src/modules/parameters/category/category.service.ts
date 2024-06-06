@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapCategory } from './entities/category.entity';
+import { MapCategory } from './entities/map-category.entity';
 
 @Injectable()
 export class CategoryService {

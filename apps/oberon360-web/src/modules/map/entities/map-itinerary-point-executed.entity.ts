@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm"
-import { MapPoint } from "./point.entity";
-import { MapStateIpe } from "./state-ipe.entity";
+import { MapPoint } from "./map-point.entity";
+import { MapStateIpe } from "./map-state-ipe.entity";
 
 @Entity('COP091_ITINERARIO_PUNTOS_EJECUTADO')
 export class MapItineraryPointExecuted {

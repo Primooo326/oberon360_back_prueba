@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { CopInventoryTree } from "./inventory-tree.entity";
+import { CopInventoryTree } from "./cop-inventory-tree.entity";
 
 @Entity('NEG054_LINEA_SERVICIOS')
 export class CopLineService {

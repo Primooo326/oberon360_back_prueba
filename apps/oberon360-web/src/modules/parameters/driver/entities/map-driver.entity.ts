@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { MapTypeIdentification } from "../../../map/entities/type-identification.entity";
-import { MapFactorRh } from "../../../map/entities/factor-rh.entity";
+import { MapTypeIdentification } from "../../../map/entities/map-type-identification.entity";
+import { MapFactorRh } from "../../../map/entities/map-factor-rh.entity";
 
 @Entity('COP043_CONDUCTOR')
 export class MapDriver {

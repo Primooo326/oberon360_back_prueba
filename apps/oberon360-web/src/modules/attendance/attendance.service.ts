@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IcpAttendance } from './entities/attendance.entity';
+import { IcpAttendance } from './entities/icp-attendance.entity';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 
