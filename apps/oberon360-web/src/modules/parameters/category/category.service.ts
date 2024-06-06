@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapCategory } from './entities/category.entity';
+import { MapCategory } from './entities/map-category.entity';
 
 @Injectable()
 export class CategoryService {
@@ -49,7 +49,7 @@ export class CategoryService {
   async create(dto: CreateCategoryDto): Promise<{ message: string }> {
     const data = this.repositoryMapCategory.create({
       ...dto,
-      TIPRUTA_STATUS: dto.TIPRUTA_STATUS || '1'
+      TIPRUTA_STATUS: dto.TIPRUTA_STATUS
     });
 
     await this.repositoryMapCategory.save(data);

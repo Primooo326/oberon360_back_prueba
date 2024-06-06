@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { MapClient } from "./client.entity";
+import { MapClient } from "./map-client.entity";
 
 @Entity('COP045_TIPO_NOVRUTA')
 export class MapCategory {

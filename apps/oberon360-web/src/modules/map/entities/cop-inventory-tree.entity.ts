@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
-import { CopDocumentService } from "./document-service.entiy";
-import { CopLineService } from "./line-service.entity";
+import { CopDocumentService } from "./cop-document-service.entiy";
+import { CopLineService } from "./cop-line-service.entity";
 
 @Entity('CAT037ARBOL_INVENTARIO')
 export class CopInventoryTree{

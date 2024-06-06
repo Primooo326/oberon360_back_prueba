@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { CopClient } from "./client.entity";
+import { CopClient } from "./cop-client.entity";
 
 @Entity('CLI002CLIENTE_UBICACION')
 export class CopClientUbication {

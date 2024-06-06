@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapActivity } from './entities/activity.entity';
+import { MapActivity } from './entities/map-activity.entity';
 
 @Injectable()
 export class ActivityService {
@@ -48,7 +48,7 @@ export class ActivityService {
     const data = this.repositoryMapActivity.create({
       ...dto,
       PREFUN_ID: dto.PREFUN_ID,
-      PREFUN_STATUS: '1'
+      PREFUN_STATUS: dto.PREFUN_STATUS
     });
 
     await this.repositoryMapActivity.save(data);

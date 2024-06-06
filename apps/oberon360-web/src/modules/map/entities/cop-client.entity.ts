@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm"
-import { CopClientUbication } from "./client-ubication.entity";
-import { CopDocument } from "./document.entity";
+import { CopClientUbication } from "./cop-client-ubication.entity";
+import { CopDocument } from "./cop-document.entity";
 
 @Entity('CLI001CLIENTE')
 export class CopClient {

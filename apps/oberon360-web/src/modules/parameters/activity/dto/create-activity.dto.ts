@@ -10,4 +10,8 @@ export class CreateActivityDto {
     @IsNotEmpty()
     @IsString()
     PREFUN_PREGUNTA: string;
+
+    @IsNotEmpty()
+    @IsString()
+    PREFUN_STATUS: string;
 }

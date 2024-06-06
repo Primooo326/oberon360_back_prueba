@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
-import { MapProtocolResponsible } from './entities/protocol-responsible.entity';
+import { MapProtocolResponsible } from './entities/map-protocol-responsible.entity';
 import { UpdateProtocolResponsibleDto } from './dto/update-protocol-responsible.dto';
 
 @Injectable()
@@ -48,7 +48,7 @@ export class ProtocolResponsibleService {
     const data = this.repositoryMapProtocolResponsible.create({
       ...dto,
       TFUN_ID: dto.TFUN_ID,
-      TFUN_STATUS: '1'
+      TFUN_STATUS: dto.TFUN_STATUS
     });
 
     await this.repositoryMapProtocolResponsible.save(data);

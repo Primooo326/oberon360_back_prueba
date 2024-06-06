@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { MapProtocolResponsible } from "../../protocol-responsible/entities/protocol-responsible.entity";
-import { MapActivity } from "../../activity/entities/activity.entity";
+import { MapProtocolResponsible } from "../../protocol-responsible/entities/map-protocol-responsible.entity";
+import { MapActivity } from "../../activity/entities/map-activity.entity";
 
 @Entity('COP003_FUNCIONES')
 export class MapProtocol {
