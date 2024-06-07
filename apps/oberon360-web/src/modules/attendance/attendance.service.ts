@@ -21,7 +21,7 @@ export class AttendanceService {
     const dateEnd = filterOptionsDto.dateEnd ? filterOptionsDto.dateEnd : '2024-06-07';
     
     try {
-      const data = await this.repositoryIcpAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA @FechaInicio = @0, @FechaFinal = @1, @term = @2', [dateInit, dateEnd, term]);
+      const data = await this.repositoryIcpAttendance.query('EXEC SP1182_GET_COP023_ASISTENCIA_V2 @FechaInicio = @0, @FechaFinal = @1, @term = @2', [dateInit, dateEnd, term]);
       const itemCount = data.length;
       const skip = (page - 1) * take;
       const pageData = data.slice(skip, skip + take);
