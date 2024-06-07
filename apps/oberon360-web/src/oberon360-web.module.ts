@@ -18,6 +18,7 @@ import { ProtocolResponsibleModule } from './modules/parameters/protocol-respons
 import { ActivityModule } from './modules/parameters/activity/activity.module';
 import { CategoryNoveltyModule } from './modules/parameters/category-novelty/category-novelty.module';
 import { SubCategoryNoveltyModule } from './modules/parameters/sub-category-novelty/sub-category-novelty.module';
+import { TravelReasonModule } from './modules/parameters/travel-reason/travel-reason.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { SubCategoryNoveltyModule } from './modules/parameters/sub-category-nove
     ActivityModule,
     CategoryNoveltyModule,
     SubCategoryNoveltyModule,
+    TravelReasonModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],
