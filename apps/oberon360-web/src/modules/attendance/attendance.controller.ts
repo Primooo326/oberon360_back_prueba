@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Query, UseGuards } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'apps/oberon360-api/src/jwt/jwt-auth.guard';
 import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
+import { FilterOptionsDto } from './dto/filter-options.dto';
 
 @ApiBearerAuth()
 @ApiTags('attendance')
@@ -15,9 +16,9 @@ import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
-  @Get('/findAttendance')
+  @Post('/findAttendance')
   @HttpCode(200)
-  async findAttendance(@Query() pageOptionsDto: PageOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
-    return this.attendanceService.findAttendance(pageOptionsDto);
+  async findAttendance(@Query() pageOptionsDto: PageOptionsDto, @Body() filterOptionsDto: FilterOptionsDto): Promise<PageDto<CreateAttendanceDto>> {
+    return this.attendanceService.findAttendance(pageOptionsDto, filterOptionsDto);
   }
 }
