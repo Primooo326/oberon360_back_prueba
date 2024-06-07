@@ -8,12 +8,19 @@ import { ApiPaginatedResponse } from 'apps/oberon360-api/src/config/constanst';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
 
 @ApiBearerAuth()
-@ApiTags('category')
+@ApiTags('category-novelty')
 @UseGuards(JwtAuthGuard)
 @ApiPaginatedResponse(CreateCategoryDto)
-@Controller('category')
+@Controller('category-novelty')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+
+  @Get('/findAllCategories')
+  @HttpCode(200)
+  @ApiPaginatedResponse(CreateCategoryDto)
+  async findAllCategories(@Query() pageOptionsDto: PageOptionsDto): Promise<any> {
+    return this.categoryService.findAllCategories(pageOptionsDto);
+  }
 
   @Get()
   @HttpCode(200)

@@ -14,11 +14,31 @@ export class CategoryService {
     @InjectRepository(MapCategory, 'MAP') private repositoryMapCategory: Repository<MapCategory>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategory>>{
+  async findAllCategories(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategory>>{
     const queryBuilder = this.repositoryMapCategory.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
         .where("query.TIPRUTA_STATUS= :column", { column: '1' })
+      })
+      .orderBy("query.TIPRUTA_ID", pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+  
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return {
+      data: entities,
+      meta: pageMetaDto
+    }
+  }
+
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategory>>{
+    const queryBuilder = this.repositoryMapCategory.createQueryBuilder("query")
+      .andWhere(qb => {
+        qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
       })
       .orderBy("query.TIPRUTA_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
