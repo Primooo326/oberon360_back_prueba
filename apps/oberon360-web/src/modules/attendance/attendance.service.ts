@@ -17,7 +17,7 @@ export class AttendanceService {
   {
     const { term, page, take } = pageOptionsDto;
 
-    const dateInit = filterOptionsDto.dateInit ? filterOptionsDto.dateInit : '2024-05-01';
+    const dateInit = filterOptionsDto.dateInit ? filterOptionsDto.dateInit : '2024-06-01';
     const dateEnd = filterOptionsDto.dateEnd ? filterOptionsDto.dateEnd : '2024-06-07';
     
     try {
