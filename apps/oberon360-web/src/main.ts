@@ -18,14 +18,14 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '5mb' }));
   app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
-  setupSwagger(app);
-
   app.setGlobalPrefix('oberon360web/api');
+
+  setupSwagger(app, 'oberon360web/api');
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const port = configService.get<number>(SP_OBERON360WEB);
   await app.listen(port);
-  console.log(`Application is running on: ${await app.getUrl()}/api`);
+  console.log(`Application is running on: ${await app.getUrl()}/oberon360web/api`);
 }
 bootstrap();
