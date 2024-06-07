@@ -3,16 +3,16 @@ import { ValidateEasyRecognitionDto } from './dto/validate-easy-recognition.dto'
 import { CompareFacesCommand, DetectFacesCommand, QualityFilter, RekognitionClient } from '@aws-sdk/client-rekognition';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Employee } from './entities/employee.entity';
+import { IcpEmployee } from './entities/icp-employee.entity';
 import { EmotionsEasyRecognitionDto } from './dto/emotions-easy-recognition.dto';
-import { User } from 'apps/oberon360-api/src/modules/user/entities/user.entity';
 import { UserLoginDto } from 'apps/oberon360-api/src/dtos-globals/user-login.dto';
+import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/oc-user.entity';
 
 @Injectable()
 export class EasyRecognitionService {
   constructor(
-    @InjectRepository(Employee, 'ICP') private repositoryEmployee: Repository<Employee>,
-    @InjectRepository(User, 'OC') private repositoryUser: Repository<User>,
+    @InjectRepository(IcpEmployee, 'ICP') private repositoryIcpEmployee: Repository<IcpEmployee>,
+    @InjectRepository(OcUser, 'OC') private repositoryOcUser: Repository<OcUser>,
   ) { }
 
   async validateAuthentication(validateEasyRecognitionDto: ValidateEasyRecognitionDto, user: UserLoginDto): Promise<any> 
@@ -23,14 +23,14 @@ export class EasyRecognitionService {
       region: 'us-east-1'
     };
 
-    const EMPL_IDEMPLEADO = await this.repositoryUser.findOneBy({SUSU_ID_REG: user.userId});
+    const EMPL_IDEMPLEADO = await this.repositoryOcUser.findOneBy({SUSU_ID_REG: user.userId});
 
     if (!EMPL_IDEMPLEADO) throw new HttpException('El usuario no se encontró en la base de datos', 403);
 
     const { SUSU_IDENTIFICACION } = EMPL_IDEMPLEADO;
     const { image64base } = validateEasyRecognitionDto;
 
-    const employee = await this.repositoryEmployee.createQueryBuilder('employee')
+    const employee = await this.repositoryIcpEmployee.createQueryBuilder('employee')
       .where({EMPL_IDEMPLEADO: SUSU_IDENTIFICACION})
       .getOne();
 

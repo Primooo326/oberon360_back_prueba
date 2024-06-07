@@ -16,7 +16,9 @@ import { DriverModule } from './modules/parameters/driver/driver.module';
 import { ProtocolModule } from './modules/parameters/protocol/protocol.module';
 import { ProtocolResponsibleModule } from './modules/parameters/protocol-responsible/protocol-responsible.module';
 import { ActivityModule } from './modules/parameters/activity/activity.module';
-import { CategoryModule } from './modules/parameters/category/category.module';
+import { CategoryNoveltyModule } from './modules/parameters/category-novelty/category-novelty.module';
+import { SubCategoryNoveltyModule } from './modules/parameters/sub-category-novelty/sub-category-novelty.module';
+import { TravelReasonModule } from './modules/parameters/travel-reason/travel-reason.module';
 
 @Module({
   imports: [
@@ -38,7 +40,9 @@ import { CategoryModule } from './modules/parameters/category/category.module';
     ProtocolModule,
     ProtocolResponsibleModule,
     ActivityModule,
-    CategoryModule,
+    CategoryNoveltyModule,
+    SubCategoryNoveltyModule,
+    TravelReasonModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],

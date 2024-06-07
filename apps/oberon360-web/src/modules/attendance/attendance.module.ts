@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { AttendanceController } from './attendance.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Schedules } from './entities/schedules.entity';
-import { Attendance } from './entities/attendance.entity';
+import { CopSchedules } from './entities/cop-schedules.entity';
+import { IcpAttendance } from './entities/icp-attendance.entity';
 import { JwtStrategy } from 'apps/oberon360-api/src/jwt/jwt.strategy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Schedules], 'COP'),
-    TypeOrmModule.forFeature([Attendance], 'ICP'),
+    TypeOrmModule.forFeature([CopSchedules], 'COP'),
+    TypeOrmModule.forFeature([IcpAttendance], 'ICP'),
   ],
   controllers: [AttendanceController],
   providers: [AttendanceService, JwtStrategy],

@@ -1,7 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { LoginAuthDto } from './dto/login-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user/entities/user.entity';
+import { OcUser } from '../user/entities/oc-user.entity';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectRepository(User, 'OC') private userRepository: Repository<User>,
+        @InjectRepository(OcUser, 'OC') private ocUserRepository: Repository<OcUser>,
         private readonly logger: Logger,
         private jwtService:JwtService
     ) { }
@@ -18,7 +18,7 @@ export class AuthService {
     {
         const { user, password } = userObject;
         
-        const findUser = await this.userRepository.findOneBy({SUSU_ID: user});
+        const findUser = await this.ocUserRepository.findOneBy({SUSU_ID: user});
 
         if (!findUser) throw new HttpException('Usuario incorrecto', 403);
         

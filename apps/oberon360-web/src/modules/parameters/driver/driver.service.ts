@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateDriverDto } from './dto/create-driver.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
-import { Driver } from './entities/driver.entity';
+import { MapDriver } from './entities/map-driver.entity';
 import { PageDto } from 'apps/oberon360-api/src/dtos-globals/page.dto';
 import { PageMetaDto } from 'apps/oberon360-api/src/dtos-globals/page-meta.dto';
 import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options.dto';
@@ -12,23 +12,23 @@ import { UpdateDriverDto } from './dto/update-driver.dto';
 @Injectable()
 export class DriverService {
   constructor(
-    @InjectRepository(Driver, 'MAP') private repositoryDriver: Repository<Driver>,
+    @InjectRepository(MapDriver, 'MAP') private repositoryMapDriver: Repository<MapDriver>,
   ) { }
 
-  async findAllDrivers(): Promise<{data: Driver[]}>{
-    const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
-      .leftJoin('driver.typeIdentification', 'typeIdentification')
-      .leftJoin('driver.factorRh', 'factorRh')
+  async findAllDrivers(): Promise<{data: MapDriver[]}>{
+    const queryBuilder = this.repositoryMapDriver.createQueryBuilder("driver")
+      .leftJoin('driver.mapTypeIdentification', 'mapTypeIdentification')
+      .leftJoin('driver.mapFactorRh', 'mapFactorRh')
       .select([
         'driver.CONDUCTOR_ID',
-        'typeIdentification.TIP_IDEN_DESCRIPCION',
+        'mapTypeIdentification.TIP_IDEN_DESCRIPCION',
         'driver.CONDUCTOR_IDENTIFICACION', 
         'driver.CONDUCTOR_CODCONDUCTOR', 
         'driver.CONDUCTOR_PRIMERNOMBRE',
         'driver.CONDUCTOR_SEGUNDONOMBRE',
         'driver.CONDUCTOR_PRIMERAPELLIDO',
         'driver.CONDUCTOR_SEGUNDOAPELLIDO',
-        'factorRh.FACTOR_RH_DESCRIPCION',
+        'mapFactorRh.FACTOR_RH_DESCRIPCION',
         'driver.CONDUCTOR_TELPERSONAL',
         'driver.CONDUCTOR_TELCORPORATIVO',
         'driver.CONDUCTOR_CORREO',
@@ -46,20 +46,20 @@ export class DriverService {
     }
   }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<Driver>>{
-    const queryBuilder = this.repositoryDriver.createQueryBuilder("driver")
-      .leftJoin('driver.typeIdentification', 'typeIdentification')
-      .leftJoin('driver.factorRh', 'factorRh')
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapDriver>>{
+    const queryBuilder = this.repositoryMapDriver.createQueryBuilder("driver")
+      .leftJoin('driver.mapTypeIdentification', 'mapTypeIdentification')
+      .leftJoin('driver.mapFactorRh', 'mapFactorRh')
       .select([
         'driver.CONDUCTOR_ID',
-        'typeIdentification',
+        'mapTypeIdentification',
         'driver.CONDUCTOR_IDENTIFICACION', 
         'driver.CONDUCTOR_CODCONDUCTOR', 
         'driver.CONDUCTOR_PRIMERNOMBRE',
         'driver.CONDUCTOR_SEGUNDONOMBRE',
         'driver.CONDUCTOR_PRIMERAPELLIDO',
         'driver.CONDUCTOR_SEGUNDOAPELLIDO',
-        'factorRh',
+        'mapFactorRh',
         'driver.CONDUCTOR_TELPERSONAL',
         'driver.CONDUCTOR_TELCORPORATIVO',
         'driver.CONDUCTOR_CORREO',
@@ -98,8 +98,8 @@ export class DriverService {
     }
   }
 
-  async findOne(id: number): Promise<Driver | NotFoundException>{
-    const data = await this.repositoryDriver.createQueryBuilder("driver")
+  async findOne(id: number): Promise<MapDriver | NotFoundException>{
+    const data = await this.repositoryMapDriver.createQueryBuilder("driver")
       .where("driver.CONDUCTOR_ID= :id", { id: id })
       .getOne();
 
@@ -108,7 +108,7 @@ export class DriverService {
     return data;
   }
 
-  async findByTerm(nameColumn: string, term: string, isUpdate: boolean = false, driverId: number = null): Promise<Driver | null> {
+  async findByTerm(nameColumn: string, term: string, isUpdate: boolean = false, driverId: number = null): Promise<MapDriver | null> {
     const query: Record<string, any> = {};
     query[nameColumn] = term;
   
@@ -118,7 +118,7 @@ export class DriverService {
       whereCondition.CONDUCTOR_ID = Not(driverId);
     }
   
-    return await this.repositoryDriver.findOne({
+    return await this.repositoryMapDriver.findOne({
       where: whereCondition,
     });
   } 
@@ -142,12 +142,12 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: '1'
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO
     };
 
-    const data = this.repositoryDriver.create(createData);
+    const data = this.repositoryMapDriver.create(createData);
 
-    await this.repositoryDriver.save(data);
+    await this.repositoryMapDriver.save(data);
 
     return { message: 'Conductor registrado exitosamente' };
   }
@@ -179,10 +179,10 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: this.base64ToBinary(dto.CONDUCTOR_FOTO),
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: '1'
+      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO
     };
 
-    await this.repositoryDriver.update(id, updateData);
+    await this.repositoryMapDriver.update(id, updateData);
   
     return { message: 'Conductor actualizado exitosamente' };
   } 
@@ -190,7 +190,7 @@ export class DriverService {
   async remove(id: number): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryDriver.delete(id);
+    await this.repositoryMapDriver.delete(id);
 
     return {message: 'Conductor eliminado exitosamente'};
   }

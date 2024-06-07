@@ -1,8 +1,8 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { User } from "../modules/user/entities/user.entity";
-import { UserZone } from "apps/oberon360-web/src/modules/map/entities/user-zone.entity";
-import { ZProtocolo } from "apps/oberon360-web/src/modules/map/entities/z-protocolos.entity";
-import { ZEventos } from "apps/oberon360-web/src/modules/map/entities/z-events.entity";
+import { OcUser } from "../modules/user/entities/oc-user.entity";
+import { OcZProtocolo } from "apps/oberon360-web/src/modules/map/entities/oc-z-protocolos.entity";
+import { OcUserZone } from "apps/oberon360-web/src/modules/map/entities/oc-user-zone.entity";
+import { OcZEventos } from "apps/oberon360-web/src/modules/map/entities/oc-z-events.entity";
 
 export const OcMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {
@@ -14,7 +14,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [User, UserZone, ZProtocolo, ZEventos],
+        entities: [OcUser, OcUserZone, OcZProtocolo, OcZEventos],
         synchronize: false,
         logging: false
     }
