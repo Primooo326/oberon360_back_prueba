@@ -14,7 +14,7 @@ export class CategoryNoveltyService {
     @InjectRepository(MapCategoryNovelty, 'MAP') private repositoryMapCategoryNovelty: Repository<MapCategoryNovelty>,
   ) { }
 
-  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
+  async findAllCategories(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
     const queryBuilder = this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
@@ -35,8 +35,28 @@ export class CategoryNoveltyService {
     }
   }
 
-  async findOne(id: string): Promise<MapCategoryNovelty | NotFoundException>{
-    const data = await this.repositoryMapCategoryNovelty.createQueryBuilder("query")
+  async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
+    const queryBuilder = this.repositoryMapCategoryNovelty.createQueryBuilder("query")
+      .andWhere(qb => {
+        qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+      })
+      .orderBy("query.TIPRUTA_ID", pageOptionsDto.order)
+      .skip(pageOptionsDto.skip)
+      .take(pageOptionsDto.take);
+  
+    const itemCount = await queryBuilder.getCount();
+    const { entities } = await queryBuilder.getRawAndEntities();
+
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+    return {
+      data: entities,
+      meta: pageMetaDto
+    }
+  }
+
+  async findOne(id: string): Promise<MapCategory | NotFoundException>{
+    const data = await this.repositoryMapCategory.createQueryBuilder("query")
       .where("query.TIPRUTA_ID= :id", { id: id })
       .andWhere("query.TIPRUTA_STATUS= :column", { column: '1' })
       .getOne();

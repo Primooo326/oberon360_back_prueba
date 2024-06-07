@@ -15,6 +15,13 @@ import { UpdateCategoryNoveltyDto } from './dto/update-category-novelty.dto';
 export class CategoryNoveltyController {
   constructor(private readonly categoryNoveltyService: CategoryNoveltyService) {}
 
+  @Get('/findAllCategories')
+  @HttpCode(200)
+  @ApiPaginatedResponse(CreateCategoryNoveltyDto)
+  async findAllCategories(@Query() pageOptionsDto: PageOptionsDto): Promise<any> {
+    return this.categoryNoveltyService.findAllCategories(pageOptionsDto);
+  }
+
   @Get()
   @HttpCode(200)
   @ApiPaginatedResponse(CreateCategoryNoveltyDto)
