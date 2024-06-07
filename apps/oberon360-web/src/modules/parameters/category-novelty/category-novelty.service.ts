@@ -55,8 +55,8 @@ export class CategoryNoveltyService {
     }
   }
 
-  async findOne(id: string): Promise<MapCategory | NotFoundException>{
-    const data = await this.repositoryMapCategory.createQueryBuilder("query")
+  async findOne(id: string): Promise<MapCategoryNovelty | NotFoundException>{
+    const data = await this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .where("query.TIPRUTA_ID= :id", { id: id })
       .andWhere("query.TIPRUTA_STATUS= :column", { column: '1' })
       .getOne();
