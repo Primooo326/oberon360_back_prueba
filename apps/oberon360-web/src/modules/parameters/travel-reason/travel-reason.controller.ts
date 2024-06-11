@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, UsePipes, ValidationPipe, UseGuards, HttpCode, Query, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UsePipes, ValidationPipe, UseGuards, HttpCode, Query } from '@nestjs/common';
 import { TravelReasonService } from './travel-reason.service';
 import { CreateTravelReasonDto } from './dto/create-travel-reason.dto';
 import { UpdateTravelReasonDto } from './dto/update-travel-reason.dto';

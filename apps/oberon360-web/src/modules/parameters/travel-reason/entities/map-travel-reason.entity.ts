@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('CAT062VIATICOS_MOTIVO')
-export class TravelReason {
+export class MapTravelReason {
     @PrimaryGeneratedColumn()
     VIATIMOT_ID: number;
 
