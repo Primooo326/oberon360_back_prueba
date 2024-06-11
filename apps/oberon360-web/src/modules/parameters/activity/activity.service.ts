@@ -80,7 +80,7 @@ export class ActivityService {
       .where('protocol.FUN_PREG_ID = :id', { id })
       .andWhere('protocol.FUN_STATUS = :state', { state: '1' })
       .getOne()) {
-      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo.' });
+      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo' });
     }
 
     await this.repositoryMapActivity.update(id, {
