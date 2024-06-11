@@ -17,5 +17,11 @@ export class MapSubCategoryNovelty {
     NOVRUTA_DESCRIPCION: string;
 
     @Column({ type: 'char'})
-    NOVRUTA_STATUS: string;
+    NOVRUTA_STATUS?: string;
+
+    @Column({ type: 'datetime'})
+    NOVRUTA_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    NOVRUTA_UPDATE_DATE?: string;
 }

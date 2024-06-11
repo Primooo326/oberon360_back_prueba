@@ -13,7 +13,13 @@ export class MapProtocolResponsible {
     TFUN_ORDEN: string;
 
     @Column({ type: 'char'})
-    TFUN_STATUS: string;
+    TFUN_STATUS?: string;
+
+    @Column({ type: 'datetime'})
+    TFUN_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    TFUN_UPDATE_DATE?: string;
 
     @OneToMany(() => MapProtocol, (mapProtocol) => mapProtocol.mapProtocolResponsible)
     mapProtocol: MapProtocol[];

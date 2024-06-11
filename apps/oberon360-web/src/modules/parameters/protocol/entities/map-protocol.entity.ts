@@ -28,5 +28,11 @@ export class MapProtocol {
     FUN_FUNCION: string;
 
     @Column({ type: 'char', default: '1', nullable: false })
-    FUN_STATUS: string;
+    FUN_STATUS?: string;
+
+    @Column({ type: 'datetime'})
+    FUN_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    FUN_UPDATE_DATE?: string;
 }

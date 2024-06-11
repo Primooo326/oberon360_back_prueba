@@ -18,9 +18,9 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '5mb' }));
   app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
-  setupSwagger(app);
-
   app.setGlobalPrefix('oberon360mobile/api');
+
+  setupSwagger(app, 'oberon360mobile/api');
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 

@@ -18,7 +18,13 @@ export class MapCategoryNovelty {
     TIPRUTA_DESCRIPCION: string;
 
     @Column({ type: 'char'})
-    TIPRUTA_STATUS: string;
+    TIPRUTA_STATUS?: string;
+
+    @Column({ type: 'datetime'})
+    TIPRUTA_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    TIPRUTA_UPDATE_DATE?: string;
 
     @OneToMany(() => MapSubCategoryNovelty, (mapSubCategoryNovelty) => mapSubCategoryNovelty.mapCategoryNovelty)
     mapSubCategoryNovelty: MapSubCategoryNovelty[];

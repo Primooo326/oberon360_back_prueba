@@ -14,8 +14,4 @@ export class CreateProtocolResponsibleDto {
     @IsNotEmpty()
     @IsString()
     TFUN_ORDEN: string;
-    
-    @IsNotEmpty()
-    @IsString()
-    TFUN_STATUS: string;
 }

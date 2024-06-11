@@ -20,6 +20,7 @@ export class ProtocolResponsibleService {
     const queryBuilder = this.repositoryMapProtocolResponsible.createQueryBuilder("protocolResponsible")
       .andWhere(qb => {
         qb.where('(protocolResponsible.TFUN_NOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .andWhere("protocolResponsible.TFUN_STATUS = :state", { state: '1' })
       })
       .orderBy("protocolResponsible.TFUN_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -39,6 +40,7 @@ export class ProtocolResponsibleService {
   async findOne(id: string): Promise<MapProtocolResponsible | NotFoundException>{
     const data = await this.repositoryMapProtocolResponsible.createQueryBuilder("protocolResponsible")
       .where("protocolResponsible.TFUN_ID= :id", { id: id })
+      .andWhere("protocolResponsible.TFUN_STATUS = :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe un responsable de responsable de protocolo con el id '+id);
@@ -49,8 +51,8 @@ export class ProtocolResponsibleService {
   async create(dto: CreateProtocolResponsibleDto): Promise<{ message: string }> {
     const data = this.repositoryMapProtocolResponsible.create({
       ...dto,
-      TFUN_ID: dto.TFUN_ID,
-      TFUN_STATUS: dto.TFUN_STATUS
+      TFUN_STATUS: '1',
+      TFUN_INSERT_DATE: new Date().toISOString()
     });
 
     await this.repositoryMapProtocolResponsible.save(data);
@@ -63,7 +65,10 @@ export class ProtocolResponsibleService {
   
     if (!data) throw new NotFoundException({ message: 'No existe el responsable de protocolo solicitado' });
 
-    await this.repositoryMapProtocolResponsible.update(id, dto);
+    await this.repositoryMapProtocolResponsible.update(id, {
+      ...dto,
+      TFUN_UPDATE_DATE: new Date().toISOString()
+    });
   
     return { message: 'Responsable de protocolo actualizado exitosamente' };
   } 
@@ -71,9 +76,16 @@ export class ProtocolResponsibleService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    if (await this.repositoryMapProtocol.findOneBy({FUN_TIPOFUNID: id})) throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo' });
+    if (await this.repositoryMapProtocol.createQueryBuilder('protocol')
+      .where('protocol.FUN_PREG_ID = :id', { id })
+      .andWhere('protocol.FUN_STATUS = :state', { state: '1' })
+      .getOne()) {
+      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo.' });
+    }
 
-    await this.repositoryMapProtocolResponsible.delete(id);
+    await this.repositoryMapProtocolResponsible.update(id, {
+      TFUN_STATUS: '0'
+    });
 
     return {message: 'Responsable de protocolo eliminado exitosamente'};
   }

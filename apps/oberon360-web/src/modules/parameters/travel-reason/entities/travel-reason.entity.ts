@@ -13,4 +13,10 @@ export class TravelReason {
 
     @Column({ type: 'char'})
     VIATIMOT_STATUS: string;
+
+    @Column({ type: 'datetime'})
+    VIATIMOT_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    VIATIMOT_UPDATE_DATE?: string;
 }
