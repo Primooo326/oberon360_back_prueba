@@ -41,7 +41,7 @@ export class SubCategoryNoveltyService {
       .andWhere("query.NOVRUTA_STATUS= :state", { state: '1' })
       .getOne();
 
-    if (!data) throw new NotFoundException('No existe una sub categoría con el id '+id);
+    if (!data) throw new NotFoundException('No existe una subcategoría de novedad con el id '+id);
 
     return data;
   }
@@ -55,13 +55,13 @@ export class SubCategoryNoveltyService {
 
     await this.repositoryMapSubCategoryNovelty.save(data);
 
-    return { message: 'Sub categoría registrada exitosamente' };
+    return { message: 'Subcategoría de novedad registrada exitosamente' };
   }
 
   async update(id: string, dto: UpdateSubCategoryNoveltyDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
-    if (!data) throw new NotFoundException({ message: 'No existe la sub categoría solicitada' });
+    if (!data) throw new NotFoundException({ message: 'No existe la subcategoría de novedad solicitada' });
 
     await this.repositoryMapSubCategoryNovelty.update(id, {
       NOVRUTA_IDTIPO: dto.NOVRUTA_IDTIPO,
@@ -69,7 +69,7 @@ export class SubCategoryNoveltyService {
       NOVRUTA_UPDATE_DATE: new Date().toISOString()
     });
   
-    return { message: 'Sub categoría actualizada exitosamente' };
+    return { message: 'Subcategoría de novedad actualizada exitosamente' };
   } 
 
   async remove(id: string): Promise<{message: string}>{
@@ -79,6 +79,6 @@ export class SubCategoryNoveltyService {
       NOVRUTA_STATUS: '0'
     });
 
-    return {message: 'Sub categoría eliminada exitosamente'};
+    return {message: 'Subcategoría de novedad eliminada exitosamente'};
   }
 }
