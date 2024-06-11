@@ -7,11 +7,13 @@ import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options
 import { MapCategoryNovelty } from './entities/map-category-novelty.entity';
 import { CreateCategoryNoveltyDto } from './dto/create-category-novelty.dto';
 import { UpdateCategoryNoveltyDto } from './dto/update-category-novelty.dto';
+import { MapProtocol } from '../protocol/entities/map-protocol.entity';
 
 @Injectable()
 export class CategoryNoveltyService {
   constructor(
     @InjectRepository(MapCategoryNovelty, 'MAP') private repositoryMapCategoryNovelty: Repository<MapCategoryNovelty>,
+    @InjectRepository(MapProtocol, 'MAP') private repositoryMapProtocol: Repository<MapProtocol>,
   ) { }
 
   async findAllCategories(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
@@ -95,6 +97,13 @@ export class CategoryNoveltyService {
 
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
+
+    if (await this.repositoryMapProtocol.createQueryBuilder('protocol')
+      .where('protocol.FUN_PREG_ID = :id', { id })
+      .andWhere('protocol.FUN_STATUS = :state', { state: '1' })
+      .getOne()) {
+      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo' });
+    }
 
     await this.repositoryMapCategoryNovelty.update(id, {
       TIPRUTA_STATUS: '0'
