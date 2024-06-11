@@ -12,11 +12,11 @@ import { MapItineraryAssignment } from './entities/map-itinerary-assignment.enti
 import { MapItinerary } from './entities/map-itinerary.entity';
 import { MapItineraryPoint } from './entities/map-itinerary-point.entity';
 import { MapItineraryPointExecuted } from './entities/map-itinerary-point-executed.entity';
-import { MapPoint } from './entities/map-point.entity';
 import { OcZProtocolo } from './entities/oc-z-protocolos.entity';
 import { OcZEventos } from './entities/oc-z-events.entity';
 import { MapDriver } from '../parameters/driver/entities/map-driver.entity';
 import { OcUser } from 'apps/oberon360-api/src/modules/user/entities/oc-user.entity';
+import { MapPoint } from '../parameters/points/entities/map-point.entity';
 
 @Module({
   imports: [

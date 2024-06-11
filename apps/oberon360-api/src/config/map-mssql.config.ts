@@ -5,7 +5,6 @@ import { MapItineraryAssignment } from "apps/oberon360-web/src/modules/map/entit
 import { MapItineraryPointExecuted } from "apps/oberon360-web/src/modules/map/entities/map-itinerary-point-executed.entity";
 import { MapItineraryPoint } from "apps/oberon360-web/src/modules/map/entities/map-itinerary-point.entity";
 import { MapItinerary } from "apps/oberon360-web/src/modules/map/entities/map-itinerary.entity";
-import { MapPoint } from "apps/oberon360-web/src/modules/map/entities/map-point.entity";
 import { MapStateIpe } from "apps/oberon360-web/src/modules/map/entities/map-state-ipe.entity";
 import { MapTypeIdentification } from "apps/oberon360-web/src/modules/map/entities/map-type-identification.entity";
 import { MapVehicle } from "apps/oberon360-web/src/modules/map/entities/map-vehicle.entity";
@@ -13,6 +12,7 @@ import { MapActivity } from "apps/oberon360-web/src/modules/parameters/activity/
 import { MapCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-category-novelty.entity";
 import { MapClient } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-client.entity";
 import { MapDriver } from "apps/oberon360-web/src/modules/parameters/driver/entities/map-driver.entity";
+import { MapPoint } from "apps/oberon360-web/src/modules/parameters/points/entities/map-point.entity";
 import { MapPreoperationalCategory } from "apps/oberon360-web/src/modules/parameters/preoperational-category/entities/map-preoperational-category.entity";
 import { MapPreoperationalSubcategory } from "apps/oberon360-web/src/modules/parameters/preoperational-subcategory/entities/map-preoperational-subcategory.entity";
 import { MapProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/map-protocol-responsible.entity";
