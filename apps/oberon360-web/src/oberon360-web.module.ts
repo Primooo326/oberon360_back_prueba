@@ -21,6 +21,7 @@ import { SubCategoryNoveltyModule } from './modules/parameters/sub-category-nove
 import { TravelReasonModule } from './modules/parameters/travel-reason/travel-reason.module';
 import { PreoperationalCategoryModule } from './modules/parameters/preoperational-category/preoperational-category.module';
 import { PreoperationalSubcategoryModule } from './modules/parameters/preoperational-subcategory/preoperational-subcategory.module';
+import { PointsModule } from './modules/parameters/points/points.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { PreoperationalSubcategoryModule } from './modules/parameters/preoperati
     TravelReasonModule,
     PreoperationalCategoryModule,
     PreoperationalSubcategoryModule,
+    PointsModule,
   ],
   controllers: [Oberon360WebController],
   providers: [Oberon360WebService],
