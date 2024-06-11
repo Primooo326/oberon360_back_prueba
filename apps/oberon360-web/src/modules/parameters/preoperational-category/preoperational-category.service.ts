@@ -7,11 +7,13 @@ import { PageOptionsDto } from 'apps/oberon360-api/src/dtos-globals/page-options
 import { CreatePreoperationalCategoryDto } from './dto/create-preoperational-category.dto';
 import { UpdatePreoperationalCategoryDto } from './dto/update-preoperational-category.dto';
 import { MapPreoperationalCategory } from './entities/map-preoperational-category.entity';
+import { MapPreoperationalSubcategory } from '../preoperational-subcategory/entities/map-preoperational-subcategory.entity';
 
 @Injectable()
 export class PreoperationalCategoryService {
   constructor(
     @InjectRepository(MapPreoperationalCategory, 'MAP') private repositoryMapPreoperationalCategory: Repository<MapPreoperationalCategory>,
+    @InjectRepository(MapPreoperationalSubcategory, 'MAP') private repositoryMapPreoperationalSubcategory: Repository<MapPreoperationalSubcategory>,
   ) { }
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapPreoperationalCategory>>{
@@ -73,6 +75,13 @@ export class PreoperationalCategoryService {
 
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
+
+    if (await this.repositoryMapPreoperationalSubcategory.createQueryBuilder('subcategory')
+      .where('subcategory.SUBCATPREOP_IDCATEGORIA = :id', { id })
+      .andWhere('subcategory.SUBCATPREOP_ESTADO = :state', { state: '1' })
+      .getOne()) {
+      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a una subcategoría preoperacional' });
+    }
 
     await this.repositoryMapPreoperationalCategory.update(id, {
       CATPREOP_ESTADO: '0'

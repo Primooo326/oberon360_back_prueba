@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { MapPreoperationalSubcategory } from "../../preoperational-subcategory/entities/map-preoperational-subcategory.entity";
 
 @Entity('CAT100CATPREOPERACION')
 export class MapPreoperationalCategory {
     @PrimaryGeneratedColumn()
-    CATPREOP_ID: string;
+    CATPREOP_ID: number;
 
     @Column({ type: 'nvarchar'})
     CATPREOP_DESCRIPCION: string;
@@ -19,4 +20,7 @@ export class MapPreoperationalCategory {
 
     @Column({ type: 'datetime'})
     CATPREOP_UPDATE_DATE?: string;
+
+    @OneToMany(() => MapPreoperationalSubcategory, (mapPreoperationalSubcategory) => mapPreoperationalSubcategory.mapPreoperationalCategory)
+    mapPreoperationalSubcategory: MapPreoperationalSubcategory[];
 }

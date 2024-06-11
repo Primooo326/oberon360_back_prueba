@@ -8,12 +8,13 @@ import { MapCategoryNovelty } from './entities/map-category-novelty.entity';
 import { CreateCategoryNoveltyDto } from './dto/create-category-novelty.dto';
 import { UpdateCategoryNoveltyDto } from './dto/update-category-novelty.dto';
 import { MapProtocol } from '../protocol/entities/map-protocol.entity';
+import { MapSubCategoryNovelty } from '../sub-category-novelty/entities/map-sub-category-novelty.entity';
 
 @Injectable()
 export class CategoryNoveltyService {
   constructor(
     @InjectRepository(MapCategoryNovelty, 'MAP') private repositoryMapCategoryNovelty: Repository<MapCategoryNovelty>,
-    @InjectRepository(MapProtocol, 'MAP') private repositoryMapProtocol: Repository<MapProtocol>,
+    @InjectRepository(MapSubCategoryNovelty, 'MAP') private repositoryMapSubCategoryNovelty: Repository<MapSubCategoryNovelty>,
   ) { }
 
   async findAllCategories(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapCategoryNovelty>>{
@@ -64,7 +65,7 @@ export class CategoryNoveltyService {
       .andWhere("query.TIPRUTA_STATUS= :state", { state: '1' })
       .getOne();
 
-    if (!data) throw new NotFoundException('No existe una categoría con el id '+id);
+    if (!data) throw new NotFoundException('No existe una categoría de novedad con el id '+id);
 
     return data;
   }
@@ -78,13 +79,13 @@ export class CategoryNoveltyService {
 
     await this.repositoryMapCategoryNovelty.save(data);
 
-    return { message: 'Categoría registrada exitosamente' };
+    return { message: 'Categoría de novedad registrada exitosamente' };
   }
 
   async update(id: string, dto: UpdateCategoryNoveltyDto): Promise<{message: string} | NotFoundException>{
     const data = await this.findOne(id);
   
-    if (!data) throw new NotFoundException({ message: 'No existe la categoría solicitada' });
+    if (!data) throw new NotFoundException({ message: 'No existe la categoría de novedad solicitada' });
 
     await this.repositoryMapCategoryNovelty.update(id, {
       TIPRUTA_CLIENTEID: dto.TIPRUTA_CLIENTEID,
@@ -92,17 +93,17 @@ export class CategoryNoveltyService {
       TIPRUTA_UPDATE_DATE: new Date().toISOString()
     });
   
-    return { message: 'Categoría actualizada exitosamente' };
+    return { message: 'Categoría de novedad actualizada exitosamente' };
   } 
 
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    if (await this.repositoryMapProtocol.createQueryBuilder('protocol')
-      .where('protocol.FUN_PREG_ID = :id', { id })
-      .andWhere('protocol.FUN_STATUS = :state', { state: '1' })
+    if (await this.repositoryMapSubCategoryNovelty.createQueryBuilder('subcategory')
+      .where('subcategory.NOVRUTA_IDTIPO = :id', { id })
+      .andWhere('subcategory.NOVRUTA_STATUS = :state', { state: '1' })
       .getOne()) {
-      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a un protocolo' });
+      throw new NotFoundException({ message: 'No es posible eliminar este elemento porque está vinculado a una subcategoría de novedad' });
     }
 
     await this.repositoryMapCategoryNovelty.update(id, {
