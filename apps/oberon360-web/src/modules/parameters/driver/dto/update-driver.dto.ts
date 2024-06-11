@@ -56,8 +56,4 @@ export class UpdateDriverDto {
     @IsOptional()
     @IsString()
     CONDUCTOR_FECINGRESO: string;
-    
-    @IsOptional()
-    @IsString()
-    CONDUCTOR_ESTADO: string;
 }

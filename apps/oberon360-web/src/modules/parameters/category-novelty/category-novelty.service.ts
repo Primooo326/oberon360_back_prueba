@@ -18,7 +18,7 @@ export class CategoryNoveltyService {
     const queryBuilder = this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
-        .where("query.TIPRUTA_STATUS= :column", { column: '1' })
+        .where("query.TIPRUTA_STATUS= :state", { state: '1' })
       })
       .orderBy("query.TIPRUTA_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -39,6 +39,7 @@ export class CategoryNoveltyService {
     const queryBuilder = this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.TIPRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .where("query.TIPRUTA_STATUS= :state", { state: '1' })
       })
       .orderBy("query.TIPRUTA_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -58,7 +59,7 @@ export class CategoryNoveltyService {
   async findOne(id: string): Promise<MapCategoryNovelty | NotFoundException>{
     const data = await this.repositoryMapCategoryNovelty.createQueryBuilder("query")
       .where("query.TIPRUTA_ID= :id", { id: id })
-      .andWhere("query.TIPRUTA_STATUS= :column", { column: '1' })
+      .andWhere("query.TIPRUTA_STATUS= :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe una categoría con el id '+id);
@@ -69,7 +70,8 @@ export class CategoryNoveltyService {
   async create(dto: CreateCategoryNoveltyDto): Promise<{ message: string }> {
     const data = this.repositoryMapCategoryNovelty.create({
       ...dto,
-      TIPRUTA_STATUS: dto.TIPRUTA_STATUS
+      TIPRUTA_STATUS: '1',
+      TIPRUTA_INSERT_DATE: new Date().toISOString()
     });
 
     await this.repositoryMapCategoryNovelty.save(data);
@@ -85,7 +87,7 @@ export class CategoryNoveltyService {
     await this.repositoryMapCategoryNovelty.update(id, {
       TIPRUTA_CLIENTEID: dto.TIPRUTA_CLIENTEID,
       TIPRUTA_DESCRIPCION: dto.TIPRUTA_DESCRIPCION,
-      TIPRUTA_STATUS: dto.TIPRUTA_STATUS
+      TIPRUTA_UPDATE_DATE: new Date().toISOString()
     });
   
     return { message: 'Categoría actualizada exitosamente' };
@@ -94,7 +96,9 @@ export class CategoryNoveltyService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapCategoryNovelty.delete(id);
+    await this.repositoryMapCategoryNovelty.update(id, {
+      TIPRUTA_STATUS: '0'
+    });
 
     return {message: 'Categoría eliminada exitosamente'};
   }

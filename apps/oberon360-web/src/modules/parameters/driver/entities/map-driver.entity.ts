@@ -59,4 +59,10 @@ export class MapDriver {
 
     @Column({ type: 'datetime'})
     CONDUCTOR_FECINGRESO: Date;
+
+    @Column({ type: 'datetime'})
+    CONDUCTOR_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    CONDUCTOR_UPDATE_DATE?: string;
 }

@@ -12,6 +12,12 @@ export class MapActivity {
     @Column({ type: 'char'})
     PREFUN_STATUS: string;
 
+    @Column({ type: 'datetime'})
+    PREFUN_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    PREFUN_UPDATE_DATE?: string;
+
     @OneToMany(() => MapProtocol, (mapProtocol) => mapProtocol.mapActivity)
     mapProtocol: MapProtocol[];
 }

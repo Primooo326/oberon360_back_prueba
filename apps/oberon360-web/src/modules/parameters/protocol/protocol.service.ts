@@ -20,6 +20,7 @@ export class ProtocolService {
       .leftJoinAndSelect('protocol.mapActivity', 'mapActivity')
       .andWhere(qb => {
         qb.where('(protocol.FUN_FUNCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .andWhere("protocol.FUN_STATUS = :state", { state: '1' })
       })
       .orderBy("protocol.FUN_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -39,6 +40,7 @@ export class ProtocolService {
   async findOne(id: number): Promise<MapProtocol | NotFoundException>{
     const data = await this.repositoryMapProtocol.createQueryBuilder("protocol")
       .where("protocol.FUN_ID= :id", { id: id })
+      .andWhere("protocol.FUN_STATUS = :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe un protocolo con el id '+id);
@@ -48,7 +50,9 @@ export class ProtocolService {
 
   async create(dto: CreateProtocolDto): Promise<{ message: string }> {
     const data = this.repositoryMapProtocol.create({
-      ...dto
+      ...dto,
+      FUN_STATUS: '1',
+      FUN_INSERT_DATE: new Date().toISOString()
     });
 
     await this.repositoryMapProtocol.save(data);
@@ -61,7 +65,10 @@ export class ProtocolService {
   
     if (!data) throw new NotFoundException({ message: 'No existe el protocolo solicitado' });
 
-    await this.repositoryMapProtocol.update(id, dto);
+    await this.repositoryMapProtocol.update(id, {
+      ...dto,
+      FUN_UPDATE_DATE: new Date().toISOString()
+    });
   
     return { message: 'Protocolo actualizado exitosamente' };
   } 
@@ -69,7 +76,9 @@ export class ProtocolService {
   async remove(id: number): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapProtocol.delete(id);
+    await this.repositoryMapProtocol.update(id, {
+      FUN_STATUS: '0'
+    });
 
     return {message: 'Protocolo eliminado exitosamente'};
   }

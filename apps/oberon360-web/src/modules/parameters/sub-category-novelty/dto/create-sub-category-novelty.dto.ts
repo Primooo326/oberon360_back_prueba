@@ -8,8 +8,4 @@ export class CreateSubCategoryNoveltyDto {
     @IsNotEmpty()
     @IsString()
     NOVRUTA_DESCRIPCION: string;
-
-    @IsNotEmpty()
-    @IsString()
-    NOVRUTA_STATUS: string;
 }

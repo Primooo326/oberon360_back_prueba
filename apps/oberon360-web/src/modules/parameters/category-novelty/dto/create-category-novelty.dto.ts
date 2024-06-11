@@ -8,8 +8,4 @@ export class CreateCategoryNoveltyDto {
     @IsNotEmpty()
     @IsString()
     TIPRUTA_DESCRIPCION: string;
-
-    @IsOptional()
-    @IsString()
-    TIPRUTA_STATUS: string;
 }

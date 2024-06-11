@@ -18,7 +18,7 @@ export class SubCategoryNoveltyService {
     const queryBuilder = this.repositoryMapSubCategoryNovelty.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.NOVRUTA_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
-        .where("query.NOVRUTA_STATUS= :column", { column: '1' })
+        .where("query.NOVRUTA_STATUS= :state", { state: '1' })
       })
       .orderBy("query.NOVRUTA_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -38,7 +38,7 @@ export class SubCategoryNoveltyService {
   async findOne(id: string): Promise<MapSubCategoryNovelty | NotFoundException>{
     const data = await this.repositoryMapSubCategoryNovelty.createQueryBuilder("query")
       .where("query.NOVRUTA_ID= :id", { id: id })
-      .andWhere("query.NOVRUTA_STATUS= :column", { column: '1' })
+      .andWhere("query.NOVRUTA_STATUS= :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe una sub categoría con el id '+id);
@@ -49,7 +49,8 @@ export class SubCategoryNoveltyService {
   async create(dto: CreateSubCategoryNoveltyDto): Promise<{ message: string }> {
     const data = this.repositoryMapSubCategoryNovelty.create({
       ...dto,
-      NOVRUTA_STATUS: dto.NOVRUTA_STATUS
+      NOVRUTA_STATUS: '1',
+      NOVRUTA_INSERT_DATE: new Date().toISOString()
     });
 
     await this.repositoryMapSubCategoryNovelty.save(data);
@@ -65,7 +66,7 @@ export class SubCategoryNoveltyService {
     await this.repositoryMapSubCategoryNovelty.update(id, {
       NOVRUTA_IDTIPO: dto.NOVRUTA_IDTIPO,
       NOVRUTA_DESCRIPCION: dto.NOVRUTA_DESCRIPCION,
-      NOVRUTA_STATUS: dto.NOVRUTA_STATUS
+      NOVRUTA_UPDATE_DATE: new Date().toISOString()
     });
   
     return { message: 'Sub categoría actualizada exitosamente' };
@@ -74,7 +75,9 @@ export class SubCategoryNoveltyService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapSubCategoryNovelty.delete(id);
+    await this.repositoryMapSubCategoryNovelty.update(id, {
+      NOVRUTA_STATUS: '0'
+    });
 
     return {message: 'Sub categoría eliminada exitosamente'};
   }

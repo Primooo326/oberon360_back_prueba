@@ -35,6 +35,7 @@ export class DriverService {
         'driver.CONDUCTOR_FECINGRESO',
         'driver.CONDUCTOR_ESTADO'
       ])
+      .where("driver.CONDUCTOR_ESTADO = :state", { state: '1' })
       .orderBy("driver.CONDUCTOR_ID", 'ASC')
       .skip(1)
       .take(1000);
@@ -75,6 +76,7 @@ export class DriverService {
         qb.orWhere('(driver.CONDUCTOR_TELPERSONAL LIKE :term)', {term: `%${pageOptionsDto.term}%`})
         qb.orWhere('(driver.CONDUCTOR_TELCORPORATIVO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
         qb.orWhere('(driver.CONDUCTOR_CORREO LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .andWhere("driver.CONDUCTOR_ESTADO = :state", { state: '1' })
       })
       .orderBy("driver.CONDUCTOR_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -101,6 +103,7 @@ export class DriverService {
   async findOne(id: number): Promise<MapDriver | NotFoundException>{
     const data = await this.repositoryMapDriver.createQueryBuilder("driver")
       .where("driver.CONDUCTOR_ID= :id", { id: id })
+      .andWhere("driver.CONDUCTOR_ESTADO = :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe un conductor con el id '+id);
@@ -109,19 +112,18 @@ export class DriverService {
   }
 
   async findByTerm(nameColumn: string, term: string, isUpdate: boolean = false, driverId: number = null): Promise<MapDriver | null> {
-    const query: Record<string, any> = {};
-    query[nameColumn] = term;
-  
-    const whereCondition: Record<string, any> = { ...query };
-    
+    const queryBuilder = this.repositoryMapDriver.createQueryBuilder('driver');
+
+    queryBuilder.where(`driver.${nameColumn} = :term`, { term });
+
     if (isUpdate) {
-      whereCondition.CONDUCTOR_ID = Not(driverId);
+      queryBuilder.andWhere('driver.CONDUCTOR_ID != :driverId', { driverId });
     }
-  
-    return await this.repositoryMapDriver.findOne({
-      where: whereCondition,
-    });
-  } 
+
+    queryBuilder.andWhere('driver.CONDUCTOR_ESTADO = :state', { state: '1' });
+
+    return await queryBuilder.getOne();
+  }
 
   async create(dto: CreateDriverDto): Promise<{message: string}>{
     if (await this.findByTerm('CONDUCTOR_IDENTIFICACION', dto.CONDUCTOR_IDENTIFICACION)) throw new NotFoundException('Ya existe un conductor con el documento ' + dto.CONDUCTOR_IDENTIFICACION);
@@ -142,7 +144,8 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: dto.CONDUCTOR_FOTO ? this.base64ToBinary(dto.CONDUCTOR_FOTO) : null,
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO
+      CONDUCTOR_ESTADO: '1',
+      CONDUCTOR_INSERT_DATE: new Date().toISOString()
     };
 
     const data = this.repositoryMapDriver.create(createData);
@@ -179,7 +182,7 @@ export class DriverService {
       CONDUCTOR_PASSWORD: 'zXTwzRRMJkUw1hSxs2cTkg==',
       CONDUCTOR_FOTO: this.base64ToBinary(dto.CONDUCTOR_FOTO),
       CONDUCTOR_FECINGRESO: new Date(),
-      CONDUCTOR_ESTADO: dto.CONDUCTOR_ESTADO
+      CONDUCTOR_UPDATE_DATE: new Date().toISOString()
     };
 
     await this.repositoryMapDriver.update(id, updateData);
@@ -190,7 +193,9 @@ export class DriverService {
   async remove(id: number): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryMapDriver.delete(id);
+    await this.repositoryMapDriver.update(id, {
+      CONDUCTOR_ESTADO: '0'
+    });
 
     return {message: 'Conductor eliminado exitosamente'};
   }

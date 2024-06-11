@@ -18,6 +18,7 @@ export class TravelReasonService {
     const queryBuilder = this.repositoryTravelReason.createQueryBuilder("query")
       .andWhere(qb => {
         qb.where('(query.VIATIMOT_DESCRIPCION LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .andWhere("query.VIATIMOT_STATUS = :state", { state: '1' })
       })
       .orderBy("query.VIATIMOT_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
@@ -37,6 +38,7 @@ export class TravelReasonService {
   async findOne(id: string): Promise<TravelReason | NotFoundException>{
     const data = await this.repositoryTravelReason.createQueryBuilder("query")
       .where("query.VIATIMOT_ID= :id", { id: id })
+      .andWhere("query.VIATIMOT_STATUS = :state", { state: '1' })
       .getOne();
 
     if (!data) throw new NotFoundException('No existe un viático con el id '+id);
@@ -45,7 +47,11 @@ export class TravelReasonService {
   }
 
   async create(dto: CreateTravelReasonDto): Promise<{ message: string }> {
-    const data = this.repositoryTravelReason.create(dto);
+    const data = this.repositoryTravelReason.create({
+      ...dto,
+      VIATIMOT_STATUS: '1',
+      VIATIMOT_INSERT_DATE: new Date().toISOString()
+    });
 
     await this.repositoryTravelReason.save(data);
 
@@ -57,7 +63,10 @@ export class TravelReasonService {
   
     if (!data) throw new NotFoundException({ message: 'No existe el viático solicitado' });
 
-    await this.repositoryTravelReason.update(id, dto);
+    await this.repositoryTravelReason.update(id, {
+      ...dto,
+      VIATIMOT_UPDATE_DATE: new Date().toISOString()
+    });
   
     return { message: 'Viático actualizado exitosamente' };
   } 
@@ -65,7 +74,9 @@ export class TravelReasonService {
   async remove(id: string): Promise<{message: string}>{
     await this.findOne(id);
 
-    await this.repositoryTravelReason.delete(id);
+    await this.repositoryTravelReason.update(id, {
+      VIATIMOT_STATUS: '0'
+    });
 
     return {message: 'Viático eliminado exitosamente'};
   }

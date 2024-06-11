@@ -36,6 +36,12 @@ export class MapClient {
     @Column({ type: 'char'})
     CLIE_STATUS: string;
 
+    @Column({ type: 'datetime'})
+    CLIE_INSERT_DATE?: string;
+
+    @Column({ type: 'datetime'})
+    CLIE_UPDATE_DATE?: string;
+
     @OneToMany(() => MapCategoryNovelty, (mapCategoryNovelty) => mapCategoryNovelty.mapClient)
     mapCategoryNovelty: MapCategoryNovelty[];
 }
