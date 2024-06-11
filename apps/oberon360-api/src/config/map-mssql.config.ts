@@ -13,10 +13,11 @@ import { MapActivity } from "apps/oberon360-web/src/modules/parameters/activity/
 import { MapCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-category-novelty.entity";
 import { MapClient } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-client.entity";
 import { MapDriver } from "apps/oberon360-web/src/modules/parameters/driver/entities/map-driver.entity";
+import { MapPreoperationalCategory } from "apps/oberon360-web/src/modules/parameters/preoperational-category/entities/map-preoperational-category.entity";
 import { MapProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/map-protocol-responsible.entity";
 import { MapProtocol } from "apps/oberon360-web/src/modules/parameters/protocol/entities/map-protocol.entity";
 import { MapSubCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/sub-category-novelty/entities/map-sub-category-novelty.entity";
-import { TravelReason } from "apps/oberon360-web/src/modules/parameters/travel-reason/entities/travel-reason.entity";
+import { MapTravelReason } from "apps/oberon360-web/src/modules/parameters/travel-reason/entities/map-travel-reason.entity";
 
 export const MapMssqlConfig = (host: string, port:string, database: string, username: string, password: string): 
 TypeOrmModuleOptions =>  {
@@ -28,7 +29,7 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategoryNovelty, MapClient, MapSubCategoryNovelty, TravelReason],    
+        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategoryNovelty, MapClient, MapSubCategoryNovelty, MapTravelReason, MapPreoperationalCategory],    
         synchronize: false,
         logging: false
     }
