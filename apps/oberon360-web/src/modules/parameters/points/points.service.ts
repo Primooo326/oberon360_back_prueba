@@ -15,12 +15,14 @@ export class PointsService {
   ) { }
 
   async findAll(pageOptionsDto: PageOptionsDto): Promise<PageDto<MapPoint>>{
-    const queryBuilder = this.repositoryMapPoint.createQueryBuilder("query")
+    const queryBuilder = this.repositoryMapPoint.createQueryBuilder("point")
+      .leftJoinAndSelect('point.mapFleetPoints', 'mapFleetPoints')
       .andWhere(qb => {
-        qb.where('(query.PUN_NOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
-        .andWhere("query.PUN_STATUS = :state", { state: '1' })
+        qb.where('(point.PUN_NOMBRE LIKE :term)', {term: `%${pageOptionsDto.term}%`})
+        .andWhere("point.PUN_STATUS = :state", { state: '1' })
+        .andWhere("mapFleetPoints.PUNFLOTA_STATUS = :state", { state: '1' })
       })
-      .orderBy("query.PUN_ID", pageOptionsDto.order)
+      .orderBy("point.PUN_ID", pageOptionsDto.order)
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.take);
   

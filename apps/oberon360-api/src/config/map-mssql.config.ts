@@ -12,7 +12,10 @@ import { MapActivity } from "apps/oberon360-web/src/modules/parameters/activity/
 import { MapCategoryNovelty } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-category-novelty.entity";
 import { MapClient } from "apps/oberon360-web/src/modules/parameters/category-novelty/entities/map-client.entity";
 import { MapDriver } from "apps/oberon360-web/src/modules/parameters/driver/entities/map-driver.entity";
+import { MapFleetPoints } from "apps/oberon360-web/src/modules/parameters/points/entities/map-fleet-point.entity";
+import { MapFleet } from "apps/oberon360-web/src/modules/parameters/points/entities/map-fleet.entity";
 import { MapPoint } from "apps/oberon360-web/src/modules/parameters/points/entities/map-point.entity";
+import { MapTypePoint } from "apps/oberon360-web/src/modules/parameters/points/entities/map-type-point.entity";
 import { MapPreoperationalCategory } from "apps/oberon360-web/src/modules/parameters/preoperational-category/entities/map-preoperational-category.entity";
 import { MapPreoperationalSubcategory } from "apps/oberon360-web/src/modules/parameters/preoperational-subcategory/entities/map-preoperational-subcategory.entity";
 import { MapProtocolResponsible } from "apps/oberon360-web/src/modules/parameters/protocol-responsible/entities/map-protocol-responsible.entity";
@@ -30,8 +33,8 @@ TypeOrmModuleOptions =>  {
         username: username,
         password: password,
         database: database,
-        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategoryNovelty, MapClient, MapSubCategoryNovelty, MapTravelReason, MapPreoperationalCategory, MapPreoperationalSubcategory],    
+        entities: [MapVehicle, MapEventPlate, MapItineraryAssignment, MapItinerary, MapItineraryPoint, MapPoint, MapDriver, MapItineraryPointExecuted, MapStateIpe, MapTypeIdentification, MapFactorRh, MapProtocol, MapProtocolResponsible, MapActivity, MapCategoryNovelty, MapClient, MapSubCategoryNovelty, MapTravelReason, MapPreoperationalCategory, MapPreoperationalSubcategory, MapFleetPoints, MapFleet, MapTypePoint],    
         synchronize: false,
-        logging: false
+        logging: true
     }
 }
